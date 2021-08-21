@@ -26,7 +26,7 @@ As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
 <a href="https://www.linkedin.com/in/luisaugustosb"> <img src="https://img.shields.io/badge/Lu%C3%ADs%20Augusto%20-Linkedin-blue"></a> <br>
 <a href="https://www.linkedin.com/in/bahij-noureddine-941b681b7/"> <img src= "https://img.shields.io/badge/Bahij%20Noureddine-Linkedin-blue"></a><br>
 <a href="https://www.linkedin.com/in/jeferson-tadeu-das-neves-a98343190/"> <img src= "https://img.shields.io/badge/Jeferson%20Neves-Linkedin-blue"></a> <br>
-
+<a href="https://www.linkedin.com/in/leonardo-gabriel-silva-11b8b8178/"> <img src= "https://img.shields.io/badge/Leonardo%20Gabriel-Linkedin-blue"></a> <br>
 
  ## Cliente:
 
