@@ -29,8 +29,12 @@ As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
 
 
  ## Cliente:
- 
 
+Fundada em 1977 por Larry Ellison, Bob Miner, Ed Oates, a Oracle Corporation é uma multinacional que atua na área de computação e informática, com especialização no desenvolvimento e distribuição de soluções de banco de dados, sistemas em nuvem e de softwares corporativos.
+
+A companhia também atua na parte de fornecimento de infraestrutura para empresas, contando com data centers distribuídos nas Américas, Europa e Ásia.
+
+Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle possui como principais metas a aceleração da inovação nos negócios por meio de produtos projetados para funcionarem de forma integrada e adaptativa, de acordo as necessidades de cada empresa.
 
  ## Problema:
 
