@@ -1,10 +1,10 @@
 # API-4SEM
 Projeto Integrador do 4º Semestre de Banco de Dados FATEC-2021
-## 💻 Projeto:
+## 📝Projeto:
 
  <!----<p align="center"> <img src="https://user-images.githubusercontent.com/18652465/111547833-88631a00-8758-11eb-863c-ccf1e6e93f39.png" height=200 width=200> </p> -->
 
-## 🛠 Tecnologias
+## 💡 Tecnologias
 
 As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
  <!----
@@ -68,7 +68,7 @@ Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle po
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
                             <td > <p align=center>            
                             </td>
-                            <td><p></a></p></td>
+                            <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
