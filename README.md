@@ -68,7 +68,7 @@ Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle po
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
                             <td > <p align=center>            
                             </td>
-                            <td><p></a></p></td>
+                            <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
