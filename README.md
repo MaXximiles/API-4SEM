@@ -1,10 +1,10 @@
 # API-4SEM
 Projeto Integrador do 4º Semestre de Banco de Dados FATEC-2021
-## 💻 Projeto:
+## 📝Projeto:
 
  <!----<p align="center"> <img src="https://user-images.githubusercontent.com/18652465/111547833-88631a00-8758-11eb-863c-ccf1e6e93f39.png" height=200 width=200> </p> -->
 
-## 🛠 Tecnologias
+## 💡 Tecnologias
 
 As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
  <!----
