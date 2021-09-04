@@ -12,7 +12,7 @@ Projeto Integrador do 4º Semestre de Banco de Dados FATEC-2021
 </br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%201.jpg?raw=true" width=300 height=200>
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%204.jpg?raw=true" width=300 height=200>
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%208.jpg?raw=true" width=300 height=200>
-=======
+
 ## 💡 Tecnologias
 
 </p></br><h1></h1>
