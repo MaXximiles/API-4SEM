@@ -1,22 +1,21 @@
 # API-4SEM
+
 Projeto Integrador do 4º Semestre de Banco de Dados FATEC-2021
+
 ## 💻 Projeto:
 
 <!---- <p align="center"> <img src="https://user-images.githubusercontent.com/18652465/111547833-88631a00-8758-11eb-863c-ccf1e6e93f39.png" height=200 width=200> </p> -->
 
-<<<<<<< HEAD
 ### Proposta:
+
 <p align=center> 
 </br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%201.jpg?raw=true" width=300 height=200>
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%204.jpg?raw=true" width=300 height=200>
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%208.jpg?raw=true" width=300 height=200>
 =======
 ## 💡 Tecnologias
->>>>>>> main
-
 
 </p></br><h1></h1>
-
 
 ### Detalhes da Sprint:
 
@@ -28,15 +27,14 @@ A companhia também atua na parte de fornecimento de infraestrutura para empresa
 
 Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle possui como principais metas a aceleração da inovação nos negócios por meio de produtos projetados para funcionarem de forma integrada e adaptativa, de acordo as necessidades de cada empresa.
 
- ## Problema:
+## Problema:
 
- 
- ## Solução:
+## Solução:
 
- 
-  ## Documentação:
- - [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
- 
+## Documentação:
+
+- [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
+
  <!----
  - [Story Cards] 
  - [BSC]
@@ -47,7 +45,7 @@ Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle po
  - [Instruções]
  - [Vídeo Apresentação]
  - [Tutorial Instalação](https://github.com/MaXximiles/API-3SEM/tree/main/Documenta%C3%A7%C3%A3o) -->
- 
+
 <h2>Sprints</h2>
        <table>
               <thead>
@@ -88,4 +86,3 @@ Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle po
                      </tr>
               </tbody>
        </table>
-
