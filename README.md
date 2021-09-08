@@ -45,18 +45,20 @@ A companhia também atua na parte de fornecimento de infraestrutura para empresa
 Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle possui como principais metas a aceleração da inovação nos negócios por meio de produtos projetados para funcionarem de forma integrada e adaptativa, de acordo as necessidades de cada empresa.
 
  ## Problema:
-
+Atualmente o cliente conta com um escritório onde ocorre eventos, palestras e workshops, abertos a colaboradores e público externo. Sendo assim seguindo o atual cenário de restrições devido a pandemia, é necessário a criação de um sistema que gerencie a criação de eventos, a utilização do espaço e quantidade de participantes.
  
  ## Solução:
-
+O sistema Endurance tem como objetivo o gerenciamento de eventos, possibilitando a criação e o controle aos colaboradores da empresa.
+O público externo poderá se cadastrar no sistema para participar dos eventos, seguindo as restrições sanitárias devido a pandemia, para tal será realizada a validação da carteira de vacinação dos usuários.
+Os usuários cadastrados serão notificados sobre novos eventos via e-mail, facilitando assim a comunicação.
  
   ## Documentação:
+ - [Backlog](https://trello.com/b/E2Xm3K4N/api-4-sem-endurance-oracle)
  - [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
  - [Modelo Conceitual do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
  <!----
  - [Story Cards] 
  - [BSC]
- - [Backlog]
  - [PETI]
  - [Modelo Relacional do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
  - [Instruções]
