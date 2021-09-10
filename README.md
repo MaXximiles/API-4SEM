@@ -75,33 +75,33 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
               <tbody>
                      <tr>
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
-                            <td > <p align=center>  Modelo Conceitual, Wireframes          
+                            <td > <p align=center>  ✔️Modelo Conceitual, ✔️Wireframes          
                             </td>
                             <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
-                            <td> <p align=center>                        
+                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️                       
                             <p align=center>                          
                             </p>
                             </td>
-                            <td><p><a href=></a></p></td>
+                            <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-2">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center>                              
+                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️                               
                       <p align=center>                          
                       </p>
                       </td>
-                            <td><p><a href=></a></p></td>
+                            <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-3">Ver mais...</a></p></td>
                      </tr>
                       <tr>
                             <td align=center>Sprint 4<br>08/11/2021 a 28/11/2021</td>
-                            <td> <p align=center>
+                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️ 
                              <p align=center>                          
                        </p>
                        </td>
-                            <td><p><a href=></a></p></td>
+                            <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-4">Ver mais...</a></p></td>
                      </tr>
               </tbody>
        </table>
