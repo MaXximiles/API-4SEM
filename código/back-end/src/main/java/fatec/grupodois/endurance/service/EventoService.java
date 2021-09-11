@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface EventoService {
 
-    Object addEvento(Evento evento) throws EventoInicioAfterException;
+    Evento addEvento(Evento evento) throws EventoInicioAfterException;
 
     void deleteEventoById(Long eventoId) throws EventoNotFoundException;
 

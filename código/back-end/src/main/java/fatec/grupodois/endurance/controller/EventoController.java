@@ -29,7 +29,8 @@ public class EventoController {
 
     @PostMapping("/add")
     public ResponseEntity<Evento> addEvento(@RequestBody Evento evento) throws EventoInicioAfterException {
-        this.eventoService.addEvento(evento);
+
+        eventoService.addEvento(evento);
 
         return new ResponseEntity<>(evento, HttpStatus.CREATED);
     }
