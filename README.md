@@ -2,7 +2,7 @@
 
 <p align="center"> <img src="https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/logo_endurance.png" height=150 width=200> </p> 
 
-<!---- <p align="center"> <img src="https://user-images.githubusercontent.com/18652465/111547833-88631a00-8758-11eb-863c-ccf1e6e93f39.png" height=200 width=200> </p> -->
+
 
 
 ### Proposta:
