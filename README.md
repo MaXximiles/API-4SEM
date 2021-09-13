@@ -46,9 +46,7 @@ Resumo de modificações:
 
 
 ### Proposta para próxima sprint:
-Para a próxima sprint teremos o objetivo de desenvolver o cadastro de fornecedores e criar uma priorização entre os usuários para evitar possíveis conflitos de agenda.
-
-
+Para a próxima sprint teremos o objetivo de desenvolver o cadastro de fornecedores e criar a opção do administrador priorizar eventos dos usuários.
 
 
 
