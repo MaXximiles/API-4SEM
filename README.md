@@ -19,9 +19,11 @@ Resumo de modificações:
 - Atualização do Back-end:
   - Cadastro de Forncecedores;
   - Desenvolvimento de regras para evitar conflitos de agenda;
+  - Adição da opção de gerenciamento dos eventos para o admnistrador evitando conflitos de agenda;
 - Atualização do Front-end:
   - Dashboard dos fornecedores;
-  - Aviso de conflitos na agenda;
+  - Aviso de alteração na agenda;
+  - Exibição da nova opção de gerenciamento dos eventos para o administrador;
 
 
 
