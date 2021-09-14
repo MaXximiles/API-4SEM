@@ -2,7 +2,7 @@
 Projeto Integrador do 4º Semestre de Banco de Dados FATEC-2021
 ## 📝Projeto:
 
-<p align="center"> <img src="https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/logo.svg" height=150 width=200> </p> 
+<p align="center"> <img src="https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/logo.svg" height=300 width=250> </p> 
 
 ## 💡 Tecnologias
 
