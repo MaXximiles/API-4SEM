@@ -1,9 +1,7 @@
 /* ***********************************
 NOME DO BANCO: endurance
-USUARIO: system
-SENHA: 12345
 ************************************ */
-/* ULTIMA MODIFICA«√O FEITA EM 01/09/2021 19:44
+/* ULTIMA MODIFICA√á√ÉO FEITA EM 01/09/2021 19:44
    POR MAXIMILES                     */
 
 /* ********************************* CRIANDO TABELAS ***************************** */
