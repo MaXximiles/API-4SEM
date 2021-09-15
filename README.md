@@ -36,7 +36,7 @@ Resumo de modificações:
 
 
 ### Proposta para próxima sprint:
-Para a próxima sprint teremos o objetivo de desenvolver a visualização do status de agendamento e criar níveis de usuário para definir uma priorização entre eles evitando conflitos de agenda.
+Para a próxima sprint teremos o objetivo de desenvolver a visualização do status de agendamento e criar níveis de usuário para definir controle e o prioridade nos eventos.
 
 
 
