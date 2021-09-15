@@ -2,8 +2,8 @@ package fatec.grupodois.endurance.service;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.error.EventoInicioAfterException;
-import fatec.grupodois.endurance.error.EventoNotFoundException;
+import fatec.grupodois.endurance.exception.EventoInicioAfterException;
+import fatec.grupodois.endurance.exception.EventoNotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

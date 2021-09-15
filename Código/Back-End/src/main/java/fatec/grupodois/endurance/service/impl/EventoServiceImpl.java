@@ -1,10 +1,12 @@
-package fatec.grupodois.endurance.service;
+package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.error.EventoInicioAfterException;
-import fatec.grupodois.endurance.error.EventoNotFoundException;
+import fatec.grupodois.endurance.exception.EventoInicioAfterException;
+import fatec.grupodois.endurance.exception.EventoNotFoundException;
 import fatec.grupodois.endurance.repository.EventoRepository;
+import fatec.grupodois.endurance.service.EventoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class EventoServiceImpl implements EventoService{
+public class EventoServiceImpl implements EventoService {
 
     private EventoRepository eventoRepository;
 
@@ -88,22 +90,13 @@ public class EventoServiceImpl implements EventoService{
     }
 
     @Override
-    public Evento updateEvento(Long eventoId, Evento evento) throws EventoNotFoundException, EventoInicioAfterException {
-
-        /*Optional<Evento> eventoOptional = eventoRepository
-                .findById(eventoId);
-
-        if(eventoOptional.isEmpty()) {
-            throw new EventoNotFoundException("Evento "
-                    + "com ID "
-                    + eventoId
-                    + " não encontrado.");
-        }*/
+    public Evento updateEvento(Long eventoId, Evento evento) {
 
         Evento eventoDb = eventoRepository.findById(eventoId).get();
 
-        if(Objects.nonNull(evento.getEventoTema()) &&
-                !"".equalsIgnoreCase(evento.getEventoTema())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getEventoTema())) &&
+                !StringUtils.equalsIgnoreCase(evento.getEventoTema(), eventoDb.getEventoTema())) {
+
             eventoDb.setEventoTema(evento.getEventoTema());
         }
 
@@ -117,13 +110,13 @@ public class EventoServiceImpl implements EventoService{
             eventoDb.setEventoFim(evento.getEventoFim());
         }
 
-        if(Objects.nonNull(evento.getEventoLocal()) &&
-                !"".equalsIgnoreCase(evento.getEventoLocal())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getEventoLocal())) &&
+                !StringUtils.equalsIgnoreCase(evento.getEventoLocal(), eventoDb.getEventoLocal())) {
             eventoDb.setEventoLocal(evento.getEventoLocal());
         }
 
-        if(Objects.nonNull(evento.getEventoObservacao()) &&
-                !"".equalsIgnoreCase(evento.getEventoObservacao())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getEventoObservacao())) &&
+                !StringUtils.equalsIgnoreCase(evento.getEventoObservacao(), eventoDb.getEventoObservacao())) {
             eventoDb.setEventoObservacao(evento.getEventoObservacao());
         }
 

@@ -2,7 +2,10 @@ package fatec.grupodois.endurance.configuration;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
+import fatec.grupodois.endurance.entity.TipoUsuario;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.repository.EventoRepository;
+import fatec.grupodois.endurance.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

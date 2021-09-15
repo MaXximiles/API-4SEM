@@ -1,6 +1,6 @@
 package fatec.grupodois.endurance.repository;
 
-import fatec.grupodois.endurance.entity.Usuario;
+import fatec.grupodois.endurance.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    @Query("SELECT u from Usuario WHERE u.usuarioEmail = ?1")
-    Optional<Usuario> findByEmail(String usuarioEmail);
+public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("SELECT u from User u WHERE u.userEmail = ?1")
+    Optional<User> findByEmail(String userEmail);
 }

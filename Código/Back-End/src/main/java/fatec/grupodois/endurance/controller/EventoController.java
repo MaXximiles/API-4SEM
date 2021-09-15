@@ -2,8 +2,8 @@ package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.error.EventoInicioAfterException;
-import fatec.grupodois.endurance.error.EventoNotFoundException;
+import fatec.grupodois.endurance.exception.EventoInicioAfterException;
+import fatec.grupodois.endurance.exception.EventoNotFoundException;
 import fatec.grupodois.endurance.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/eventos")
+@RequestMapping("/events")
 public class EventoController {
 
 
@@ -36,7 +36,8 @@ public class EventoController {
     }
 
     @DeleteMapping(path = "/delete/{eventoId}")
-    public ResponseEntity<?> deleteEventoById(@PathVariable("eventoId") Long eventoId) throws EventoNotFoundException {
+    public ResponseEntity<?> deleteEventoById(@PathVariable("eventoId") Long eventoId)
+                                                throws EventoNotFoundException {
         eventoService.deleteEventoById(eventoId);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -50,7 +51,8 @@ public class EventoController {
     }
 
     @GetMapping("/fetch/{eventoId}")
-    public ResponseEntity<Evento> fetchEventoById(@PathVariable("eventoId") Long eventoId) throws EventoNotFoundException {
+    public ResponseEntity<Evento> fetchEventoById(@PathVariable("eventoId") Long eventoId)
+                                                    throws EventoNotFoundException {
         Evento evento = eventoService.fetchEventoById(eventoId);
         return new ResponseEntity<>(evento, HttpStatus.CREATED);
     }
@@ -82,7 +84,8 @@ public class EventoController {
 
     @PutMapping(path = "/update/{eventoId}")
     public ResponseEntity<Evento> updateEvento(@PathVariable("eventoId") Long eventoId,
-                                               @RequestBody Evento evento) throws EventoNotFoundException, EventoInicioAfterException {
+                                               @RequestBody Evento evento)
+                                            throws EventoNotFoundException, EventoInicioAfterException {
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }
