@@ -1,6 +1,6 @@
 ## 💻 Sprint 2
 
-<p align="center"> <img src="https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/logo_endurance.png" height=150 width=200> </p> 
+<p align="center"> <img src="https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/logo%20com%20nome.png"height=150 width=200> </p> 
 
 
 ### Proposta:
