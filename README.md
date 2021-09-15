@@ -26,7 +26,7 @@ Resumo de modificações:
   - Login;
   - Cadastro de usuários;
   - Cadastro de eventos;
-  - Integração com o front;
+  - Integração com o Front-end;
   - Definição e implementação das regras de negócio;
 - Implentação do Front-end:
   - Desenvolvimento da interface gráfica do sistema;
