@@ -17,7 +17,7 @@ Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores pa
 ### Detalhes da Sprint:
 Resumo de modificações:
 - Atualização do Back-end:
-  - Cadastro de Forncecedores;
+  - Cadastro de Fornecedores;
   - Desenvolvimento de regras para evitar conflitos de agenda;
   - Adição da opção de gerenciamento dos eventos para o admnistrador evitando conflitos de agenda;
 - Atualização do Front-end:
