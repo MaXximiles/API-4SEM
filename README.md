@@ -11,12 +11,6 @@ Na primeira sprint temos o objetivo de criar a interface para o login dos seguin
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%208.jpg?raw=true" width=300 height=200>
 
 
-</p></br><h1></h1>
-
-
-### Detalhes da Sprint:
-
-Resumo de modificações:
 - Wireframes;
 - Banco de Dados:
   - Escolha do Bando de Dados;
@@ -31,6 +25,14 @@ Resumo de modificações:
 - Implentação do Front-end:
   - Desenvolvimento da interface gráfica do sistema;
   - Integração com Back-end;
+
+</p></br><h1></h1>
+
+
+### Detalhes da Sprint:
+
+Resumo de modificações:
+
  
 
 
