@@ -31,7 +31,6 @@ As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
 <a href="https://www.linkedin.com/in/maxx-barcelos-aaa106b2"> <img src= "https://img.shields.io/badge/Maximiles%20Barcelos%20--%20Scrum%20Master-Linkedin-blue"></a> <br>
 <a href="https://www.linkedin.com/in/mateus-senne-172905149"> <img src= "https://img.shields.io/badge/Mateus%20Senne%20--%20Product%20Owner-Linkedin-blue"></a> <br>
 <a  href="https://www.linkedin.com/in/rodrigo-tenorio-a56641174"> <img src="https://img.shields.io/badge/Rodrigo%20Amancio%20-Linkedin-blue"></a> <br>
-<a href="https://www.linkedin.com/in/luisaugustosb"> <img src="https://img.shields.io/badge/Lu%C3%ADs%20Augusto%20-Linkedin-blue"></a> <br>
 <a href="https://www.linkedin.com/in/bahij-noureddine-941b681b7/"> <img src= "https://img.shields.io/badge/Bahij%20Noureddine-Linkedin-blue"></a><br>
 <a href="https://www.linkedin.com/in/jeferson-tadeu-das-neves-a98343190/"> <img src= "https://img.shields.io/badge/Jeferson%20Neves-Linkedin-blue"></a> <br>
 <a href="https://www.linkedin.com/in/leonardo-gabriel-silva-11b8b8178/"> <img src= "https://img.shields.io/badge/Leonardo%20Gabriel-Linkedin-blue"></a> <br>
@@ -75,13 +74,13 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
               <tbody>
                      <tr>
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
-                            <td > <p align=center>  ✔️Modelo Conceitual, ✔️Wireframes          
+                            <td > <p align=center> ✓ Modelo Conceitual; ✓ Wireframes; ✓ Login; ✓ Cadastro de eventos e usuários; ✓ Definição e implementação das regras de negócio; ✓ Desenvolvimento da interface gráfica do sistema;        
                             </td>
                             <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
-                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️                       
+                            <td> <p align=center>✓ Cadastro de Forncecedores; ✓ Desenvolvimento de regras para evitar conflitos de agenda; ✓ Dashboard dos fornecedores; ✓ Aviso de alteração na agenda; ✓ Exibição da nova opção de gerenciamento dos eventos para o administrador;                      
                             <p align=center>                          
                             </p>
                             </td>
@@ -89,7 +88,7 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️                               
+                            <td> <p align=center>✓ Criação dos níveis de usuário; ✓ Edição de níveis de usuário para o administrador; ✓ Atualização da prioridade de acordo com o nível de usuário; ✓ Exibição do status de agendamento; ✓ Exibição dos níveis de usuário; ✓ Versionamento do Banco de dados;                             
                       <p align=center>                          
                       </p>
                       </td>
@@ -97,7 +96,7 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
                      </tr>
                       <tr>
                             <td align=center>Sprint 4<br>08/11/2021 a 28/11/2021</td>
-                            <td> <p align=center>⚠️ EM DESENVOLVIMENTO ⚠️ 
+                            <td> <p align=center>✓ Atualização do status da carteira de vacinação; ✓ Módulo de relatórios dos eventos para administradores; ✓ Exibição do módulo de relatórios; ✓ Validação da carteira de vacinação pelo administrador; ✓ Exibição do status da carteira de vacinação; ✓ Verificação da carteira de vacinação ao se cadastrar em um evento;
                              <p align=center>                          
                        </p>
                        </td>

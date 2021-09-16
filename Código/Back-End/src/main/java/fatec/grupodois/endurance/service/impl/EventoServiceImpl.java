@@ -1,10 +1,14 @@
-package fatec.grupodois.endurance.service;
+package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.error.EventoInicioAfterException;
-import fatec.grupodois.endurance.error.EventoNotFoundException;
+import fatec.grupodois.endurance.exception.EventoInicioAfterException;
+import fatec.grupodois.endurance.exception.EventoNotFoundException;
 import fatec.grupodois.endurance.repository.EventoRepository;
+<<<<<<< HEAD:Código/Back-End/src/main/java/fatec/grupodois/endurance/service/EventoServiceImpl.java
+=======
+import fatec.grupodois.endurance.service.EventoService;
+>>>>>>> 2bea5a457ac43bd4613ca51b12f002630fb5629f:Código/Back-End/src/main/java/fatec/grupodois/endurance/service/impl/EventoServiceImpl.java
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class EventoServiceImpl implements EventoService{
+public class EventoServiceImpl implements EventoService {
 
     private EventoRepository eventoRepository;
 
@@ -89,7 +93,11 @@ public class EventoServiceImpl implements EventoService{
     }
 
     @Override
+<<<<<<< HEAD:Código/Back-End/src/main/java/fatec/grupodois/endurance/service/EventoServiceImpl.java
     public Evento updateEvento(Long eventoId, Evento evento) throws EventoNotFoundException, EventoInicioAfterException {
+=======
+    public Evento updateEvento(Long eventoId, Evento evento) {
+>>>>>>> 2bea5a457ac43bd4613ca51b12f002630fb5629f:Código/Back-End/src/main/java/fatec/grupodois/endurance/service/impl/EventoServiceImpl.java
 
         Evento eventoDb = eventoRepository.findById(eventoId).get();
 

@@ -2,8 +2,8 @@ package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.error.EventoInicioAfterException;
-import fatec.grupodois.endurance.error.EventoNotFoundException;
+import fatec.grupodois.endurance.exception.EventoInicioAfterException;
+import fatec.grupodois.endurance.exception.EventoNotFoundException;
 import fatec.grupodois.endurance.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

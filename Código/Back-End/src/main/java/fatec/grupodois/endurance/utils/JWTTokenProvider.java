@@ -7,11 +7,19 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import fatec.grupodois.endurance.entity.UserPrincipal;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+<<<<<<< HEAD
+=======
+import org.springframework.context.annotation.Bean;
+>>>>>>> 2bea5a457ac43bd4613ca51b12f002630fb5629f
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+<<<<<<< HEAD
+=======
+import org.springframework.stereotype.Component;
+>>>>>>> 2bea5a457ac43bd4613ca51b12f002630fb5629f
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -22,6 +30,10 @@ import java.util.stream.Collectors;
 import static fatec.grupodois.endurance.constant.SecurityConstant.*;
 import static java.util.Arrays.stream;
 
+<<<<<<< HEAD
+=======
+@Component
+>>>>>>> 2bea5a457ac43bd4613ca51b12f002630fb5629f
 public class JWTTokenProvider {
 
     @Value("${jwt.secret}")
