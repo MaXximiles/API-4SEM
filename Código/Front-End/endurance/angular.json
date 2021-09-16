@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "39763c4e-42ff-4b84-b875-8ff8a0ede1af"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -27,10 +30,11 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/1js/materialize.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -95,10 +99,11 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/1js/materialize.js"
+            ]
           }
         }
       }

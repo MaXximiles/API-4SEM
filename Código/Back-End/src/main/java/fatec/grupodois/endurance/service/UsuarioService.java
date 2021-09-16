@@ -4,6 +4,7 @@ import fatec.grupodois.endurance.entity.Usuario;
 import fatec.grupodois.endurance.error.UsuarioNotFoundException;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 public interface UsuarioService {

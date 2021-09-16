@@ -3,6 +3,7 @@ package fatec.grupodois.endurance.service;
 import fatec.grupodois.endurance.entity.Usuario;
 import fatec.grupodois.endurance.error.UsuarioNotFoundException;
 import fatec.grupodois.endurance.repository.UsuarioRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,18 +70,28 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         Usuario usuarioDb = usuarioRepository.findById(usuarioId).get();
 
-        if(Objects.nonNull(usuario.getUsuarioNome()) &&
-                !"".equalsIgnoreCase(usuario.getUsuarioNome())) {
-            usuarioDb.setUsuarioNome(usuario.getUsuarioNome());
+        if(StringUtils.isNotEmpty(usuario.getUsuarioFirstName()) &&
+                StringUtils.isNotBlank(usuario.getUsuarioFirstName()) &&
+                !"".equalsIgnoreCase(usuario.getUsuarioFirstName())) {
+
+            usuarioDb.setUsuarioFirstName(usuario.getUsuarioFirstName());
         }
 
-        if(Objects.nonNull(usuario.getUsuarioRg()) &&
-                !usuarioDb.getUsuarioRg().equals(usuario.getUsuarioRg())) {
+        if(StringUtils.isNotEmpty(usuario.getUsuarioLastName()) &&
+                StringUtils.isNotBlank(usuario.getUsuarioLastName()) &&
+                !"".equalsIgnoreCase(usuario.getUsuarioLastName())) {
+            usuarioDb.setUsuarioLastName(usuario.getUsuarioLastName());
+        }
+
+        if(StringUtils.isNotEmpty(usuario.getUsuarioRg()) &&
+                StringUtils.isNotBlank(usuario.getUsuarioRg()) &&
+                !"".equalsIgnoreCase(usuario.getUsuarioRg())) {
             usuarioDb.setUsuarioRg(usuario.getUsuarioRg());
         }
 
-        if(Objects.nonNull(usuario.getUsuarioEmail()) &&
-                !usuarioDb.getUsuarioEmail().equals(usuario.getUsuarioEmail())) {
+        if(StringUtils.isNotEmpty(usuario.getUsuarioEmail()) &&
+                StringUtils.isNotBlank(usuario.getUsuarioEmail()) &&
+                !"".equalsIgnoreCase(usuario.getUsuarioEmail())) {
             usuarioDb.setUsuarioEmail(usuario.getUsuarioEmail());
         }
 

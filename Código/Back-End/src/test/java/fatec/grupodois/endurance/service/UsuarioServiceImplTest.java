@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @SpringBootTest
@@ -28,12 +29,13 @@ class UsuarioServiceImplTest {
     void setUp() {
         Usuario usuario =
                 Usuario.builder()
-                        .usuarioNome("Teste S")
+                        .usuarioFirstName("Teste")
+                        .usuarioLastName("S")
                         .usuarioRg("111111")
                         .usuarioEmail("teste@gmail.com")
                         .usuarioTipo(TipoUsuario.ADMIN)
                         .usuarioCpf("973.017.940-96")
-                        .usuarioSenha("password")
+                        .usuarioPassword("password")
                         .usuarioId(1L)
                         .build();
 
@@ -50,7 +52,7 @@ class UsuarioServiceImplTest {
     void whenValidId_thenUsuarioShouldFound() throws UsuarioNotFoundException {
         Usuario found = usuarioService.fetchUsuarioById(1L);
 
-        assertEquals("Teste S", found.getUsuarioNome());
+        assertEquals("Teste", found.getUsuarioFirstName());
     }
 
     @Test
@@ -73,5 +75,15 @@ class UsuarioServiceImplTest {
         found = usuarioService.fetchUsuarioById(1L);
 
         assertEquals("teste1@gmail.com", found.getUsuarioEmail());
+    }
+
+    @Test
+    @DisplayName("Dont Get Usuario on Invalid Email")
+    public void whenInvalidEmail_thenShouldThrowError() throws UsuarioNotFoundException {
+
+        Throwable exc = assertThrows(UsuarioNotFoundException.class, () ->
+                usuarioService.fetchUsuarioById(2L));
+
+        assertEquals("Usuario com id 2 não encontrado.", exc.getMessage());
     }
 }

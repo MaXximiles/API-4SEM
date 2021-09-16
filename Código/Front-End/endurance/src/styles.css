@@ -1,1 +1,95 @@
-/* You can add global styles to this file, and also import other style files */
+ /* CSS - NAVBAR APP */
+html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  h1 {
+    width: 500px;
+    margin: 100px auto 20px;
+    color: #f0f0f0;
+    text-align: center;
+  }
+  
+  .nav {
+    width: 100%;
+    margin: 0 auto;
+    background: #283593;
+    color: #f0f0f0;
+  }
+  .nav a {
+    color: #f0f0f0;
+    text-decoration: none;
+    display: block;
+    padding: 0 16px;
+    line-height: inherit;
+    cursor: pointer;
+  }
+  .nav__menu {
+    width: 100%;
+    line-height: 45px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .nav__menu-item {
+    display: inline-block;
+    position: relative;
+  }
+  .img__menu-logo{
+    width: auto;
+    height: 45px;
+    padding: 5px;
+
+  }
+  .nav__menu-logo {
+    display: inline-block;
+    float: right;
+  }
+  .nav__menu-item:hover {
+    background-color: #485cf3;
+  }
+  .nav__menu-item:hover .nav__submenu {
+    display: block;
+  }
+  .nav__submenu {
+    font-weight: 300;
+    text-transform: none;
+    display: none;
+    position: absolute;
+    width: 220px;
+    background-color: #485cf3;
+  }
+  .nav__submenu-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+
+/* CSS DE FORMULÁRIOS */
+
+#formulario, #resultado, #pesquisa
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: auto;
+    border: 1px solid black;
+    border-radius: 20px;
+    background: rgb(174, 205, 233);
+}

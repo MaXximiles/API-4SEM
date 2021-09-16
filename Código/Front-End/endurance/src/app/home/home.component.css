@@ -1,0 +1,6 @@
+#background_image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/logo.svg");
+    background-color: aliceblue;
+}

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/user")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -28,7 +28,7 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add") 
     public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
         usuarioService.addUsuario(usuario);
 
