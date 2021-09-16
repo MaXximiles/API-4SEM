@@ -80,7 +80,7 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
-                            <td> <p align=center>✓ Cadastro de Forncecedores; ✓ Desenvolvimento de regras para evitar conflitos de agenda; ✓ Dashboard dos fornecedores; ✓ Aviso de alteração na agenda; ✓ Exibição da nova opção de gerenciamento dos eventos para o administrador;                      
+                            <td> <p align=center>✓ Cadastro de Fornecedores; ✓ Desenvolvimento de regras para evitar conflitos de agenda; ✓ Dashboard dos fornecedores; ✓ Aviso de alteração na agenda; ✓ Exibição da nova opção de gerenciamento dos eventos para o administrador;                      
                             <p align=center>                          
                             </p>
                             </td>
