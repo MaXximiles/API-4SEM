@@ -11,14 +11,6 @@ Na terceira sprint temos o objetivo de desenvolver a visualização do status de
 </br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%205.jpg?raw=true" width=300 height=200>
 <img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%209.jpg?raw=true" width=300 height=200>
 
-
-
-</p></br><h1></h1>
-
-
-### Detalhes da Sprint:
-
-Resumo de modificações:
 - Banco de Dados:
   - Versionamento do Banco de dados; 
 - Atualização do Back-end:
@@ -28,6 +20,14 @@ Resumo de modificações:
 - Atualização do Front-end:
   - Exibição do status de agendamento;
   - Exibição dos níveis de usuário;
+
+</p></br><h1></h1>
+
+
+### Detalhes da Sprint:
+
+Resumo de modificações:
+
 
 
 </p></br><h1></h1>
