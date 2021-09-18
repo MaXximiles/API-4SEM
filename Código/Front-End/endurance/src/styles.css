@@ -31,7 +31,7 @@ html {
   .nav {
     width: 100%;
     margin: 0 auto;
-    background: #283593;
+    background: #094787;
     color: #f0f0f0;
   }
   .nav a {
@@ -63,7 +63,7 @@ html {
     float: right;
   }
   .nav__menu-item:hover {
-    background-color: #485cf3;
+    background-color: #0b4f94;
   }
   .nav__menu-item:hover .nav__submenu {
     display: block;
@@ -74,7 +74,7 @@ html {
     display: none;
     position: absolute;
     width: 220px;
-    background-color: #485cf3;
+    background-color: #0b4f94;
   }
   .nav__submenu-item:hover {
     background: rgba(0, 0, 0, 0.1);
@@ -86,10 +86,19 @@ html {
 #formulario, #resultado, #pesquisa
 {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     padding: 10px;
     width: auto;
-    border: 1px solid black;
-    border-radius: 20px;
-    background: rgb(174, 205, 233);
+    background: #8BBAD0;
+    box-shadow: 2px 2px 7px  #000000;
+}
+
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+  background-color: #0d5caa !important;
+  border: solid 1px black;
+}
+
+.btn-primary:hover {
+  background-color: #094787 !important;
+  border: solid 1px black;
 }
