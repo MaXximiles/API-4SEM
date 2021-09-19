@@ -59,7 +59,7 @@ public class EventoConfig {
                     .email("jefh.neves@gmail.com")
                     .cpf("973.017.940-96")
                     .joinDate(new Date())
-                    .password(encodedPassword)
+                    .password("123")
                     .isActive(true)
                     .isNotLocked(true)
                     .role(ROLE_GUEST.name())
