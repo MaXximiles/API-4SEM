@@ -74,7 +74,7 @@ Os usuários cadastrados serão notificados sobre novos eventos via e-mail, faci
               <tbody>
                      <tr>
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
-                            <td > <p align=center>  Modelo Conceitual; &nbsp Wireframes;  &nbsp Login;  &nbsp Cadastro de eventos e usuários; &nbsp Definição e implementação das regras de negócio; &nbsp Desenvolvimento da interface gráfica do sistema;        
+                            <td > <p align=center>  Modelo Conceitual; &nbsp Wireframes;  &nbsp Login;  &nbsp Cadastro de usuários; &nbsp Definição e implementação das regras de negócio; &nbsp Desenvolvimento da interface gráfica do sistema;        
                             </td>
                             <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
