@@ -55,7 +55,7 @@ Resumo de modificações:
 <img src=https://user-images.githubusercontent.com/68132461/134088762-0811eef0-2b8e-49f2-82f4-1ab9e08316a0.PNG></br>
 </p></br><h1></h1>
 
-</p></br><h1></h1>
+
 
 
 ### Proposta para próxima sprint:
