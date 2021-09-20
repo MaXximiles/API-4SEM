@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
 import java.util.Date;
 
 import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
@@ -127,10 +126,10 @@ class UserServiceImplTest {
                 .id(1L)
                 .build();
 
-        Mockito.when(userService.register(user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
+        Mockito.when(userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
                 .thenReturn(user);
 
-        User savedUser = userService.register(user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
+        User savedUser = userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
 
         assertEquals(savedUser.getEmail(), "teste2@gmail.com");
     }
@@ -154,10 +153,10 @@ class UserServiceImplTest {
                 .id(1L)
                 .build();
 
-        Mockito.when(userService.register(user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
+        Mockito.when(userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
                 .thenReturn(user);
 
-        User savedUser = userService.register(user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
+        User savedUser = userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
 
         assertEquals(savedUser.getCpf(), "319.414.010-82");
     }

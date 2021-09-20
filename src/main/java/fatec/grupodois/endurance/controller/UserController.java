@@ -6,6 +6,8 @@ import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.UserService;
 import fatec.grupodois.endurance.utils.JWTTokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,7 @@ public class UserController extends ExceptionHandling {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
+    private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public UserController(UserService userService, AuthenticationManager authenticationManager,
@@ -66,8 +69,11 @@ public class UserController extends ExceptionHandling {
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
+
+        LOGGER.info(("ACTIVE>>>>" + isActive));
+        LOGGER.info("NONLOCKED>>>>>>>>" + isNonLocked);
        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
-                                                Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive),
+                                                Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
                                                 profileImage);
 
         return new ResponseEntity<>(newUser, CREATED);
@@ -147,7 +153,7 @@ public class UserController extends ExceptionHandling {
             CpfExistException, CpfNotFoundException, MessagingException {
 
         user = userService.register(user.getFirstName(), user.getLastName(),
-                user.getEmail(), user.getCpf());
+                user.getEmail(), user.getCpf(), user.getPassword());
 
         return new ResponseEntity<>(user, CREATED);
     }

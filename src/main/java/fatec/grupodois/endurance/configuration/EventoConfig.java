@@ -49,7 +49,7 @@ public class EventoConfig {
                     .eventoObservacao("AGENDAMENTO ENVIADO")
                     .build();
 
-            String password = generatePassword();
+            String password = "12345";
             String encodedPassword = encodePassword(password);
 
             User user = User
@@ -59,12 +59,12 @@ public class EventoConfig {
                     .email("jefh.neves@gmail.com")
                     .cpf("973.017.940-96")
                     .joinDate(new Date())
-                    .password("123")
+                    .password(encodedPassword)
                     .isActive(true)
                     .isNotLocked(true)
                     .role(ROLE_GUEST.name())
                     .authorities(ROLE_GUEST.getAuthorities())
-                    .profileImageUrl(null)
+                    .profileImageUrl("https://robohash.org/jefh/?set=set2")
                     .id(1L)
                     .build();
 

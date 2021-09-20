@@ -15,7 +15,7 @@ public interface UserService {
 
     void addUser(User user) throws EmailExistException;
 
-    User register(String FirstName, String LastName, String email, String Cpf) throws EmailNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException;
+    User register( String firstName, String FirstName, String LastName, String email, String Cpf) throws EmailNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException;
 
     User fetchUserById(Long userId) throws UserNotFoundException;
 

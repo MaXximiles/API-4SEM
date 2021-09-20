@@ -72,12 +72,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User register(String firstName, String lastName, String email, String cpf) throws
+    public User register(String firstName, String lastName, String email, String cpf, String password) throws
             EmailExistException,
             CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException {
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
-        String password = generatePassword();
         String encodedPassword = encodePassword(password);
 
         User user = User
@@ -121,8 +120,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .cpf(cpf)
                 .joinDate(new Date())
                 .password(encodedPassword)
-                .isActive(true)
-                .isNotLocked(true)
+                .isActive(isActive)
+                .isNotLocked(isNonLocked)
                 .role(getRoleEnumName(role).name())
                 .authorities(getRoleEnumName(role).getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
@@ -130,8 +129,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         LOGGER.info("User>>>>" + user.toString());
         LOGGER.info("New user password>>>>" + password);
+        LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
-        saveProfileImage(user, profileImage);
+        if(profileImage != null) {
+            saveProfileImage(user, profileImage);
+        }
         return user;
     }
 
@@ -338,7 +340,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private String getTemporaryProfileImageUrl(String email) {
 
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path(DEFAULT_USER_IMAGE_PATH + email).toUriString();
+        return TEMP_PROFILE_IMAGE_BASE_URL + email + "/?set=set2";
     }
 
     private String encodePassword(String password) {
