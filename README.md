@@ -46,12 +46,12 @@ Resumo de modificações:
 </p></br><h1></h1>
 
 <p align=center>
-<b></br>Formulário de cadastro e edição de usuários </br></br>
+<b></br>Pesquisa de cadastro e edição de usuários </br></br>
 <img src=https://user-images.githubusercontent.com/68132461/134088865-dc3494e7-ab99-48b0-929f-4c5a2c126276.PNG></br>
 </p></br><h1></h1>
 
 <p align=center>
-<b></br>Pesquisa de usuários </br></br>
+<b></br>Formulário de usuários </br></br>
 <img src=https://user-images.githubusercontent.com/68132461/134088762-0811eef0-2b8e-49f2-82f4-1ab9e08316a0.PNG></br>
 </p></br><h1></h1>
 
