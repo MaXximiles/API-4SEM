@@ -3,7 +3,7 @@ package fatec.grupodois.endurance.constant;
 public class EmailConstant {
     public static final String SIMPLE_MAIL_TRANSFER_PROTOCOL = "smtps";
     public static final String USERNAME = "jef.neves93@gmail.com";
-    public static final String PASSWORD = "RQ98tKYKRf4QQCt";
+    public static final String PASSWORD = "";
     public static final String FROM_EMAIL = "support@endurance.com";
     public static final String CC_EMAIL = "";
     public static final String EMAIL_SUBJECT = "endurance - New Password";
