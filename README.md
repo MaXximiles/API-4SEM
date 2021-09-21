@@ -8,8 +8,6 @@ Na primeira sprint temos o objetivo de criar a interface para o login dos seguin
 <p align=center> 
 </br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%201.jpg?raw=true" width=300 height=200>
 
-
-
 </p></br><h1></h1>
 
 
@@ -31,6 +29,8 @@ Resumo de modificações:
   - Integração com Back-end;
  
 
+### APRESENTAÇÃO
+[📊 Apresentação em PDF](https://github.com/MaXximiles/API-4SEM/blob/sprint-1/Sprint%201%20-%20FINAL%20.pdf)
 
 </p></br><h1></h1>
 
