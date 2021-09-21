@@ -72,13 +72,13 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
               <tbody>
                      <tr>
                             <td align=center>Sprint 1<br>30/08/2021 a 19/09/2021</td>
-                            <td > <p align=center>  Modelo Conceitual; &nbsp Wireframes;  &nbsp Login;  &nbsp Cadastro de usuários; &nbsp Definição e implementação das regras de negócio; &nbsp Desenvolvimento da interface gráfica do sistema;        
+                            <td > <p align=center>  Modelo Conceitual; &nbsp Wireframes;  &nbsp Login;  &nbsp Cadastro de usuários; &nbsp Definição e implementação das regras de negócio; &nbsp Desenvolvimento da interface gráfica do sistema; &nbsp Criação dos níveis de usuário; &nbsp Exibição dos níveis de usuário;    
                             </td>
                             <td><p><a href="https://github.com/MaXximiles/API-4SEM/tree/sprint-1">Ver mais...</a></p></td>
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
-                            <td> <p align=center> Cadastro de Fornecedores;  &nbsp Desenvolvimento de regras para evitar conflitos de agenda;  &nbsp Dashboard dos fornecedores;  &nbsp Aviso de alteração na agenda;  &nbsp Exibição da nova opção de gerenciamento dos eventos para o administrador;                      
+                            <td> <p align=center> Cadastro de Eventos; &nbsp Notificação de novos eventos; &nbsp Aviso de alteração na agenda; &nbsp Exibição do status de agendamento;                     
                             <p align=center>                          
                             </p>
                             </td>
@@ -86,7 +86,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center> Criação dos níveis de usuário;  &nbsp Edição de níveis de usuário para o administrador;  &nbsp Atualização da prioridade de acordo com o nível de usuário;  &nbsp Exibição do status de agendamento;  &nbsp Exibição dos níveis de usuário;  &nbsp Versionamento do Banco de dados;                             
+                            <td> <p align=center> Edição de níveis de usuário para o administrador;  &nbsp Atualização da prioridade de acordo com o nível de usuário;  &nbsp Exibição do status de agendamento; &nbsp Versionamento do Banco de dados;                             
                       <p align=center>                          
                       </p>
                       </td>
