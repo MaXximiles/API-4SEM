@@ -67,8 +67,24 @@ public class EventoConfig {
                     .profileImageUrl("https://robohash.org/jefh/?set=set2")
                     .id(1L)
                     .build();
-
-            repo2.save(user);
+        /* criar mais users:
+            User user2 = User
+                    .builder()
+                    .firstName("Teste")
+                    .lastName("S")
+                    .email("jefh.neves@gmail.com")
+                    .cpf("973.017.940-96")
+                    .joinDate(new Date())
+                    .password(encodedPassword)
+                    .isActive(true)
+                    .isNotLocked(true)
+                    .role(ROLE_GUEST.name())
+                    .authorities(ROLE_GUEST.getAuthorities())
+                    .profileImageUrl("https://robohash.org/jefh/?set=set2")
+                    .id(1L)
+                    .build();*/
+        /*passar pro repo2 salvar */
+            repo2.saveAll(List.of(user));
 
             repo.saveAll(List.of(evento1, evento2));
         };

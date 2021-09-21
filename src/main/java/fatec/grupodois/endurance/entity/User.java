@@ -1,5 +1,6 @@
 package fatec.grupodois.endurance.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -42,6 +43,7 @@ public class User implements Serializable {
     @NotBlank(message = "Por favor informar e-mail.")
     private String email;
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String profileImageUrl;
     private Date lastLoginDate;

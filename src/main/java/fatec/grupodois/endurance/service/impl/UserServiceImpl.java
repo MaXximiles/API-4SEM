@@ -222,6 +222,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
         User currentUser = validateNewCpfAndEmail(currentEmail, newEmail, cpf);
+        boolean flag = false;
+        if(currentUser.getRole() == "ROLE_ADMIN") {
+            flag = true;
+        }
 
         if(StringUtils.isNotEmpty(newFirstName) &&
                 StringUtils.isNotBlank(newFirstName) &&
@@ -252,7 +256,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             currentUser.setNotLocked(isNonLocked);
         }
 
-        if(role != currentUser.getRole()) {
+        if(role != currentUser.getRole() && flag) {
             currentUser.setRole(getRoleEnumName(role).name());
             currentUser.setAuthorities(getRoleEnumName(role).getAuthorities());
         }

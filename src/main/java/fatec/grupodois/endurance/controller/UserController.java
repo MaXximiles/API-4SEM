@@ -58,6 +58,7 @@ public class UserController extends ExceptionHandling {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('user:create')")
     public ResponseEntity<User> addUser(@RequestParam("firstName") String firstName,
                                         @RequestParam("lastName") String lastName,
                                         @RequestParam("email") String email,
@@ -79,7 +80,28 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(newUser, CREATED);
     }
 
+    @PostMapping("/update-me")
+    public ResponseEntity<User> updateCurrentUser(@RequestParam("currentEmail") String currentEmail,
+                                           @RequestParam("firstName") String firstName,
+                                           @RequestParam("lastName") String lastName,
+                                           @RequestParam("email") String email,
+                                           @RequestParam("cpf") String cpf,
+                                           @RequestParam("role") String role,
+                                           @RequestParam("isActive") String isActive,
+                                           @RequestParam("isNonLocked") String isNonLocked,
+                                           @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
+
+            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+
+        User updatedUser = userService.updateUser(currentEmail, firstName, lastName, email, cpf, role,
+                Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive),
+                profileImage);
+
+        return new ResponseEntity<>(updatedUser, OK);
+    }
+
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('user:update')")
     public ResponseEntity<User> updateUser(@RequestParam("currentEmail") String currentEmail,
                                         @RequestParam("firstName") String firstName,
                                         @RequestParam("lastName") String lastName,
@@ -197,14 +219,14 @@ public class UserController extends ExceptionHandling {
 
         userService.deleteUser(id);
 
-        return response(NO_CONTENT, USER_DELETED_SUCCESFULLY);
+        return response(OK, USER_DELETED_SUCCESFULLY);
     }
 
     private ResponseEntity<HttpResponse> response(HttpStatus status, String s) {
 
         return new ResponseEntity<>(new HttpResponse(status.value(),
-                status, status.getReasonPhrase().toUpperCase(),
-                s.toUpperCase()), status);
+                status, status.getReasonPhrase(),
+                s), status);
     }
 
 

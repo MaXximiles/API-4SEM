@@ -8,7 +8,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static fatec.grupodois.endurance.constant.FileConstant.USER_FOLDER;
