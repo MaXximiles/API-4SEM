@@ -22,7 +22,7 @@ export class AuthenticationGuard implements CanActivate {
       return true;
     }
     this.router.navigate(['/login']);
-    this.notificationService.myNofity(NotificationType.ERROR, "VOCÊ PRECISA ESTAR LOGADO PARA ACESSAR A PÁGINA");
+    this.notificationService.myNofity(NotificationType.ERROR, "Você precisa estar logado para acessar a página");
     // TODO - send notification to user
     return false;
   }
