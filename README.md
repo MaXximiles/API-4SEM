@@ -44,12 +44,10 @@ A companhia também atua na parte de fornecimento de infraestrutura para empresa
 Com mais de 400 mil clientes em mais de 145 países em todo o mundo, a Oracle possui como principais metas a aceleração da inovação nos negócios por meio de produtos projetados para funcionarem de forma integrada e adaptativa, de acordo as necessidades de cada empresa.
 
  ## Problema:
-Atualmente o cliente conta com um escritório onde ocorre eventos, palestras e workshops, abertos a colaboradores e público externo. Sendo assim seguindo o atual cenário de restrições devido a pandemia, é necessário a criação de um sistema que gerencie a criação de eventos, a utilização do espaço e quantidade de participantes.
+Atualmente o cliente organiza eventos, palestras e workshops. Essas ocasiões possuem o acesso aberto aos colaboradores e ao público externo. Por conta do atual cenário vigente de SARS-CoV-2 no Brasil, busca-se criar um sistema que gerencie a criação e a logística desses eventos, bem como a utilização do espaço e a quantidade de participantes, de acordo com as profilaxias adotadas pela Organização Mundial da Saúde (OMS).
  
  ## Solução:
-O sistema Endurance tem como objetivo o gerenciamento de eventos, possibilitando a criação e o controle aos colaboradores da empresa.
-O público externo poderá se cadastrar no sistema para participar dos eventos, seguindo as restrições sanitárias devido a pandemia, para tal será realizada a validação da carteira de vacinação dos usuários.
-Os usuários cadastrados serão notificados sobre novos eventos via e-mail, facilitando assim a comunicação.
+O sistema Endurance tem como objetivo principal o gerenciamento de eventos, possibilitando a criação e o controle aos colaboradores da empresa. O público externo poderá ser cadastrado no sistema para participar dos eventos, seguindo as restrições sanitárias devido a pandemia e a validação do comprovante de vacinação contra SARS-CoV-2, tanto para dose única quanto para demais doses. Os usuários cadastrados serão notificados sobre novos eventos e atualizações via e-mail.
  
   ## Documentação:
  - [Backlog](https://trello.com/b/E2Xm3K4N/api-4-sem-endurance-oracle)
