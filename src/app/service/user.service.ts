@@ -28,22 +28,13 @@ export class UserService {
     return this.http.post<User>(`${this.host}/user/update-me`, formData);
   }
 
-  public resetUserPassword(email: string): Observable<CustomHttpResponse> {
-    return this.http.get<CustomHttpResponse>(`${this.host}/user/reset-password/${email}`);
+  public resetUserPasswordFront(cpf: string): Observable<CustomHttpResponse> {
+    return this.http.get<CustomHttpResponse>(`${this.host}/user/reset-password-front/${cpf}`);
   }
+
 
   public updateProfileImage(formData: FormData): Observable<HttpEvent<User>> {
     return this.http.post<User>(`${this.host}/user/update-profile-image`,
-                                  formData,
-                                  {
-                                    reportProgress: true,
-                                    observe: 'events'
-                                  }
-                                );
-  }
-
-  public updateVacineProof(formData: FormData): Observable<HttpEvent<User>> {
-    return this.http.post<User>(`${this.host}/user/vacine-proof`,
                                   formData,
                                   {
                                     reportProgress: true,

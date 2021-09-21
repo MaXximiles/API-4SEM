@@ -26,7 +26,7 @@
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
               </div>
-              <input type="cpf" class="form-control" name="cpf" placeholder="cpf" required ngModel #cpfInput="ngModel">
+              <input type="cpf" mask="000.000.000-00" class="form-control" name="cpf" placeholder="CPF" required ngModel #cpfInput="ngModel">
             </div>
             <span class="help-block" *ngIf="cpfInput.invalid && cpfInput.touched" style="color:red;">Digite um cpf válido</span>
             <div class="input-group mb-2">

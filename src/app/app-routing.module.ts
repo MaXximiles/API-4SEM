@@ -1,3 +1,4 @@
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
@@ -7,6 +8,7 @@ import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'reset-password-front', component: ResetPasswordComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'user/management', component: UserComponent, canActivate: [AuthenticationGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }

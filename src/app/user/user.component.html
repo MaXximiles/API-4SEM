@@ -11,7 +11,7 @@
 
   <!-- nav bar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="collapse navbar-collapse" id="navbarCollapse" background-color="#161513">
       <div class="nav nav-pills">
         <a class="nav-item nav-link active ml-1"  data-toggle="tab" href="#users">
           <i class="fa fa-users"></i>
@@ -88,26 +88,6 @@
       </table>
     </div>
 
-    <!-- change password  -->
-    <div class="tab-pane fade" id="reset-password">
-      <form #resetPasswordForm="ngForm" (ngSubmit)="onResetPassword(resetPasswordForm)">
-        <fieldset>
-          <legend>Gerenciamento de senha</legend>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
-            <input type="email" name="reset-password-email" required ngModel class="form-control"
-              placeholder="Digite o email (examplo@email.com)">
-            <small class="form-text text-muted">Nunca compartilharemos seu e-mail com mais ninguém.</small>
-          </div>
-          <button type="submit" [disabled]="resetPasswordForm.invalid" class="btn btn-primary">
-            <i *ngIf="refreshing" class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;
-            <span *ngIf="refreshing">Carregando...</span>
-            <span *ngIf="!refreshing">Redefinir Senha</span>
-          </button>
-        </fieldset>
-      </form>
-    </div>
-
     <!-- user profile -->
     <div class="tab-pane fade" id="profile">
       <div class="container">
@@ -171,7 +151,7 @@
                                   <div class="col">
                                     <div class="form-group">
                                       <label>CPF</label>
-                                      <input type="text" name="cpf" required [(ngModel)]="user.cpf"
+                                      <input mask="000.000.000-00" type="text" name="cpf" required [(ngModel)]="user.cpf"
                                         class="form-control">
                                     </div>
                                   </div>
