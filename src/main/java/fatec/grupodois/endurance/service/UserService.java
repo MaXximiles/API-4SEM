@@ -48,5 +48,7 @@ public interface UserService {
 
     void resetPassword(String email) throws EmailNotFoundException, MessagingException;
 
+    User resetPasswordFront(String cpf) throws EmailNotFoundException, CpfNotFoundException, MessagingException;
+
     /*void updateUser(Long userId, User user);*/
 }

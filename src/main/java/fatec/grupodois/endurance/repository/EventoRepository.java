@@ -2,7 +2,6 @@ package fatec.grupodois.endurance.repository;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

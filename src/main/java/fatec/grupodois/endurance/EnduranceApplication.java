@@ -7,11 +7,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
 import java.io.File;
 import java.util.Collections;
 
 import static fatec.grupodois.endurance.constant.FileConstant.USER_FOLDER;
-import static java.util.Arrays.*;
+import static java.util.Arrays.asList;
 
 @SpringBootApplication
 public class EnduranceApplication {

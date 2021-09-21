@@ -28,8 +28,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static fatec.grupodois.endurance.constant.FileConstant.*;
-import static fatec.grupodois.endurance.constant.SecurityConstant.*;
-import static org.springframework.http.HttpStatus.*;
+import static fatec.grupodois.endurance.constant.SecurityConstant.JWT_TOKEN_HEADER;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @RestController
@@ -204,13 +205,22 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(user, OK);
     }
 
+    @GetMapping("/reset-password-front/{cpf}")
+    public ResponseEntity<HttpResponse> resetPasswordFront(@PathVariable("cpf") String cpf)
+            throws EmailNotFoundException, MessagingException, CpfNotFoundException {
+
+        User newPassword = userService.resetPasswordFront(cpf);
+
+        return response(OK, "Nova senha enviada para: " + newPassword.getEmail());
+    }
+
     @GetMapping("/reset-password/{email}")
     public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email)
             throws EmailNotFoundException, MessagingException {
 
         userService.resetPassword(email);
 
-        return response(OK, "Nova senha enviada para: " + email);
+        return response(OK, "Nova senha enviada para: " + email.substring(5));
     }
 
     @DeleteMapping("/delete/{id}")

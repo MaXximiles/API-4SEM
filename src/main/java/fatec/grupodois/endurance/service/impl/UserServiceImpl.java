@@ -1,7 +1,7 @@
 package fatec.grupodois.endurance.service.impl;
 
-import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.entity.User;
+import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.enumeration.Role;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.UserRepository;
@@ -33,7 +33,7 @@ import java.util.Optional;
 
 import static fatec.grupodois.endurance.constant.FileConstant.*;
 import static fatec.grupodois.endurance.constant.UserImplConstant.*;
-import static fatec.grupodois.endurance.enumeration.Role.*;
+import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
@@ -295,6 +295,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(encodePassword(password));
         userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, email);
+    }
+
+    @Override
+    public User resetPasswordFront(String cpf) throws CpfNotFoundException, MessagingException {
+        User user = userRepository.findUserByCpf(cpf);
+        if (user == null) {
+            throw new CpfNotFoundException(USER_NOT_FOUND_BY_CPF + cpf);
+        }
+
+        String password = generatePassword();
+        user.setPassword(encodePassword(password));
+        userRepository.save(user);
+        emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
+        return user;
     }
 
     @Override
