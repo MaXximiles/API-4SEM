@@ -50,9 +50,11 @@ Atualmente o cliente organiza eventos, palestras e workshops. Essas ocasiões po
 O sistema Endurance tem como objetivo principal o gerenciamento de eventos, possibilitando a criação e o controle aos colaboradores da empresa. O público externo poderá ser cadastrado no sistema para participar dos eventos, seguindo as restrições sanitárias devido a pandemia e a validação do comprovante de vacinação contra SARS-CoV-2, tanto para dose única quanto para demais doses. Os usuários cadastrados serão notificados sobre novos eventos e atualizações via e-mail.
  
   ## Documentação:
+ - [Instalação](https://github.com/MaXximiles/API-4SEM/blob/main/C%C3%B3digo/Instala%C3%A7%C3%A3o/README.md)
  - [Backlog](https://trello.com/b/E2Xm3K4N/api-4-sem-endurance-oracle)
  - [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
  - [Modelo Conceitual do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
+ 
  <!----
  - [Story Cards] 
  - [BSC]
