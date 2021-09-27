@@ -63,6 +63,8 @@ public class ExceptionHandling implements ErrorController{
         return createHttpResponse(UNAUTHORIZED, exception.getMessage());
     }
 
+    /* Especifico para User */
+
     @ExceptionHandler(EmailExistException.class)
     public ResponseEntity<HttpResponse> emailExistException(EmailExistException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
@@ -87,6 +89,35 @@ public class ExceptionHandling implements ErrorController{
     public ResponseEntity<HttpResponse> userNotFoundException(UserNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
+    /* fim específico para User */
+
+
+    /* Especifico para Evento */
+    @ExceptionHandler(EventIsOccurringException.class)
+    public ResponseEntity<HttpResponse> eventIsOccurringException(EventIsOccurringException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoInicioAfterException.class)
+    public ResponseEntity<HttpResponse> eventoInicioAfterException(EventoInicioAfterException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoInicioExistException.class)
+    public ResponseEntity<HttpResponse> eventoInicioExistException(EventoInicioExistException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoNotFoundException.class)
+    public ResponseEntity<HttpResponse> eventoNotFoundException(EventoNotFoundException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventOutOfOpeningHoursException.class)
+    public ResponseEntity<HttpResponse> eventOutOfOpeningHoursException(EventOutOfOpeningHoursException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+    /* fim específico para Evento */
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<HttpResponse> methodNotSupportedException(HttpRequestMethodNotSupportedException exception) {

@@ -58,20 +58,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void addUser(User user) throws EmailExistException {
-
-        Optional<User> userFound = userRepository.findByEmail(user.getEmail());
-
-        if(userFound.isEmpty()) {
-            userRepository.save(user);
-        }
-
-        throw new EmailExistException("Email " +
-                                        user.getEmail() +
-                                        " já cadastrado.");
-    }
-
-    @Override
     public User register(String firstName, String lastName, String email, String cpf, String password) throws
             EmailExistException,
             CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException {
@@ -163,21 +149,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
        }
     }
 
-    private User fetchUserByCpf(String userCpf) throws CpfNotFoundException {
-
-        Optional<User> user = userRepository.findByCpf(userCpf);
-
-        if(user.isEmpty()) {
-            LOGGER.error("Usuário com cpf " + userCpf + " não encontrado.");
-            throw new CpfNotFoundException("Usuário " +
-                    "com cpf " +
-                    userCpf +
-                    " não encontrado.");
-        }
-
-        return user.get();
-    }
-
     @Override
     public User fetchUserById(Long userId) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
@@ -191,18 +162,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return userRepository.findById(userId).get();
-    }
-
-    @Override
-    public User fetchUserByEmail(String email) throws EmailNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if(user.isEmpty()) {
-            LOGGER.error(USER_NOT_FOUND_BY_EMAIL + email);
-            throw new EmailNotFoundException(USER_NOT_FOUND_BY_EMAIL + email);
-        }
-
-        return userRepository.findByEmail(email).get();
     }
 
     @Override
@@ -240,7 +199,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
             currentUser.setLastName(newLastName);
         }
-
 
         if(StringUtils.isNotEmpty(newEmail) &&
                 StringUtils.isNotBlank(newEmail) &&

@@ -1,10 +1,11 @@
 package fatec.grupodois.endurance.entity;
 
+import fatec.grupodois.endurance.enumeration.LocalEvento;
+import fatec.grupodois.endurance.enumeration.StatusEvento;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -14,37 +15,45 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@Table(name = "EVENTOS")
 public class Evento implements Serializable {
 
     @Id
     @SequenceGenerator(
-            name = "evento_sequence",
-            sequenceName = "evento_sequence",
+            name = "eventos_sequence",
+            sequenceName = "eventos_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.IDENTITY,
-            generator = "student_sequence"
+            generator = "eventos_sequence"
     )
-    private Long eventoId;
-
-    @NotNull
-    private LocalDateTime eventoInicio;
-
-    @NotNull
-    private LocalDateTime eventoFim;
-
+    @Column(name="evt_id", nullable = false)
+    private Long id;
+    @NotBlank
+    @Column(name="evt_inicio", nullable = false)
+    private LocalDateTime inicio;
+    @NotBlank
+    @Column(name="evt_fim", nullable = false)
+    private LocalDateTime fim;
     @NotBlank(message = "Por favor escolha o local do evento")
-    private String eventoLocal;
-
+    @Column(name="evt_local", nullable = false)
+    private LocalEvento local;
     @NotBlank(message = "Por favor especifique o tema do evento")
-    private String eventoTema;
-
-    private String eventoDescricao;
-    private String eventoObservacao;
-    private Long usuarioId;
-
-    private LocalDateTime eventoCriacao = LocalDateTime.now();
-
-    private StatusEvento eventoStatus;
+    @Column(name="evt_tema")
+    private String tema;
+    @Column(name="evt_desc")
+    private String descricao;
+    @Column(name="evt_obs")
+    private String observacao;
+    @Column(name="evt_usr_email")
+    private String userEmail;
+    @Column(name="evt_criacao")
+    private LocalDateTime criacao = LocalDateTime.now();
+    @Column(name="evt_status", nullable = false)
+    private StatusEvento status;
+    @Column(name="evt_max_part", nullable = false)
+    private Integer maxParticipantes;
+    @Column(name="evt_total_part", nullable = false)
+    private Integer totalParticipantes;
 }

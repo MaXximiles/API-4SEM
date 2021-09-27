@@ -1,9 +1,8 @@
 package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
-import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.exception.EventoInicioAfterException;
-import fatec.grupodois.endurance.exception.EventoNotFoundException;
+import fatec.grupodois.endurance.enumeration.StatusEvento;
+import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/events")
-public class EventoController {
+public class EventoController extends ExceptionHandling{
 
 
     private final EventoService eventoService;
@@ -27,16 +26,19 @@ public class EventoController {
         this.eventoService = eventoService;
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento) throws EventoInicioAfterException {
+    @PostMapping("/add/{email}")
+    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento, @PathVariable("email") String email)
+            throws EventoInicioAfterException, EventIsOccurringException,
+            EventoInicioExistException, EventOutOfOpeningHoursException {
 
-        eventoService.addEvento(evento);
+        Evento eventoSaved = eventoService.addEvento(evento);
+        Evento eventoWithOrganizer = eventoService.addOrganizer(email, eventoSaved);
 
-        return new ResponseEntity<>(evento, HttpStatus.CREATED);
+        return new ResponseEntity<>(eventoWithOrganizer, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "/delete/{eventoId}")
-    public ResponseEntity<?> deleteEventoById(@PathVariable("eventoId") Long eventoId)
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteEventoById(@PathVariable("id") Long eventoId)
                                                 throws EventoNotFoundException {
         eventoService.deleteEventoById(eventoId);
 
@@ -50,15 +52,15 @@ public class EventoController {
         return new ResponseEntity<>(eventos, HttpStatus.OK);
     }
 
-    @GetMapping("/fetch/{eventoId}")
-    public ResponseEntity<Evento> fetchEventoById(@PathVariable("eventoId") Long eventoId)
+    @GetMapping("/fetch/{id}")
+    public ResponseEntity<Evento> fetchEventoById(@PathVariable("id") Long eventoId)
                                                     throws EventoNotFoundException {
         Evento evento = eventoService.fetchEventoById(eventoId);
         return new ResponseEntity<>(evento, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/all/status/{eventoStatus}")
-    public ResponseEntity<List<Evento>> fetchEventoListByStatus(@PathVariable("eventoStatus")StatusEvento status) {
+    public ResponseEntity<List<Evento>> fetchEventoListByStatus(@PathVariable("eventoStatus")StatusEvento status) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByStatus(status);
 
         return new ResponseEntity<>(eventos, HttpStatus.OK);
@@ -67,7 +69,7 @@ public class EventoController {
     @GetMapping(path = "/all/date-time/{eventoInicio}")
     public ResponseEntity<List<Evento>> fetchEventoListByDateTime(@PathVariable("eventoInicio")
                                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                          LocalDateTime date) {
+                                                                          LocalDateTime date) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByDateTime(date);
 
         return new ResponseEntity<>(eventos, HttpStatus.OK);
@@ -76,7 +78,7 @@ public class EventoController {
     @GetMapping(path = "/all/date/{eventoInicio}")
     public ResponseEntity<List<Evento>> fetchEventoListByDate(@PathVariable("eventoInicio")
                                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                      LocalDate date) {
+                                                                      LocalDate date) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByDate(date);
 
         return new ResponseEntity<>(eventos, HttpStatus.OK);
@@ -85,7 +87,9 @@ public class EventoController {
     @PutMapping(path = "/update/{eventoId}")
     public ResponseEntity<Evento> updateEvento(@PathVariable("eventoId") Long eventoId,
                                                @RequestBody Evento evento)
-                                            throws EventoNotFoundException, EventoInicioAfterException {
+            throws EventoNotFoundException, EventoInicioAfterException,
+            EventIsOccurringException, EventOutOfOpeningHoursException,
+            EventoInicioExistException {
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }

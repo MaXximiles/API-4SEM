@@ -13,13 +13,9 @@ import java.util.List;
 public interface UserService {
 
 
-    void addUser(User user) throws EmailExistException;
-
     User register( String firstName, String FirstName, String LastName, String email, String Cpf) throws EmailNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException;
 
     User fetchUserById(Long userId) throws UserNotFoundException;
-
-    User fetchUserByEmail(String userEmail) throws EmailNotFoundException;
 
     User findUserByEmail(String email);
 
@@ -49,6 +45,4 @@ public interface UserService {
     void resetPassword(String email) throws EmailNotFoundException, MessagingException;
 
     User resetPasswordFront(String cpf) throws EmailNotFoundException, CpfNotFoundException, MessagingException;
-
-    /*void updateUser(Long userId, User user);*/
 }
