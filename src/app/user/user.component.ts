@@ -117,7 +117,7 @@ export class UserComponent implements OnInit {
   public onUpdateUser(): void {
     const formData = this.userService.createUserFormData(this.currentEmail, this.editUser, this.profileImage);
     this.subscriptions.push(
-      this.userService.updateUser(formData).subscribe(
+      this.userService.updateUser(formData, this.user.email).subscribe(
         (response: User) => {
           this.clickButton('closeEditUserModalButton');
           this.fetchUsers(false);

@@ -20,12 +20,12 @@ export class UserService {
     return this.http.post<User>(`${this.host}/user/add`, formData);
   }
 
-  public updateUser(formData: FormData): Observable<User> {
-    return this.http.post<User>(`${this.host}/user/update`, formData);
+  public updateUser(formData: FormData, adminEmail: string): Observable<User> {
+    return this.http.post<User>(`${this.host}/user/update/${adminEmail}`, formData);
   }
 
   public updateCurrentUser(formData: FormData): Observable<User> {
-    return this.http.post<User>(`${this.host}/user/update-me`, formData);
+    return this.http.post<User>(`${this.host}/user/update-me/`, formData);
   }
 
   public resetUserPasswordFront(cpf: string): Observable<CustomHttpResponse> {
