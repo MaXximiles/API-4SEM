@@ -177,13 +177,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User updateUser(String currentEmail, String newFirstName,
                            String newLastName, String newEmail,
                            String cpf, String role,
-                           boolean isNonLocked, boolean isActive, MultipartFile profileImage)
+                           boolean isNonLocked, boolean isActive, MultipartFile profileImage,
+                           String adminEmail)
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
         User currentUser = validateNewCpfAndEmail(currentEmail, newEmail, cpf);
         boolean flag = false;
-        if(currentUser.getRole() == "ROLE_ADMIN") {
-            flag = true;
+        if(adminEmail!=null) {
+            User isAdmin = userRepository.findUserByEmail(adminEmail);
+            if(isAdmin.getRole().equals("ROLE_ADMIN")) {
+                flag = true;
+            }
         }
 
         if(StringUtils.isNotEmpty(newFirstName) &&
@@ -214,7 +218,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             currentUser.setNotLocked(isNonLocked);
         }
 
-        if(role != currentUser.getRole() && flag) {
+        if(flag) {
             currentUser.setRole(getRoleEnumName(role).name());
             currentUser.setAuthorities(getRoleEnumName(role).getAuthorities());
         }

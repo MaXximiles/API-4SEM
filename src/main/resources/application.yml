@@ -16,7 +16,7 @@ spring:
       enabled: true
       path: /h2-console
   datasource:
-    url: jdbc:oracle:thin:@DB202109231147_high?TNS_ADMIN=C:/Users/jef/Documents/key
+    url: jdbc:oracle:thin:@DB202109231147_high?TNS_ADMIN=C:/key
     driverClassName: oracle.jdbc.OracleDriver
     username: ADMIN
     password: 8aYBPHjr7oudm8

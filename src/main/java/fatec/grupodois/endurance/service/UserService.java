@@ -31,7 +31,8 @@ public interface UserService {
     User updateUser(String currentEmail, String firstName, String lastName,
                     String email, String cpf, String role,
                     boolean isNonLocked, boolean isActive,
-                    MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
+                    MultipartFile profileImage,
+                    String adminEmail) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
 
     User updateProfileImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
 

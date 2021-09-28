@@ -96,12 +96,12 @@ public class UserController extends ExceptionHandling {
 
         User updatedUser = userService.updateUser(currentEmail, firstName, lastName, email, cpf, role,
                 Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive),
-                profileImage);
+                profileImage, null);
 
         return new ResponseEntity<>(updatedUser, OK);
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{adminEmail}")
     @PreAuthorize("hasAnyAuthority('user:update')")
     public ResponseEntity<User> updateUser(@RequestParam("currentEmail") String currentEmail,
                                         @RequestParam("firstName") String firstName,
@@ -111,13 +111,14 @@ public class UserController extends ExceptionHandling {
                                         @RequestParam("role") String role,
                                         @RequestParam("isActive") String isActive,
                                         @RequestParam("isNonLocked") String isNonLocked,
-                                        @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
+                                        @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
+                                           @PathVariable("adminEmail") String adminEmail)
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
         User updatedUser = userService.updateUser(currentEmail, firstName, lastName, email, cpf, role,
                 Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive),
-                profileImage);
+                profileImage, adminEmail);
 
         return new ResponseEntity<>(updatedUser, OK);
     }
