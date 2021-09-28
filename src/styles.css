@@ -36,3 +36,34 @@ td {
     cursor: inherit;
     display: block;
   }
+
+
+  /* ********************   CSS do FullCalendar  ************************************************ */
+
+  /* Fundo da 1ª Linha */
+  .fc-col-header-cell
+  {
+    background-color: #9c9c9c;
+  }
+
+  /* Dias da semana */
+  .fc-col-header-cell-cushion
+  {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  /* Hover passando mouse nos dias */
+  .fc-daygrid-day-frame:hover
+  {
+    background-color:beige;
+  }
+
+  /* Cor dos dias no calendário */
+  .fc-daygrid-day-number
+  {
+    text-decoration: none;
+    color:black
+  }
+
+/* **********************************  Fim do CSS Full Calendar */

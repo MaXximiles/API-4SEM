@@ -10,20 +10,19 @@ import { NotificationType } from '../enum/notification-type.enum';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   public showLoading: boolean = false;
   private subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private authenticationService: AuthenticationService,
-              private notificationService: NotificationService) {}
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService
+  ) {}
 
-  ngOnInit(): void {
-    if (this.authenticationService.isLoggedIn()) {
-      this.router.navigateByUrl('/user/management');
-    }
-  }
+  ngOnInit(): void {}
 
   public onRegister(user: User): void {
     this.showLoading = true;
@@ -31,26 +30,37 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.authenticationService.register(user).subscribe(
         (response: User) => {
           this.showLoading = false;
-          this.sendNotification(NotificationType.SUCCESS, `Uma nova conta foi criada para ${response.firstName}`);
+          this.sendNotification(
+            NotificationType.SUCCESS,
+            `Uma nova conta foi criada para ${response.firstName}`
+          );
         },
         (errorResponse: HttpErrorResponse) => {
-          this.sendNotification(NotificationType.ERROR, errorResponse.error.message);
+          this.sendNotification(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
           this.showLoading = false;
         }
       )
     );
   }
 
-  private sendNotification(notificationType: NotificationType, message: string): void {
+  private sendNotification(
+    notificationType: NotificationType,
+    message: string
+  ): void {
     if (message) {
       this.notificationService.myNofity(notificationType, message);
     } else {
-      this.notificationService.myNofity(notificationType, 'Um erro ocorreu. Por favor tente novamente');
+      this.notificationService.myNofity(
+        notificationType,
+        'Um erro ocorreu. Por favor tente novamente'
+      );
     }
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
-
 }

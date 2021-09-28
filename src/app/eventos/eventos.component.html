@@ -1,0 +1,88 @@
+<app-full-calendar></app-full-calendar>
+<!-- Modal formulario de eventos -->
+
+<button
+  type="button"
+  id="modal1"
+  style="display: none"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#exampleModal"
+  data-whatever="@mdo"
+>
+  Falar com @mdo
+</button>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Formulário de Eventos
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Fechar"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="form-group col">
+              <label for="recipient-name" class="col-form-label">Data:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="data_evento"
+                value=""
+              />
+            </div>
+
+            <div class="form-group col">
+              <label for="recipient-name" class="col-form-label">Hora:</label>
+              <input type="text" class="form-control" id="hora_evento" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Local:</label>
+            <select id="inputEstado" class="form-control" id="local_evento">
+              <option selected>--- Selecione o local ---</option>
+              <option value="lounge">Lounge(10 Lugares)</option>
+              <option value="openspace">Openspace(50 Lugares)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Titulo:</label>
+            <input type="text" class="form-control" id="titulo_evento" />
+          </div>
+
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Descrição:</label>
+            <textarea class="form-control" id="descricao_evento"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Fechar
+        </button>
+        <button type="button" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>

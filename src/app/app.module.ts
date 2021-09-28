@@ -17,6 +17,16 @@ import { UserComponent } from './user/user.component';
 import { FormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { HeaderComponent } from './components/header/header.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EventosComponent } from './eventos/eventos.component';
+import { FullCalendarComponent } from './components/full-calendar/full-calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -61,29 +71,41 @@ const notifierCustomOptions: NotifierOptions = {
   },
 };
 
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin,
+]);
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     UserComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    HeaderComponent,
+    ProfileComponent,
+    EventosComponent,
+    FullCalendarComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FullCalendarModule,
     NotifierModule.withConfig(notifierCustomOptions),
     FormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     AuthenticationService,
     UserService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthenticationGuard,
-    NotificationService
+    NotificationService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

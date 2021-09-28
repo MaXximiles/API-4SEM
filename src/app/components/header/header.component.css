@@ -1,0 +1,16 @@
+.nav-item
+{ 
+  color: #eee; 
+  border-left: solid 1px #eee;
+  border-right: solid 1px #eee;
+  border-radius: 0;
+
+}
+
+.nav-item:hover{ color: rgba(255, 255, 255, 0.801);}
+
+.collapse
+{
+  background-color: #3730A3;
+  border-radius: 5px;
+}

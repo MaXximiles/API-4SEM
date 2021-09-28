@@ -10,7 +10,7 @@ body {
     width: 600px;
     margin-top: auto;
     margin-bottom: auto;
-    background: #afbfd8;
+    background: #536dfe;
     position: relative;
     display: flex;
     justify-content: center;
@@ -44,6 +44,11 @@ body {
 .login_btn {
     width: 100%;
     background: #1B4F72!important;
+    color: white !important;
+}
+.login_btn:hover
+{
+    background: #034875!important;
     color: white !important;
 }
 .login_btn:focus {

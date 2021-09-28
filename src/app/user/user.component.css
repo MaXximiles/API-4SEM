@@ -1,32 +1,63 @@
 td {
   cursor: pointer;
 }
+
 .move-right {
     position: absolute;
     right: 0;
-  }
+}
 
-  .move-left {
-    position: absolute;
-    left: 0;
-  }
+.move-left {
+  position: absolute;
+  left: 0;
+}
 
-  .btn-file {
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-  }
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.btn-info
+{
+  border-color: #2563EB;
+  background-color: #2563EB;
+}
+
+.table-primary
+{
+  background-color: #60A5FA;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th 
+{
+  background-color: #dbeafea6 ;
+  border-color: #2563EB;
+}
+
+.btn-outline-info, .btn-outline-danger
+{
+  color: #2563EB;
+  border-color: #2563EB;
+}
+
+.table
+{
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.185);
+}

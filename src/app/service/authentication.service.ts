@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../model/user';
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -11,52 +15,73 @@ export class AuthenticationService {
     throw new Error('Method not implemented.');
   }
 
+  private usuarioSubject = new BehaviorSubject<User>({});
   public host: string = environment.apiUrl;
   private token: string = '';
   private loggedInEmail!: string;
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    if (this.isLoggedIn()) {
+      this.saveUsuario();
+    }
+  }
 
   public login(user: User): Observable<HttpResponse<User>> {
-    return this.http.post<User>(`${this.host}/user/login`, user, { observe: 'response' });
+    return this.http.post<User>(`${this.host}/user/login`, user, {
+      observe: 'response',
+    });
   }
 
   public register(user: User): Observable<User> {
-
-    return this.http.post<User>
-    (`${this.host}/user/register`, user);
+    return this.http.post<User>(`${this.host}/user/register`, user);
   }
 
   public logOut(): void {
-
     this.token = '';
     this.loggedInEmail = '';
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('users');
+    this.usuarioSubject.next({});
   }
 
   public saveToken(token: string): void {
-
     this.token = token;
     localStorage.setItem('token', token);
   }
 
-  public addUserToLocalCache(user: User): void { localStorage.setItem('user', JSON.stringify(user)); }
+  public addUserToLocalCache(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.saveUsuario();
+  }
 
-  public getUserFromLocalCache(): User { return JSON.parse(localStorage.getItem('user')!); }
+  public getUserFromLocalCache(): User {
+    return JSON.parse(localStorage.getItem('user')!);
+  }
 
-  public loadToken(): void { this.token = localStorage.getItem('token')!; }
+  public loadToken(): void {
+    this.token = localStorage.getItem('token')!;
+  }
 
-  public getToken(): string { return this.token; }
+  public getToken(): string {
+    return this.token;
+  }
+
+  public retornaUsuario() {
+    return this.usuarioSubject.asObservable();
+  }
+
+  public saveUsuario() {
+    const user: User = this.getUserFromLocalCache();
+    this.usuarioSubject.next(user);
+  }
 
   public isLoggedIn(): boolean {
-
     this.loadToken();
-    if(this.token != null && this.token !=='') {
-      if(this.jwtHelper.decodeToken(this.token).sub != null || '') {
-        if(!this.jwtHelper.isTokenExpired(this.token)) {
+    if (this.token != null && this.token !== '') {
+      if (this.jwtHelper.decodeToken(this.token).sub != null || '') {
+        if (!this.jwtHelper.isTokenExpired(this.token)) {
           this.loggedInEmail = this.jwtHelper.decodeToken(this.token).sub;
           return true;
         }
@@ -64,7 +89,5 @@ export class AuthenticationService {
     }
     this.logOut();
     return false;
-   }
-
-
+  }
 }

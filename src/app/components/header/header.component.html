@@ -1,0 +1,42 @@
+<div *ngIf="user$ | async as user">
+  <div *ngIf="user.firstName">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="nav nav-pills">
+          <a
+            class="nav-item nav-link ml-2"
+            data-toggle="tab"
+            href="#eventos"
+            [routerLink]="['eventos']"
+          >
+            <i class="fa fa-coffee"></i>
+            Eventos
+          </a>
+
+          <a
+            class="nav-item nav-link active ml-1"
+            data-toggle="tab"
+            [routerLink]="['user', 'management']"
+          >
+            <i class="fa fa-users"></i>
+            Usuários
+          </a>
+
+          <a class="nav-item nav-link ml-3" data-toggle="tab" [routerLink]="">
+            <i class="fa fa-cogs"></i>
+            Configurações
+          </a>
+
+          <a
+            class="nav-item nav-link move-right mr-3"
+            data-toggle="tab"
+            [routerLink]="['user', 'profile']"
+          >
+            Bem-vindo, {{ user?.firstName }}
+            <i class="fa fa-user"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

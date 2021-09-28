@@ -1,0 +1,253 @@
+<div class="container">
+  <div class="row flex-lg-nowrap">
+    <div class="col">
+      <div class="row">
+        <div class="col mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="e-profile">
+                <div class="row">
+                  <div class="col-12 col-sm-auto">
+                    <div class="mx-auto" style="width: 120px">
+                      <div
+                        class="
+                          d-flex
+                          justify-content-center
+                          align-items-center
+                          rounded
+                        "
+                      >
+                        <img
+                          class="rounded"
+                          height="135"
+                          width="135"
+                          src="{{ user?.profileImageUrl }}"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      col
+                      d-flex
+                      flex-column flex-sm-row
+                      justify-content-between
+                      mb-3
+                    "
+                  >
+                    <div class="text-center text-sm-left mb-2 mb-sm-0">
+                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                        {{ user?.firstName }} {{ user?.lastName }}
+                      </h4>
+                      <p class="mb-0">{{ user?.email }}</p>
+                      <div
+                        *ngIf="user?.lastLoginDateDisplay !== null"
+                        class="text-muted"
+                      >
+                        <small
+                          >Último login:
+                          {{
+                            user?.lastLoginDateDisplay | date: "medium"
+                          }}</small
+                        >
+                      </div>
+                      <div class="mt-2">
+                        <button
+                          (click)="updateProfileImage()"
+                          class="btn btn-primary"
+                          type="button"
+                        >
+                          <i class="fa fa-fw fa-camera"></i>
+                          <span>Trocar foto</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text-center text-sm-right">
+                      <div class="text-muted">
+                        <small
+                          >Cadastro em
+                          {{ user?.joinDate | date: "mediumDate" }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-content pt-3">
+                  <div class="tab-pane active">
+                    <form
+                      #profileUserForm="ngForm"
+                      (ngSubmit)="onUpdateCurrentUser(profileUserForm.value)"
+                      class="form"
+                      novalidate
+                    >
+                      <div class="row">
+                        <div class="col">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Nome</label>
+                                <input
+                                  type="text"
+                                  name="firstName"
+                                  required
+                                  [(ngModel)]="user.firstName"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Sobrenome</label>
+                                <input
+                                  type="text"
+                                  name="lastName"
+                                  required
+                                  [(ngModel)]="user.lastName"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>CPF</label>
+                                <input
+                                  mask="000.000.000-00"
+                                  type="text"
+                                  name="cpf"
+                                  required
+                                  [(ngModel)]="user.cpf"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                <label>Email</label>
+                                <input
+                                  type="text"
+                                  name="email"
+                                  required
+                                  [(ngModel)]="user.email"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col mb-3">
+                              <div class="form-group">
+                                <label>Role</label>
+                                <select
+                                  name="role"
+                                  required
+                                  [(ngModel)]="user.role"
+                                  class="form-control"
+                                >
+                                  <option value="ROLE_GUEST">GUEST</option>
+                                  <option value="ROLE_ORACLE">ORACLE</option>
+                                  <option value="ROLE_ADMIN">ADMIN</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                          <div class="mb-2">
+                            <b>Configurações da Conta</b>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div class="custom-controls-stacked px-2">
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    name="active"
+                                    type="checkbox"
+                                    [(ngModel)]="user.active"
+                                    class="custom-control-input"
+                                  />
+                                  <label class="custom-control-label"
+                                    >Ativar</label
+                                  >
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                  <input
+                                    name="notLocked"
+                                    type="checkbox"
+                                    [(ngModel)]="user.notLocked"
+                                    class="custom-control-input"
+                                  />
+                                  <label class="custom-control-label"
+                                    >Desbloquear</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col d-flex justify-content-end">
+                          <button class="btn btn-primary" type="submit">
+                            <i
+                              *ngIf="refreshing"
+                              class="fas fa-spinner fa-spin"
+                            ></i
+                            >&nbsp;&nbsp;
+                            <span *ngIf="refreshing">Carregando...</span>
+                            <span *ngIf="!refreshing">Salvar</span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 mb-3">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="px-xl-3">
+                <button
+                  (click)="onLogOut()"
+                  class="btn btn-block btn-secondary"
+                >
+                  <span>Logout</span>
+                  <i class="fas fa-sign-in-alt ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title font-weight-bold">Permissões</h6>
+              <h6 *ngFor="let authority of user?.authorities" class="card-text">
+                {{ authority }}
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- profile image change form -->
+<form enctype="multipart/form-data" style="display: none">
+  <input
+    type="file"
+    (change)="onProfileImageChange($event); onUpdateProfileImage()"
+    name="profile-image-input"
+    id="profile-image-input"
+    placeholder="file"
+    accept="image/*"
+  />
+</form>
