@@ -21,9 +21,11 @@ Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores pa
 
 </p></br><h1></h1>
 
-
 ### Detalhes da Sprint:
 Resumo de modificações:
+- Calendário de eventos;
+- Cadastro de eventos; 
+- Exibição de eventos;
 
 
 
