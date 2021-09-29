@@ -16,6 +16,7 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 export class FullCalendarComponent {
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
+    aspectRatio: 2,
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',

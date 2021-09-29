@@ -40,10 +40,49 @@ td {
 
   /* ********************   CSS do FullCalendar  ************************************************ */
 
+  /* Estilo do botão de visualização ativa */
+  .fc-button-active
+  {
+    background-color: #25b3eb !important;
+    border-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Today */
+  .fc-today-button
+  {
+    background-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Superior Voltar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+    margin-right: 2.5px;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
+  /* Estilo Botão Superior Avançar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
   /* Fundo da 1ª Linha */
   .fc-col-header-cell
   {
-    background-color: #9c9c9c;
+    text-transform: capitalize;
+    background-color: #2563EB;
   }
 
   /* Dias da semana */
@@ -56,7 +95,12 @@ td {
   /* Hover passando mouse nos dias */
   .fc-daygrid-day-frame:hover
   {
-    background-color:beige;
+    background-color:rgba(138, 214, 224, 0.295);
+  }
+
+  .fc-daygrid-day.fc-day-today
+  {
+    background-color: #2564eb33 !important; 
   }
 
   /* Cor dos dias no calendário */
@@ -65,5 +109,7 @@ td {
     text-decoration: none;
     color:black
   }
+
+
 
 /* **********************************  Fim do CSS Full Calendar */
