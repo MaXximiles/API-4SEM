@@ -1,0 +1,50 @@
+<div id="pesquisa">
+
+    <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Nome</label>
+          <input type="text" class="form-control" id="pesq_nome_fornecedor"  placeholder="Nome para pesquisa">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">CNPJ</label>
+          <input type="text" class="form-control" id="pesq_cnpj_fornecedor" placeholder="CNPJ para pesquisa">
+        </div>
+
+        <div class="form-group">
+            <a routerLink=""><button type="button" class="btn btn-primary">Pesquisar</button></a>
+            &nbsp;&nbsp;&nbsp;
+            <a routerLink="/fornecedores-form/fornecedores-form.component"><button type="button" class="btn btn-primary" >Novo Fornecedor</button></a>
+        </div>
+        
+      </form>
+
+</div>
+
+
+<div id="resultado">
+
+    <table class="table table-hover table-bordered">
+        
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome Fornecedor</th>
+            <th scope="col">CNPJ</th>
+            <th scope="col">Serviço</th>
+            <th scope="col">Ação</th>
+          </tr>
+        
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>
+
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+
+</div>

@@ -1,0 +1,92 @@
+<div id="formulario" (ngSubmit)="salvaConvidado()" [formGroup]="formConvidado">
+
+    <form>
+      
+      <div class="form-group">
+        <label for="inputAddress">Nome</label>
+        <input type="text" class="form-control" [(ngModel)]="convidado.usuarioFirstName" formControlName="convidado_nome" id="convidado_nome" placeholder="Insira o nome">
+      </div>
+  
+      <div class="form-row">
+        
+        <div class="form-group col-md-5">
+          <label for="inputAddress">CPF</label>
+          <input type="text" class="form-control" [(ngModel)]="convidado.usuarioCpf" formControlName="convidado_cpf" id="convidado_cpf" placeholder="Insira o CPF">
+        </div>
+  
+        <div class="form-group col-md-5">
+          <label for="inputAddress">RG</label>
+          <input type="text" class="form-control" [(ngModel)]="convidado.usuarioRg" formControlName="convidado_rg" id="convidado_rg" placeholder="Insira o RG">
+        </div>
+  
+      </div>
+  
+      <div class="form-row">
+  
+        <div class="form-group form-group col-md-2">
+          <label for="inputAddress">CEP</label>
+          <input type="text" class="form-control" [(ngModel)]="convidado.convidadoCep" formControlName="convidado_cep" id="convidado_cep" placeholder="Insira o CEP" maxlength="9" onblur="pesquisacep(this.value);">
+        </div>
+  
+        <div class="form-group form-group col-md-6">
+          <label for="inputAddress2">Endereço</label>
+          <input type="text" class="form-control" [(ngModel)]="convidado.convidadoEndereco" formControlName="convidado_endereco" id="convidado_endereco" placeholder="Insira o Endereço">
+        </div>
+
+        <div class="form-group form-group col-md-4">
+            <label for="inputAddress">Bairro</label>
+            <input type="text" class="form-control" [(ngModel)]="convidado.convidadoBairro" formControlName="convidado_bairro" id="convidado_bairro" placeholder="Insira o bairro">
+        </div>
+
+      </div>
+
+      <div class="form-row">
+  
+        <div class="form-group form-group col-md-5">
+          <label for="inputAddress2">Cidade</label>
+          <input type="text" class="form-control" [(ngModel)]="convidado.convidadoCidade" formControlName="convidado_cidade" id="convidado_cidade" placeholder="Insira a cidade">
+        </div>
+
+        <div class="form-group form-group col-md-2">
+            <label for="inputAddress2">Estado</label>
+            <input type="text" class="form-control" [(ngModel)]="convidado.convidadoEstado" formControlName="convidado_estado" id="convidado_estado" placeholder="Insira o estado">
+          </div>
+
+        <div class="form-group form-group col-md-4">
+            <label for="inputAddress2">Pais</label>
+            <input type="text" class="form-control" [(ngModel)]="convidado.convidadoPais" formControlName="convidado_pais" id="convidado_pais" placeholder="Insira o Pais">
+        </div>
+
+      </div>
+  
+      <div class="form-row">
+  
+        <div class="form-group col-md-7">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" [(ngModel)]="convidado.usuarioEmail" formControlName="convidado_email" id="convidado_email" placeholder="Email">
+        </div>
+  
+      </div>
+        
+        <div class="form-row">
+  
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Senha</label>
+            <input type="password" class="form-control" [(ngModel)]="convidado.usuarioPassword" formControlName="convidado_senha1" id="convidado_senha1" placeholder="Insira sua Senha">
+          </div>
+  
+          <div class="form-group col-md-6">
+            <label for="inputPassword4"> Confirmar Senha</label>
+            <input type="password" class="form-control" formControlName="convidado_senha2" id="convidado_senha2" placeholder="Confirme sua Senha">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group col-md-4"><button type="reset" class="btn btn-primary">Limpar</button></div>
+          <div class="form-group col-md-4"><button type="submit" class="btn btn-primary">Salvar</button></div>
+          
+        </div>
+        
+      </form>
+  
+  </div>

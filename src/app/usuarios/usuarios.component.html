@@ -1,0 +1,129 @@
+<div id="pesquisa">
+
+  <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nome</label>
+        <input type="text" class="form-control" id="pesq_nome_usuario"  placeholder="Nome para pesquisa">
+      </div>
+
+      <div class="form-row"> 
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="exampleInputEmail1">CPF</label>
+          <input type="text" class="form-control" id="pesq_cpf_usuario"  placeholder="CPF para pesquisa">
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="exampleInputEmail1">RG</label>
+          <input type="text" class="form-control" id="pesq_rg_usuario"  placeholder="RG para pesquisa">
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="exampleInputEmail1">Tipo de Usuário</label>
+          <select class="custom-select my-1 mr-sm-2" id="pesq_tipo_usuario">
+            <option selected>Escolher...</option>
+            <option value="1">Administrador</option>
+            <option value="2">Colaborador Oracle</option>
+            <option value="3">Convidado</option>
+          </select>
+        </div>
+
+      </div>   
+
+      <div class="form-group">
+          <a routerLink="#"><button type="button" class="btn btn-primary">Pesquisar</button></a>
+          &nbsp;&nbsp;&nbsp;
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Novo Usuario</button>
+      </div>
+      
+    </form>
+
+</div>
+
+
+<div id="resultado">
+
+  <table class="table table-hover table-bordered">
+      
+        <tr>
+          <th scope="col" align="center">ID</th>
+          <th scope="col" align="center">NOME</th>
+          <th scope="col" align="center">CPF</th>
+          <th scope="col" align="center">RG</th>
+          <th scope="col" align="center">AÇÃO</th>
+        </tr>
+      
+      <tbody>
+        <tr *ngFor="let usuario of users">
+          <th scope="row" align="center">{{ usuario.usuarioId}}</th>
+          <td align="center">{{ usuario.usuarioFirstName }}</td>
+          <td align="center">{{ usuario.usuarioCpf }}</td>
+          <td align="center">{{ usuario.usuarioRg }}</td>
+          <td align="center"></td>
+
+        </tr>
+        
+      </tbody>
+    </table>
+
+</div>
+
+
+
+
+<!-- Teste de popup -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+  <div class="modal-dialog" role="document">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Selecione o tipo de Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form name="formModal">
+          
+          <div class="form-group">
+            <label for="exampleInputEmail1">Tipo de Usuário</label>
+            <select name="pesq_tipo_usuario" class="custom-select my-1 mr-sm-2" id="pesq_tipo_usuario" >
+            <option value="">Escolher...</option>
+            <option value="1">Administrador</option>
+            <option value="2">Colaborador Oracle</option>
+            <option value="3">Convidado</option>
+          </select>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <a><button type="button" id="btnAbrirPagina" class="btn btn-primary" data-target="#abrirUsuario" onclick="abrirPagina()">Abrir</button></a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+$('#exampleModal').on('show.bs.modal', function (event)
+{
+  var button = $(event.relatedTarget) // Botão que acionou o modal
+  var recipient = button.data('whatever') // Extrai informação dos atributos data-*
+  // Se necessário, você pode iniciar uma requisição AJAX aqui e, então, fazer a atualização em um callback.
+  // Atualiza o conteúdo do modal. Nós vamos usar jQuery, aqui. No entanto, você poderia usar uma biblioteca de data binding ou outros métodos.
+  var modal = $(this)
+  modal.find('.modal-title').text('Nova mensagem para ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
+
+
+</script>

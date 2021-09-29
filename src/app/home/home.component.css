@@ -1,0 +1,20 @@
+.background {
+    padding-top: 10%;
+    text-align: center;
+    position: static;
+}
+
+.endurance_nome {
+
+    font-size: 35px; 
+    font-family: Impact; 
+    color: #094787;
+    text-shadow:
+    0 0 2px #094787,
+    0 0 1px white;
+
+}
+
+.logo {
+    filter: drop-shadow( 1px 1px 1px #094787);
+}
