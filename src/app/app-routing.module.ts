@@ -11,7 +11,7 @@ import { LoginGuard } from './guard/login.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
-  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'reset-password-front', component: ResetPasswordComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'eventos', component: EventosComponent },
   {
