@@ -10,7 +10,7 @@ import { EventosComponent } from './eventos/eventos.component';
 import { LoginGuard } from './guard/login.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'login', component: LoginComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'eventos', component: EventosComponent },
