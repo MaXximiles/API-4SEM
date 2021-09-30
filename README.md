@@ -23,11 +23,12 @@ Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores pa
 
 ### Detalhes da Sprint:
 Resumo de modificações:
+- [Integração com Heroku](https://enduranceweb.herokuapp.com)
 - Calendário de eventos;
 - Cadastro de eventos; 
 - Exibição de eventos;
-
-
+### APRESENTAÇÃO
+<!--[📊 Apresentação em PDF]()-->
 
 </p></br><h1></h1>
 
