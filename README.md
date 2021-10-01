@@ -29,7 +29,7 @@ As seguintes tecnologias foram utilizadas no desenvolvimento do projeto:
 ## Integrantes:
 
 <a href="https://www.linkedin.com/in/maxx-barcelos-aaa106b2"> <img src= "https://img.shields.io/badge/Maximiles%20Barcelos%20--%20Scrum%20Master-Linkedin-blue"></a> <br>
-<a href="https://www.linkedin.com/in/mateus-senne-172905149"> <img src= "https://img.shields.io/badge/Mateus%20Senne%20--%20Product%20Owner-Linkedin-blue"></a> <br>
+<a href="https://www.linkedin.com/in/mateus-senne"> <img src= "https://img.shields.io/badge/Mateus%20Senne%20--%20Product%20Owner-Linkedin-blue"></a> <br>
 <a  href="https://www.linkedin.com/in/rodrigo-tenorio-a56641174"> <img src="https://img.shields.io/badge/Rodrigo%20Amancio%20-Linkedin-blue"></a> <br>
 <a href="https://www.linkedin.com/in/bahij-noureddine-941b681b7/"> <img src= "https://img.shields.io/badge/Bahij%20Noureddine-Linkedin-blue"></a><br>
 <a href="https://www.linkedin.com/in/jeferson-tadeu-das-neves-a98343190/"> <img src= "https://img.shields.io/badge/Jeferson%20Neves-Linkedin-blue"></a> <br>
