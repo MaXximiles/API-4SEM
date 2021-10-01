@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.EventoService;
@@ -26,15 +27,15 @@ public class EventoController extends ExceptionHandling{
         this.eventoService = eventoService;
     }
 
-    @PostMapping("/add/{email}")
-    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento, @PathVariable("email") String email)
+    @PostMapping("/add")
+    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
             EventoInicioExistException, EventOutOfOpeningHoursException {
 
-        Evento eventoSaved = eventoService.addEvento(evento);
-        Evento eventoWithOrganizer = eventoService.addOrganizer(email, eventoSaved);
+        Evento event = eventoService.addEvento(evento);
 
-        return new ResponseEntity<>(eventoWithOrganizer, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/delete/{id}")

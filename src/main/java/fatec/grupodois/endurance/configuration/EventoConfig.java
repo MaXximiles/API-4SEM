@@ -1,6 +1,9 @@
 package fatec.grupodois.endurance.configuration;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
+import fatec.grupodois.endurance.enumeration.LocalEvento;
+import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -9,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -91,7 +96,46 @@ public class EventoConfig {
                     .id(4L)
                     .build();
 
+            LocalTime open = LocalTime.of(10,00,00);
+            LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
+            System.out.println(date);
+
+            // given
+            Evento event = Evento
+                    .builder()
+                    .id(1L)
+                    .inicio(date)
+                    .fim(date.plusHours(2L))
+                    .local(LocalEvento.OPENSPACE.name())
+                    .tema("Lean Agile")
+                    .descricao("Entenda a nova tendência de arquitetura de software")
+                    .observacao("Necessário carteira de vacinação")
+                    .user(user)
+                    .criacao(LocalDateTime.now())
+                    .status(StatusEvento.PENDENTE.name())
+                    .maxParticipantes(50)
+                    .totalParticipantes(1)
+                    .build();
+
+            Evento event2 = Evento
+                    .builder()
+                    .id(2L)
+                    .inicio(date.plusMinutes(30L))
+                    .fim(date.plusHours(3L))
+                    .local(LocalEvento.OPENSPACE.name())
+                    .tema("Lean Agile 2")
+                    .descricao("Entenda a nova tendência de arquitetura de software 2")
+                    .observacao("Necessário carteira de vacinação 2")
+                    .user(user2)
+                    .criacao(LocalDateTime.now())
+                    .status(StatusEvento.PENDENTE.name())
+                    .maxParticipantes(50)
+                    .totalParticipantes(1)
+                    .build();
+
             repo2.saveAll(List.of(user,user2,user3,user4));
+
+            repo.saveAll(List.of(event,event2));
         };
     }
 

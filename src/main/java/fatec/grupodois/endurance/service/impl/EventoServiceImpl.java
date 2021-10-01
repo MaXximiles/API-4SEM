@@ -6,7 +6,7 @@ import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.jni.Local;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,8 +18,10 @@ import java.util.*;
 @Service
 public class EventoServiceImpl implements EventoService {
 
-    private EventoRepository eventoRepository;
+    private final EventoRepository eventoRepository;
 
+
+    @Autowired
     public EventoServiceImpl(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;
     }
@@ -29,18 +31,10 @@ public class EventoServiceImpl implements EventoService {
 
         checkEventIntegrity(evento);
 
-        evento.setCriacao(LocalDateTime.now());
         evento.setMaxParticipantes(evento.getLocal().equals("Openspace")? 50:10);
+        evento.setCriacao(LocalDateTime.now());
         evento.setTotalParticipantes(0);
 
-
-        return eventoRepository.save(evento);
-    }
-
-    @Override
-    public Evento addOrganizer(String email, Evento evento) {
-        Optional<Evento> eventoUpdate = eventoRepository.findById(evento.getId());
-        eventoUpdate.get().setUserEmail(email);
         return eventoRepository.save(evento);
     }
 
@@ -146,8 +140,8 @@ public class EventoServiceImpl implements EventoService {
             eventoDb.setFim(evento.getFim());
         }
 
-        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getLocal().name())) &&
-                !StringUtils.equalsIgnoreCase(evento.getLocal().name(), eventoDb.getLocal().name())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getLocal())) &&
+                !StringUtils.equalsIgnoreCase(evento.getLocal(), eventoDb.getLocal())) {
             eventoDb.setLocal(evento.getLocal());
         }
 
@@ -157,7 +151,7 @@ public class EventoServiceImpl implements EventoService {
         }
 
         if(Objects.nonNull(evento.getStatus()) &&
-                evento.getStatus() != eventoDb.getStatus()) {
+                !evento.getStatus().equalsIgnoreCase(eventoDb.getStatus())) {
             eventoDb.setStatus(evento.getStatus());
         }
         
@@ -188,7 +182,7 @@ public class EventoServiceImpl implements EventoService {
 
         if (eventos.isPresent()) {
             for (Evento s : eventos.get()) {
-                if (evento.getLocal() == s.getLocal()) {
+                if (evento.getLocal().equals(s.getLocal())) {
                     if (s.getInicio().equals(evento.getInicio())) {
                         throw new EventoInicioExistException("Evento já cadastrado com ínício: "
                                 + evento.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));

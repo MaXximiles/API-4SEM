@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.service;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 
@@ -11,8 +12,6 @@ import java.util.List;
 public interface EventoService {
 
     Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException;
-
-    Evento addOrganizer(String email, Evento evento);
 
     void deleteEventoById(Long eventoId) throws EventoNotFoundException;
 

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import javax.mail.MessagingException;
 import java.util.Date;
 
 import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
