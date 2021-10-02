@@ -29,7 +29,7 @@ public class EventoServiceImpl implements EventoService {
 
     public Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException {
 
-        checkEventIntegrity(evento);
+       checkEventIntegrity(evento);
 
         evento.setMaxParticipantes(evento.getLocal().equals("Openspace")? 50:10);
         evento.setCriacao(LocalDateTime.now());
@@ -180,14 +180,16 @@ public class EventoServiceImpl implements EventoService {
 
         Optional<List<Evento>> eventos = eventoRepository.findEventoByDate(date);
 
+        System.out.println(eventos);
+
         if (eventos.isPresent()) {
             for (Evento s : eventos.get()) {
                 if (evento.getLocal().equals(s.getLocal())) {
                     if (s.getInicio().equals(evento.getInicio())) {
                         throw new EventoInicioExistException("Evento já cadastrado com ínício: "
                                 + evento.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
-                    } else if (evento.getInicio().isAfter(s.getInicio()) &&
-                            evento.getInicio().isBefore(s.getFim())) {
+                    } else if (evento.getInicio().toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
+                    evento.getInicio().toLocalTime().isBefore(s.getFim().toLocalTime())) {
                         throw new EventIsOccurringException("Evento ocorrendo no horário de início: "
                                 + evento.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
                     }
