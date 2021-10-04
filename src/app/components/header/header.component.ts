@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
@@ -10,11 +11,10 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class HeaderComponent implements OnInit {
   public user$ = this.authenticationService.retornaUsuario();
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    public router: Router
+  ) {}
 
-  ngOnInit(): void {
-    this.authenticationService.retornaUsuario().subscribe((v) => {
-      console.log(v ? true : false);
-    });
-  }
+  ngOnInit(): void {}
 }

@@ -7,13 +7,13 @@ export const INITIAL_EVENTS: EventInput[] = [
   {
     id: createEventId(),
     title: 'All-day event',
-    start: TODAY_STR
+    start: TODAY_STR,
   },
   {
     id: createEventId(),
     title: 'Timed event',
-    start: TODAY_STR + 'T12:00:00'
-  }
+    start: TODAY_STR + 'T12:00:00',
+  },
 ];
 
 export function createEventId() {

@@ -27,6 +27,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
+import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -89,6 +91,7 @@ FullCalendarModule.registerPlugins([
     ProfileComponent,
     EventosComponent,
     FullCalendarComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ FullCalendarModule.registerPlugins([
     NotifierModule.withConfig(notifierCustomOptions),
     FormsModule,
     NgxMaskModule.forRoot(),
+    NgbModule,
   ],
   providers: [
     AuthenticationService,

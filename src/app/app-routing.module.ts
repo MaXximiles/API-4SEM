@@ -10,10 +10,18 @@ import { EventosComponent } from './eventos/eventos.component';
 import { LoginGuard } from './guard/login.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'reset-password-front', component: ResetPasswordComponent },
-  { path: 'register', component: RegisterComponent},
-  { path: 'eventos', component: EventosComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  {
+    path: 'reset-password-front',
+    component: ResetPasswordComponent,
+    canActivate: [LoginGuard],
+  },
+  { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+  {
+    path: 'eventos',
+    component: EventosComponent,
+    canActivate: [AuthenticationGuard],
+  },
   {
     path: 'user/management',
     component: UserComponent,
@@ -24,7 +32,7 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthenticationGuard],
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/eventos', pathMatch: 'full' },
 ];
 
 @NgModule({

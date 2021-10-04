@@ -1,41 +1,59 @@
 <div *ngIf="user$ | async as user">
   <div *ngIf="user.firstName">
     <nav class="navbar navbar-expand-lg navbar-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="nav nav-pills">
-          <a
-            class="nav-item nav-link ml-2"
-            data-toggle="tab"
-            href="#eventos"
-            [routerLink]="['eventos']"
-          >
-            <i class="fa fa-coffee"></i>
-            Eventos
-          </a>
-
-          <a
-            class="nav-item nav-link active ml-1"
-            data-toggle="tab"
-            [routerLink]="['user', 'management']"
-          >
-            <i class="fa fa-users"></i>
-            Usuários
-          </a>
-
-          <a class="nav-item nav-link ml-3" data-toggle="tab" [routerLink]="">
-            <i class="fa fa-cogs"></i>
-            Configurações
-          </a>
-
-          <a
-            class="nav-item nav-link move-right mr-3"
-            data-toggle="tab"
-            [routerLink]="['user', 'profile']"
-          >
-            Bem-vindo, {{ user?.firstName }}
-            <i class="fa fa-user"></i>
-          </a>
-        </div>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/eventos' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['eventos']"
+            >
+              <i class="fa fa-coffee"></i>
+              Eventos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/user/management' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['user', 'management']"
+            >
+              <i class="fa fa-users"></i>
+              Usuários
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link ml-1" data-toggle="tab" [routerLink]="">
+              <i class="fa fa-cogs"></i>
+              Configurações
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/user/profile' ? 'active' : ''"
+              class="nav-link move-right ml-1 mr-3"
+              data-toggle="tab"
+              [routerLink]="['user', 'profile']"
+            >
+              Bem-vindo, {{ user?.firstName }}
+              <i class="fa fa-user"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   </div>
