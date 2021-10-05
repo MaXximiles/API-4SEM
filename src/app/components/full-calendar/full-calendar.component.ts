@@ -17,7 +17,6 @@ import { EventoService } from 'src/app/service/evento.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalConfig } from '../modal/modal.config';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 @Component({
   selector: 'app-full-calendar',
@@ -29,6 +28,8 @@ export class FullCalendarComponent implements OnInit {
   @ViewChild('calendar') private fullcalendar: FullCalendar;
   @ViewChild('modalEvento') private modalComponent: ModalComponent;
   @ViewChild('eventForm') private eventForm: NgForm;
+
+  editEvent: Evento = new Evento();
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
@@ -42,10 +43,11 @@ export class FullCalendarComponent implements OnInit {
     },
   };
   modalEditConfig: ModalConfig = {
-    modalTitle: 'Editar um Evento',
+    modalTitle: `Editar ${this.editEvent.tema}`,
     dismissButtonLabel: 'Salvar Alterações',
     closeButtonLabel: 'Fechar',
     onDismiss: () => {
+      this.eventForm.ngSubmit.emit();
       return true;
     },
   };
@@ -67,10 +69,9 @@ export class FullCalendarComponent implements OnInit {
         eventos.forEach((evento) => {
           var eventInputTemp: EventInput = {
             id: evento.id.toString(),
-            title: evento.descricao,
+            title: evento.tema,
             start: evento.inicio,
             end: evento.fim,
-            allDay: false,
           };
 
           events.push(eventInputTemp);
@@ -128,31 +129,48 @@ export class FullCalendarComponent implements OnInit {
     );
   }
 
-  public onEditEvent(eventForm: NgForm): void {}
+  public onEditEvent(eventForm: NgForm): void {
+    const formData = this.eventoService.createEventFormData(eventForm.value);
+    this.eventoService.updateEvent(formData).subscribe(
+      (response: Evento) => {
+        this.fullcalendar.getApi().refetchEvents();
+
+        this.sendNotification(
+          NotificationType.SUCCESS,
+          `O evento ${response.descricao} foi atualizado de "${response.inicio}" até "${response.fim}" com sucesso`
+        );
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.sendNotification(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      }
+    );
+  }
 
   // Abre o modal e insere o evento na API (OK)
   handleDateSelect(selectInfo: DateSelectArg) {
     this.openModalInsert();
-
-    const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
-
     calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
   }
 
   // TODO - Quando clicar no evento, abrir o modal de edição (o atributo "clickInfo" tem as informações necessárias)
   handleEventClick(clickInfo: EventClickArg) {
-    this.openModalEdit();
+    this.eventoService
+      .fetchEventById(Number.parseInt(clickInfo.event.id))
+      .subscribe(
+        (evento) => {
+          this.openModalEdit(evento);
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+        }
+      );
   }
 
   // Função é chamada quando o usuário arrasta o evento pra outra data ou expande o horário do evento
@@ -175,9 +193,11 @@ export class FullCalendarComponent implements OnInit {
     });
   }
 
-  openModalEdit(): void {
+  openModalEdit(evento: Evento): void {
+    this.editEvent = evento;
     this.modalConfig = this.modalEditConfig;
     this.modalComponent.open().then(() => {
+      this.editEvent = new Evento();
       this.eventForm.resetForm();
     });
   }

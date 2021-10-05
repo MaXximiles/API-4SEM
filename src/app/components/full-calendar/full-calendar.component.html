@@ -8,12 +8,26 @@
   </div>
 
   <app-modal #modalEvento [modalConfig]="modalConfig">
-    <form #eventForm="ngForm" (ngSubmit)="onAddNewEvent(eventForm)">
+    <form
+      #eventForm="ngForm"
+      (ngSubmit)="
+        editEvent.id ? onEditEvent(eventForm) : onAddNewEvent(eventForm)
+      "
+    >
+      <input
+        [ngModel]="editEvent.id"
+        type="text"
+        class="form-control"
+        name="id"
+        value=""
+        hidden
+      />
+
       <div class="row">
         <div class="form-group col">
           <label for="recipient-name" class="col-form-label">Inicio:</label>
           <input
-            ngModel
+            [ngModel]="editEvent.inicio"
             type="datetime-local"
             class="form-control"
             name="inicio"
@@ -24,7 +38,7 @@
         <div class="form-group col">
           <label for="recipient-name" class="col-form-label">Fim:</label>
           <input
-            ngModel
+            [ngModel]="editEvent.fim"
             type="datetime-local"
             class="form-control"
             name="fim"
@@ -35,28 +49,17 @@
 
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Local:</label>
-        <select ngModel class="form-control" name="local">
+        <select [ngModel]="editEvent.local" class="form-control" name="local">
           <option value="" selected>--- Selecione o local ---</option>
-          <option value="lounge">Lounge(10 Lugares)</option>
-          <option value="openspace">Openspace(50 Lugares)</option>
+          <option value="LOUNGE">Lounge(10 Lugares)</option>
+          <option value="OPENSPACE">Openspace(50 Lugares)</option>
         </select>
-      </div>
-
-      <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Titulo:</label>
-        <input
-          ngModel
-          type="text"
-          class="form-control"
-          name="titulo"
-          id="titulo_evento"
-        />
       </div>
 
       <div class="form-group">
         <label for="recipient-name" class="col-form-label">Tema:</label>
         <input
-          ngModel
+          [ngModel]="editEvent.tema"
           type="text"
           class="form-control"
           name="tema"
@@ -67,7 +70,7 @@
       <div class="form-group">
         <label for="message-text" class="col-form-label">Descrição:</label>
         <textarea
-          ngModel
+          [ngModel]="editEvent.descricao"
           class="form-control"
           name="descricao"
           id="descricao_evento"

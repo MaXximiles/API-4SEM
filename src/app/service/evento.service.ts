@@ -22,6 +22,10 @@ export class EventoService {
     return this.http.get<Evento[]>(`${this.host}/events/all`);
   }
 
+  public fetchEventById(id: number): Observable<Evento> {
+    return this.http.get<Evento>(`${this.host}/events/fetch/${id}`);
+  }
+
   public addEvent(formData: FormData): Observable<Evento> {
     const object = this.formDataToObject(formData);
     const user: User = this.authService.getUserFromLocalCache();
@@ -32,8 +36,17 @@ export class EventoService {
     });
   }
 
+  public updateEvent(formData: FormData): Observable<Evento> {
+    const object = this.formDataToObject(formData);
+    return this.http.put<Evento>(
+      `${this.host}/events/update/${formData.get('id')}`,
+      object
+    );
+  }
+
   public createEventFormData(evento: Evento): FormData {
     const formData = new FormData();
+    formData.append('id', evento.id?.toString() || null);
     formData.append(
       'inicio',
       moment(evento.inicio).format('YYYY-MM-DDTHH:mm:ss')
