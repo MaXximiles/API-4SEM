@@ -1,4 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {
@@ -8,10 +8,13 @@ import {
   EventApi,
   EventDropArg,
   EventInput,
+  FullCalendarComponent as FullCalendar,
 } from '@fullcalendar/angular';
 import ptBRlocale from '@fullcalendar/core/locales/pt-br';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { Evento } from 'src/app/model/event';
 import { EventoService } from 'src/app/service/evento.service';
+import { NotificationService } from 'src/app/service/notification.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalConfig } from '../modal/modal.config';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
@@ -23,20 +26,18 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 })
 export class FullCalendarComponent implements OnInit {
   // Pegando o componente html com o @ViewChild
-  @ViewChild('modalInsert') private modalInsertComponent: ModalComponent;
-  @ViewChild('modalEdit') private modalEditComponent: ModalComponent;
-  @ViewChild('newEventForm') private insertForm: NgForm;
+  @ViewChild('calendar') private fullcalendar: FullCalendar;
+  @ViewChild('modalEvento') private modalComponent: ModalComponent;
+  @ViewChild('eventForm') private eventForm: NgForm;
 
-  // Eventos
-  private eventInput: EventInput[] = [];
-
-  // Configuração dos modais
+  modalConfig: ModalConfig = null;
+  // Configurações do modal
   modalInsertConfig: ModalConfig = {
     modalTitle: 'Inserir um Evento',
     dismissButtonLabel: 'Confirmar Evento',
     closeButtonLabel: 'Fechar',
     onDismiss: () => {
-      this.insertForm.ngSubmit.emit();
+      this.eventForm.ngSubmit.emit();
       return true;
     },
   };
@@ -44,6 +45,9 @@ export class FullCalendarComponent implements OnInit {
     modalTitle: 'Editar um Evento',
     dismissButtonLabel: 'Salvar Alterações',
     closeButtonLabel: 'Fechar',
+    onDismiss: () => {
+      return true;
+    },
   };
 
   // Configuração do calendário
@@ -58,8 +62,22 @@ export class FullCalendarComponent implements OnInit {
     initialView: 'dayGridMonth',
     // Esse aqui é o problema, o calendaário n tá acompanhando as informações
     events: (info, successCallback, failureCallback) => {
-      this.refreshCalendar();
-      successCallback(this.eventInput);
+      this.eventoService.fetchAllEvents().subscribe((eventos) => {
+        const events: EventInput[] = [];
+        eventos.forEach((evento) => {
+          var eventInputTemp: EventInput = {
+            id: evento.id.toString(),
+            title: evento.descricao,
+            start: evento.inicio,
+            end: evento.fim,
+            allDay: false,
+          };
+
+          events.push(eventInputTemp);
+        });
+
+        successCallback(events);
+      });
     },
     weekends: true,
     editable: true,
@@ -82,47 +100,39 @@ export class FullCalendarComponent implements OnInit {
   };
   currentEvents: EventApi[] = [];
 
-  constructor(private eventoService: EventoService) {}
+  constructor(
+    private eventoService: EventoService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {}
-
-  refreshCalendar(): void {
-    this.eventoService.fetchAllEvents().subscribe((eventos) => {
-      eventos.forEach((evento) => {
-        this.addEventoToFullcalendar(evento);
-      });
-
-      this.calendarOptions.events = this.eventInput;
-    });
-  }
-
-  // Adiciona um evento vindo do backend para o fullcalendar no formato dele
-  private addEventoToFullcalendar(evento: Evento) {
-    var eventInputTemp: EventInput = {
-      id: evento.id.toString(),
-      title: evento.descricao,
-      start: evento.inicio,
-      end: evento.fim,
-      allDay: false,
-    };
-
-    this.eventInput.push(eventInputTemp);
-  }
 
   // Função que é chamada quando o usuário finaliza o modal de insert para inserir o evento na API (OK)
   public onAddNewEvent(eventForm: NgForm): void {
     const formData = this.eventoService.createEventFormData(eventForm.value);
-    this.eventoService.addEvent(formData).subscribe((result) => {
-      this.refreshCalendar();
-    });
+    this.eventoService.addEvent(formData).subscribe(
+      (response: Evento) => {
+        this.fullcalendar.getApi().refetchEvents();
+
+        this.sendNotification(
+          NotificationType.SUCCESS,
+          `O evento ${response.descricao} foi marcado com de "${response.inicio}" até "${response.fim}" com sucesso`
+        );
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.sendNotification(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      }
+    );
   }
+
+  public onEditEvent(eventForm: NgForm): void {}
 
   // Abre o modal e insere o evento na API (OK)
   handleDateSelect(selectInfo: DateSelectArg) {
-    this.modalInsertComponent.open().then((result) => {
-      if (result) {
-      }
-    });
+    this.openModalInsert();
 
     const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
@@ -142,13 +152,7 @@ export class FullCalendarComponent implements OnInit {
 
   // TODO - Quando clicar no evento, abrir o modal de edição (o atributo "clickInfo" tem as informações necessárias)
   handleEventClick(clickInfo: EventClickArg) {
-    if (
-      confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      clickInfo.event.remove();
-    }
+    this.openModalEdit();
   }
 
   // Função é chamada quando o usuário arrasta o evento pra outra data ou expande o horário do evento
@@ -162,5 +166,33 @@ export class FullCalendarComponent implements OnInit {
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+  }
+
+  openModalInsert(): void {
+    this.modalConfig = this.modalInsertConfig;
+    this.modalComponent.open().then(() => {
+      this.eventForm.resetForm();
+    });
+  }
+
+  openModalEdit(): void {
+    this.modalConfig = this.modalEditConfig;
+    this.modalComponent.open().then(() => {
+      this.eventForm.resetForm();
+    });
+  }
+
+  private sendNotification(
+    notificationType: NotificationType,
+    message: string
+  ): void {
+    if (message) {
+      this.notificationService.myNofity(notificationType, message);
+    } else {
+      this.notificationService.myNofity(
+        notificationType,
+        'Um erro ocorreu. Por favor tente novamente'
+      );
+    }
   }
 }

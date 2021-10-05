@@ -41,6 +41,7 @@ export class EventoService {
     formData.append('fim', moment(evento.fim).format('YYYY-MM-DDTHH:mm:ss'));
     formData.append('local', evento.local);
     formData.append('tema', evento.tema);
+    formData.append('descricao', evento.descricao);
     return formData;
   }
 
