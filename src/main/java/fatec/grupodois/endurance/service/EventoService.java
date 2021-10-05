@@ -27,4 +27,5 @@ public interface EventoService {
 
     Evento updateEvento(Long eventoId, Evento evento) throws EventoNotFoundException, EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoInicioExistException;
 
+    Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException;
 }

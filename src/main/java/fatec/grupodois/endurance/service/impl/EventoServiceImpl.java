@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.EventoRepository;
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import static fatec.grupodois.endurance.constant.EventoImplConstant.*;
 
 @Service
 public class EventoServiceImpl implements EventoService {
@@ -34,6 +37,7 @@ public class EventoServiceImpl implements EventoService {
         evento.setMaxParticipantes(evento.getLocal().equals("Openspace")? 50:10);
         evento.setCriacao(LocalDateTime.now());
         evento.setTotalParticipantes(0);
+        evento.setParticipantes(new ArrayList<>());
 
         return eventoRepository.save(evento);
     }
@@ -159,6 +163,21 @@ public class EventoServiceImpl implements EventoService {
         return eventoRepository.save(eventoDb);
     }
 
+    @Override
+    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException {
+
+        Evento event = fetchEventoById(id);
+
+        boolean flag = event.addParticipante(user);
+
+        if(flag) {
+            return eventoRepository.save(event);
+        } else {
+            throw new EventoFullException(EVENT_IS_FULL);
+        }
+
+    }
+
     private void checkEventIntegrity(Evento evento) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
             EventoInicioExistException, EventIsOccurringException {
         if(evento.getInicio().isAfter(evento.getFim())) {
@@ -173,7 +192,7 @@ public class EventoServiceImpl implements EventoService {
                 || evento.getFim().toLocalTime().isAfter(close)
                 || evento.getInicio().toLocalTime().isAfter(close)
                 || evento.getFim().toLocalTime().isBefore(open)) {
-            throw new EventOutOfOpeningHoursException("Evento fora do horário de funcionamento: 08:00 às 22:00");
+            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS);
         }
 
         LocalDate date = evento.getInicio().toLocalDate();
@@ -186,11 +205,11 @@ public class EventoServiceImpl implements EventoService {
             for (Evento s : eventos.get()) {
                 if (evento.getLocal().equals(s.getLocal())) {
                     if (s.getInicio().equals(evento.getInicio())) {
-                        throw new EventoInicioExistException("Evento já cadastrado com ínício: "
+                        throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
                                 + evento.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
                     } else if (evento.getInicio().toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
                     evento.getInicio().toLocalTime().isBefore(s.getFim().toLocalTime())) {
-                        throw new EventIsOccurringException("Evento ocorrendo no horário de início: "
+                        throw new EventIsOccurringException(EVENT_IS_OCCURRING
                                 + evento.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
                     }
                 }

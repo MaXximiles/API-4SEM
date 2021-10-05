@@ -38,6 +38,15 @@ public class EventoController extends ExceptionHandling{
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
 
+    @PutMapping("/add-guest/{id}")
+    public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
+            throws EventoNotFoundException, EventoFullException {
+
+        Evento event = eventoService.addParticipante(user, id);
+
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteEventoById(@PathVariable("id") Long eventoId)
                                                 throws EventoNotFoundException {

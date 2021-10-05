@@ -23,7 +23,7 @@ import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 @Configuration
 public class EventoConfig {
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Bean
     CommandLineRunner commandLineRunner(EventoRepository repo, UserRepository repo2) {

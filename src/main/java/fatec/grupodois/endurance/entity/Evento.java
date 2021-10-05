@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -36,11 +37,11 @@ public class Evento implements Serializable {
     @Column(name="evt_fim", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fim;
-    @NotBlank(message = "Por favor escolha o local do evento")
+    @NotBlank()
     @Column(name="evt_local", nullable = false)
     private String local;
-    @NotBlank(message = "Por favor especifique o tema do evento")
-    @Column(name="evt_tema")
+    @NotBlank()
+    @Column(name="evt_tema", nullable = false)
     private String tema;
     @Column(name="evt_desc")
     private String descricao;
@@ -60,4 +61,27 @@ public class Evento implements Serializable {
     private Integer maxParticipantes;
     @Column(name="evt_total_part", nullable = false)
     private Integer totalParticipantes;
+
+    @ManyToMany
+    @JoinTable(
+            name="evento_usuario_part",
+            joinColumns = @JoinColumn(
+                    name = "eup_evt_id",
+                    referencedColumnName = "evt_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "eup_usr_id",
+                    referencedColumnName = "usr_id"
+            )
+    )
+    private List<User> participantes;
+
+    public boolean addParticipante(User user) {
+        if(this.maxParticipantes > this.totalParticipantes) {
+            participantes.add(user);
+            this.maxParticipantes++;
+            return true;
+        }
+        return false;
+    }
 }
