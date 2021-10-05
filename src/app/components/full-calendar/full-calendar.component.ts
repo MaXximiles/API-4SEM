@@ -57,7 +57,10 @@ export class FullCalendarComponent implements OnInit {
     },
     initialView: 'dayGridMonth',
     // Esse aqui é o problema, o calendaário n tá acompanhando as informações
-    events: this.eventInput,
+    events: (info, successCallback, failureCallback) => {
+      this.refreshCalendar();
+      successCallback(this.eventInput);
+    },
     weekends: true,
     editable: true,
     selectable: true,
@@ -81,10 +84,7 @@ export class FullCalendarComponent implements OnInit {
 
   constructor(private eventoService: EventoService) {}
 
-  ngOnInit(): void {
-    // Popula o calendário (em teoria)
-    this.refreshCalendar();
-  }
+  ngOnInit(): void {}
 
   refreshCalendar(): void {
     this.eventoService.fetchAllEvents().subscribe((eventos) => {
