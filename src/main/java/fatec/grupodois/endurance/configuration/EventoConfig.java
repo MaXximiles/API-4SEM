@@ -114,7 +114,7 @@ public class EventoConfig {
                     .criacao(LocalDateTime.now())
                     .status(StatusEvento.PENDENTE.name())
                     .maxParticipantes(50)
-                    .totalParticipantes(1)
+                    .totalParticipantes(0)
                     .build();
 
             Evento event2 = Evento
@@ -130,7 +130,7 @@ public class EventoConfig {
                     .criacao(LocalDateTime.now())
                     .status(StatusEvento.PENDENTE.name())
                     .maxParticipantes(50)
-                    .totalParticipantes(1)
+                    .totalParticipantes(0)
                     .build();
 
             repo2.saveAll(List.of(user,user2,user3,user4));

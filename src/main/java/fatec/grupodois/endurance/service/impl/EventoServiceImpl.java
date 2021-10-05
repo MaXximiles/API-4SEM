@@ -154,6 +154,11 @@ public class EventoServiceImpl implements EventoService {
             eventoDb.setObservacao(evento.getObservacao());
         }
 
+        if(StringUtils.isNotEmpty(StringUtils.trim(evento.getDescricao())) &&
+                !StringUtils.equalsIgnoreCase(evento.getDescricao(), eventoDb.getDescricao())) {
+            eventoDb.setObservacao(evento.getDescricao());
+        }
+
         if(Objects.nonNull(evento.getStatus()) &&
                 !evento.getStatus().equalsIgnoreCase(eventoDb.getStatus())) {
             eventoDb.setStatus(evento.getStatus());
