@@ -42,13 +42,13 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 @Qualifier("UserService")
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    private EmailService emailService;
+    private final EmailService emailService;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User register(String firstName, String lastName, String email, String cpf, String password) throws
             EmailExistException,
-            CpfExistException, CpfNotFoundException, UserNotFoundException, MessagingException {
+            CpfExistException, CpfNotFoundException, UserNotFoundException {
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
         String encodedPassword = encodePassword(password);
@@ -123,7 +123,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf) throws EmailExistException, CpfExistException, CpfNotFoundException, UserNotFoundException {
+    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf)
+            throws EmailExistException, CpfExistException,
+            CpfNotFoundException, UserNotFoundException {
         User userByNewEmail = findUserByEmail(newEmail);
         User userByNewCpf = findUserByCpf(newCpf);
         if(StringUtils.isNotBlank(currentEmail)) {
