@@ -80,7 +80,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                      <tr>
                             <td align=center>Sprint 2<br>20/09/2021 a 10/10/2021</td>
-                            <td> <p align=center> Cadastro de Eventos; &nbsp Notificação de novos eventos; &nbsp Aviso de alteração na agenda; &nbsp Exibição do status de agendamento;                     
+                            <td> <p align=center> Cadastro de Eventos; &nbsp Notificação de novos eventos; &nbsp Aviso de alteração na agenda; &nbsp Exibição do status de agendamento; &nbsp Versionamento do Banco de dados;                    
                             <p align=center>                          
                             </p>
                             </td>
@@ -88,7 +88,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center> Edição de níveis de usuário para o administrador;  &nbsp Atualização da prioridade de acordo com o nível de usuário;  &nbsp Exibição do status de agendamento; &nbsp Versionamento do Banco de dados;                             
+                            <td> <p align=center> Edição de níveis de usuário para o administrador;  &nbsp Atualização da prioridade de acordo com o nível de usuário;  &nbsp Exibição do status de agendamento;                              
                       <p align=center>                          
                       </p>
                       </td>
