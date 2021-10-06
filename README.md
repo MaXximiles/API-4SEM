@@ -27,6 +27,7 @@ Resumo de modificações:
 - Calendário de eventos;
 - Cadastro de eventos; 
 - Exibição de eventos;
+- Versionamento do Banco de Dados;
 ### APRESENTAÇÃO
 <!--[📊 Apresentação em PDF]()-->
 
