@@ -1,16 +1,14 @@
 {
   "name": "enduranceapp",
   "version": "0.0.0",
-   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --port $PORT --host 0.0.0.0 --disable-host-check node --max_old_space_size=2560 node_modules/.bin/react-scripts start",
-    "build": "ng build --prod node --max_old_space_size=2560 node_modules/.bin/react-scripts build", 
+  "scripts": {
+    "start": "ng serve --port $PORT --host 0.0.0.0 --disable-host-check",
+    "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test react-scripts test",
-    "eject": "react-scripts eject",
+    "test": "ng test",
     "postinstall": "ng build --aot --prod",
     "heroku-postbuild": "ng build --configuration=production"
-  }, 
+  },
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^12.2.7",
