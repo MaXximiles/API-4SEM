@@ -1,49 +1,149 @@
 package fatec.grupodois.endurance.configuration;
 
 import fatec.grupodois.endurance.entity.Evento;
-import fatec.grupodois.endurance.entity.StatusEvento;
-import fatec.grupodois.endurance.entity.TipoUsuario;
 import fatec.grupodois.endurance.entity.User;
+import fatec.grupodois.endurance.enumeration.LocalEvento;
+import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
+
+import static fatec.grupodois.endurance.enumeration.Role.ROLE_ADMIN;
+import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 
 @Configuration
 public class EventoConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunner(EventoRepository repo) {
-        return args -> {
-            Evento evento1 = Evento.builder()
-                    .eventoTema("Teste1")
-                    .eventoDescricao("Descricao1")
-                    .eventoLocal("Local1")
-                    .eventoCriacao(LocalDateTime.now())
-                    .eventoInicio(LocalDateTime.of(LocalDate.of(2021, 10, 5), LocalTime.of(14, 30, 0)))
-                    .eventoFim(LocalDateTime.of(LocalDate.of(2021, 10, 5), LocalTime.of(15, 30, 0)))
-                    .eventoStatus(StatusEvento.PENDENTE)
-                    .eventoObservacao("AGENDAMENTO ENVIADO")
-                    .build();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            Evento evento2 = Evento.builder()
-                    .eventoTema("Teste2")
-                    .eventoDescricao("Descricao2")
-                    .eventoLocal("Local2")
-                    .eventoCriacao(LocalDateTime.now())
-                    .eventoInicio(LocalDateTime.of(LocalDate.of(2021, 11, 5), LocalTime.of(14, 30, 0)))
-                    .eventoFim(LocalDateTime.of(LocalDate.of(2021, 11, 5), LocalTime.of(15, 30, 0)))
-                    .eventoStatus(StatusEvento.PENDENTE)
-                    .eventoObservacao("AGENDAMENTO ENVIADO")
-                    .build();
+//     @Bean
+//     CommandLineRunner commandLineRunner(EventoRepository repo, UserRepository repo2) {
+//         return args -> {
 
-            repo.saveAll(List.of(evento1, evento2));
-        };
+//             String password = "12345";
+//             String encodedPassword = encodePassword(password);
+
+//             User user = User
+//                     .builder()
+//                     .firstName("Jeferson")
+//                     .lastName("Tadeu das Neves")
+//                     .email("jefh.neves@gmail.com")
+//                     .cpf("97301794096")
+//                     .joinDate(new Date())
+//                     .password(encodedPassword)
+//                     .isActive(true)
+//                     .isNotLocked(true)
+//                     .role(ROLE_ADMIN.name())
+//                     .authorities(ROLE_ADMIN.getAuthorities())
+//                     .profileImageUrl("https://robohash.org/jefh/?set=set2")
+//                     .id(1L)
+//                     .build();
+
+//             User user2 = User
+//                     .builder()
+//                     .firstName("John")
+//                     .lastName("Doe")
+//                     .email("john.doe@gmail.com")
+//                     .cpf("94652025092")
+//                     .joinDate(new Date())
+//                     .password(encodedPassword)
+//                     .isActive(true)
+//                     .isNotLocked(true)
+//                     .role(ROLE_GUEST.name())
+//                     .authorities(ROLE_GUEST.getAuthorities())
+//                     .profileImageUrl("https://robohash.org/john/?set=set2")
+//                     .id(2L)
+//                     .build();
+
+//             User user3 = User
+//                     .builder()
+//                     .firstName("Alice")
+//                     .lastName("Doe")
+//                     .email("alice.doe@gmail.com")
+//                     .cpf("50711886008")
+//                     .joinDate(new Date())
+//                     .password(encodedPassword)
+//                     .isActive(true)
+//                     .isNotLocked(true)
+//                     .role(ROLE_GUEST.name())
+//                     .authorities(ROLE_GUEST.getAuthorities())
+//                     .profileImageUrl("https://robohash.org/alice/?set=set2")
+//                     .id(3L)
+//                     .build();
+
+//             User user4 = User
+//                     .builder()
+//                     .firstName("Bob")
+//                     .lastName("Doe")
+//                     .email("bob.doe@gmail.com")
+//                     .cpf("14880584070")
+//                     .joinDate(new Date())
+//                     .password(encodedPassword)
+//                     .isActive(true)
+//                     .isNotLocked(true)
+//                     .role(ROLE_GUEST.name())
+//                     .authorities(ROLE_GUEST.getAuthorities())
+//                     .profileImageUrl("https://robohash.org/bob/?set=set2")
+//                     .id(4L)
+//                     .build();
+
+//             LocalTime open = LocalTime.of(10,00,00);
+//             LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
+//             System.out.println(date);
+
+//             // given
+//             Evento event = Evento
+//                     .builder()
+//                     .id(1L)
+//                     .inicio(date)
+//                     .fim(date.plusHours(1L))
+//                     .local("teste")
+//                     .tema("Lean Agile")
+//                     .descricao("Entenda a nova tendência de arquitetura de software")
+//                     .observacao("Necessário carteira de vacinação")
+//                     .user(user)
+//                     .criacao(LocalDateTime.now())
+//                     .status(StatusEvento.PENDENTE.name())
+//                     .maxParticipantes(50)
+//                     .totalParticipantes(0)
+//                     .build();
+
+//             Evento event2 = Evento
+//                     .builder()
+//                     .id(2L)
+//                     .inicio(date.plusMinutes(30L))
+//                     .fim(date.plusHours(3L))
+//                     .local(LocalEvento.OPENSPACE.name())
+//                     .tema("Lean Agile 2")
+//                     .descricao("Entenda a nova tendência de arquitetura de software 2")
+//                     .observacao("Necessário carteira de vacinação 2")
+//                     .user(user2)
+//                     .criacao(LocalDateTime.now())
+//                     .status(StatusEvento.PENDENTE.name())
+//                     .maxParticipantes(50)
+//                     .totalParticipantes(0)
+//                     .build();
+
+//             repo2.saveAll(List.of(user,user2,user3,user4));
+
+//             repo.saveAll(List.of(event,event2));
+//         };
+//     }
+
+    private String generatePassword() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }

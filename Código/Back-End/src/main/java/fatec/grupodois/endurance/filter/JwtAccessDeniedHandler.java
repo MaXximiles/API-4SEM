@@ -6,12 +6,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Locale;
 
 import static fatec.grupodois.endurance.constant.SecurityConstant.ACCESS_DENIED_MESSAGE;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -27,7 +25,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
         HttpResponse httpResponse = new HttpResponse(UNAUTHORIZED.value(),
                 UNAUTHORIZED,
-                UNAUTHORIZED.getReasonPhrase().toUpperCase(Locale.ROOT),
+                UNAUTHORIZED.getReasonPhrase(),
                 ACCESS_DENIED_MESSAGE);
 
         response.setContentType(APPLICATION_JSON_VALUE);

@@ -1,104 +1,115 @@
- /* CSS - NAVBAR APP */
-html {
-    box-sizing: border-box;
-  }
-  
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    font-family: "Open Sans", sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  
-  h1 {
-    width: 500px;
-    margin: 100px auto 20px;
-    color: #f0f0f0;
-    text-align: center;
-  }
-  
-  .nav {
-    width: 100%;
-    margin: 0 auto;
-    background: #094787;
-    color: #f0f0f0;
-  }
-  .nav a {
-    color: #f0f0f0;
-    text-decoration: none;
-    display: block;
-    padding: 0 16px;
-    line-height: inherit;
-    cursor: pointer;
-  }
-  .nav__menu {
-    width: 100%;
-    line-height: 45px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .nav__menu-item {
-    display: inline-block;
-    position: relative;
-  }
-  .img__menu-logo{
-    width: auto;
-    height: 45px;
-    padding: 5px;
+/* You can add global styles to this file, and also import other style files */
+@import 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css';
+@import 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
+@import '~angular-notifier/styles';
 
-  }
-  .nav__menu-logo {
-    display: inline-block;
-    float: right;
-  }
-  .nav__menu-item:hover {
-    background-color: #0b4f94;
-  }
-  .nav__menu-item:hover .nav__submenu {
-    display: block;
-  }
-  .nav__submenu {
-    font-weight: 300;
-    text-transform: none;
-    display: none;
+
+td {
+  cursor: pointer;
+}
+.move-right {
     position: absolute;
-    width: 220px;
-    background-color: #0b4f94;
-  }
-  .nav__submenu-item:hover {
-    background: rgba(0, 0, 0, 0.1);
+    right: 0;
   }
 
+  .move-left {
+    position: absolute;
+    left: 0;
+  }
 
-/* CSS DE FORMULÁRIOS */
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
 
-#formulario, #resultado, #pesquisa
-{
-    margin-top: 10px;
-    margin-bottom: 25px;
-    padding: 10px;
-    width: auto;
-    background: #8BBAD0;
-    box-shadow: 2px 2px 7px  #000000;
-}
 
-.btn-primary, .btn-primary:active, .btn-primary:visited {
-  background-color: #0d5caa !important;
-  border: solid 1px black;
-}
+  /* ********************   CSS do FullCalendar  ************************************************ */
 
-.btn-primary:hover {
-  background-color: #094787 !important;
-  border: solid 1px black;
-}
+  /* Estilo do botão de visualização ativa */
+  .fc-button-active
+  {
+    background-color: #25b3eb !important;
+    border-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Today */
+  .fc-today-button
+  {
+    background-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Superior Voltar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+    margin-right: 2.5px;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
+  /* Estilo Botão Superior Avançar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
+  /* Fundo da 1ª Linha */
+  .fc-col-header-cell
+  {
+    text-transform: capitalize;
+    background-color: #2563EB;
+  }
+
+  /* Dias da semana */
+  .fc-col-header-cell-cushion
+  {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  /* Hover passando mouse nos dias */
+  .fc-daygrid-day-frame:hover
+  {
+    background-color:rgba(138, 214, 224, 0.295);
+  }
+
+  .fc-daygrid-day.fc-day-today
+  {
+    background-color: #2564eb33 !important; 
+  }
+
+  /* Cor dos dias no calendário */
+  .fc-daygrid-day-number
+  {
+    text-decoration: none;
+    color:black
+  }
+
+
+
+/* **********************************  Fim do CSS Full Calendar */

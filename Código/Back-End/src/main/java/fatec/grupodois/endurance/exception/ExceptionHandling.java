@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import fatec.grupodois.endurance.entity.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,17 @@ import static org.springframework.http.HttpStatus.*;
 
 
 @RestControllerAdvice
-public class ExceptionHandling {
+public class ExceptionHandling implements ErrorController{
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private final String ACCOUNT_LOCKED = "Sua conta foi bloqueada. Por favor contate um admnistrador";
-    private final String METHOD_IS_NOT_ALLOWED = "Requisição não disponível. Por favor requisite uma '%s' requisição";
-    private final String INTERNAL_SERVER_ERROR_MSG = "Um erro ocorreu ao processar sua requisição";
-    private final String INCORRECT_CREDENTIALS = "Email / senha incorreto. Por favor tente novamente";
-    private final String ACCOUNT_DISABLED = "Sua conta foi desabilitada. Por favor contate um admnistrador";
-    private final String ERROR_PROCESSING_FILE = "Um erro ocorreu ao processar arquivo";
-    private final String NOT_ENOUGH_PERMISSION = "Usuário não possui permissão necessária";
+    private static final String ACCOUNT_LOCKED = "Sua conta foi bloqueada. Por favor contate um admnistrador";
+    private static final String METHOD_IS_NOT_ALLOWED = "Requisição não disponível. Por favor requisite uma '%s' requisição";
+    private static final String INTERNAL_SERVER_ERROR_MSG = "Um erro ocorreu ao processar sua requisição";
+    private static final String INCORRECT_CREDENTIALS = "Email / senha incorreto. Por favor tente novamente";
+    private static final String ACCOUNT_DISABLED = "Sua conta foi desabilitada. Por favor contate um admnistrador";
+    private static final String ERROR_PROCESSING_FILE = "Um erro ocorreu ao processar arquivo";
+    private static final String NOT_ENOUGH_PERMISSION = "Usuário não possui permissão necessária";
+    public static final String ERROR_PATH = "/error";
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<HttpResponse> accountDisableException() {
@@ -61,6 +63,8 @@ public class ExceptionHandling {
         return createHttpResponse(UNAUTHORIZED, exception.getMessage());
     }
 
+    /* Especifico para User */
+
     @ExceptionHandler(EmailExistException.class)
     public ResponseEntity<HttpResponse> emailExistException(EmailExistException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
@@ -71,10 +75,49 @@ public class ExceptionHandling {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(CpfExistException.class)
+    public ResponseEntity<HttpResponse> cpfExistException(CpfExistException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(CpfNotFoundException.class)
+    public ResponseEntity<HttpResponse> cpfNotFoundException(CpfNotFoundException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<HttpResponse> userNotFoundException(UserNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
+    /* fim específico para User */
+
+
+    /* Especifico para Evento */
+    @ExceptionHandler(EventIsOccurringException.class)
+    public ResponseEntity<HttpResponse> eventIsOccurringException(EventIsOccurringException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoInicioAfterException.class)
+    public ResponseEntity<HttpResponse> eventoInicioAfterException(EventoInicioAfterException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoInicioExistException.class)
+    public ResponseEntity<HttpResponse> eventoInicioExistException(EventoInicioExistException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventoNotFoundException.class)
+    public ResponseEntity<HttpResponse> eventoNotFoundException(EventoNotFoundException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
+    @ExceptionHandler(EventOutOfOpeningHoursException.class)
+    public ResponseEntity<HttpResponse> eventOutOfOpeningHoursException(EventOutOfOpeningHoursException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+    /* fim específico para Evento */
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<HttpResponse> methodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
@@ -104,9 +147,18 @@ public class ExceptionHandling {
 
         return new ResponseEntity<>(new HttpResponse(httpStatus.value(),
                                             httpStatus,
-                                            httpStatus.getReasonPhrase().toUpperCase(),
-                                            message.toUpperCase()
+                                            httpStatus.getReasonPhrase(),
+                                            message
                                             ),
                                             httpStatus);
+    }
+
+    @RequestMapping(ERROR_PATH)
+    public ResponseEntity<HttpResponse> notFound404() {
+        return createHttpResponse(NOT_FOUND, "URL não encontrado...");
+    }
+
+    public String getErrorPath() {
+        return ERROR_PATH;
     }
 }

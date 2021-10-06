@@ -1,40 +1,115 @@
+import { AuthenticationGuard } from './guard/authentication.guard';
+import { AuthenticationService } from './service/authentication.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UsuariosAdminComponent } from './usuarios-admin/usuarios-admin.component';
-import { FornecedoresComponent } from './fornecedores/fornecedores.component';
-import { HomeComponent } from './home/home.component';
-import { FornecedoresFormComponent } from './fornecedores-form/fornecedores-form.component';
-import { UsuariosColaboradorComponent } from './usuarios-colaborador/usuarios-colaborador.component';
-import { UsuariosConvidadoComponent } from './usuarios-convidado/usuarios-convidado.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
-import { UsuariosColaboradorService } from './usuarios-colaborador/usuarios-colaborador.service';
-import { UsuariosAdminService } from './usuarios-admin/usuarios-admin.service';
-import { UsuariosConvidadoService } from './usuarios-convidado/usuarios-convidado.service';
+import { UserService } from './service/user.service';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { NotifierOptions } from 'angular-notifier/lib/models/notifier-config.model';
+import { NotifierModule } from 'angular-notifier';
+import { NotificationService } from './service/notification.service';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { UserComponent } from './user/user.component';
+import { FormsModule } from '@angular/forms';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { HeaderComponent } from './components/header/header.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EventosComponent } from './eventos/eventos.component';
+import { FullCalendarComponent } from './components/full-calendar/full-calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
+const notifierCustomOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'left',
+      distance: 150,
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10,
+    },
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4,
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease',
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50,
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease',
+    },
+    overlap: 150,
+  },
+};
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin,
+]);
 
 @NgModule({
   declarations: [
     AppComponent,
-    UsuariosAdminComponent,
-    FornecedoresComponent,
-    HomeComponent,
-    FornecedoresFormComponent,
-    UsuariosColaboradorComponent,
-    UsuariosConvidadoComponent,
-    UsuariosComponent
+    LoginComponent,
+    RegisterComponent,
+    UserComponent,
+    ResetPasswordComponent,
+    HeaderComponent,
+    ProfileComponent,
+    EventosComponent,
+    FullCalendarComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    AppRoutingModule,
+    FullCalendarModule,
+    NotifierModule.withConfig(notifierCustomOptions),
+    FormsModule,
+    NgxMaskModule.forRoot(),
+    NgbModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    AuthenticationService,
+    UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthenticationGuard,
+    NotificationService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

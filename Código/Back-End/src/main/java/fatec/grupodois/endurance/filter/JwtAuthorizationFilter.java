@@ -1,8 +1,5 @@
 package fatec.grupodois.endurance.filter;
 
-import static fatec.grupodois.endurance.constant.SecurityConstant.*;
-import static org.springframework.http.HttpHeaders.*;
-
 import fatec.grupodois.endurance.utils.JWTTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import static fatec.grupodois.endurance.constant.SecurityConstant.OPTIONS_HTTP_METHOD;
+import static fatec.grupodois.endurance.constant.SecurityConstant.TOKEN_PREFIX;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
