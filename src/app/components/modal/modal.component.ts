@@ -6,7 +6,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ModalConfig } from './modal.config';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalRef,
+  NgbModalOptions,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-modal',
@@ -24,7 +28,7 @@ export class ModalComponent implements OnInit {
 
   open(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.modalRef = this.modalService.open(this.modalContent);
+      this.modalRef = this.modalService.open(this.modalContent, { size: 'xl' });
       this.modalRef.result.then(resolve, resolve);
     });
   }

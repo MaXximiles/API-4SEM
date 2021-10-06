@@ -9,6 +9,7 @@
 
   <app-modal #modalEvento [modalConfig]="modalConfig">
     <form
+      class="row"
       #eventForm="ngForm"
       (ngSubmit)="
         editEvent.id ? onEditEvent(eventForm) : onAddNewEvent(eventForm)
@@ -23,58 +24,79 @@
         hidden
       />
 
-      <div class="row">
-        <div class="form-group col">
-          <label for="recipient-name" class="col-form-label">Inicio:</label>
-          <input
-            [ngModel]="editEvent.inicio"
-            type="datetime-local"
-            class="form-control"
-            name="inicio"
-            value=""
-          />
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="evento-inicio" class="col-form-label">Inicio:</label>
+            <input
+              [ngModel]="editEvent.inicio"
+              type="datetime-local"
+              class="form-control"
+              name="inicio"
+              id="evento-inicio"
+              value=""
+            />
+          </div>
+
+          <div class="col-sm-6">
+            <label for="evento-fim" class="col-form-label">Fim:</label>
+            <input
+              [ngModel]="editEvent.fim"
+              type="datetime-local"
+              class="form-control"
+              name="fim"
+              id="evento-fim"
+              value=""
+            />
+          </div>
         </div>
 
-        <div class="form-group col">
-          <label for="recipient-name" class="col-form-label">Fim:</label>
-          <input
-            [ngModel]="editEvent.fim"
-            type="datetime-local"
-            class="form-control"
-            name="fim"
-            value=""
-          />
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="local-evento" class="col-form-label">Local:</label>
+            <select
+              [ngModel]="editEvent.local"
+              class="form-control"
+              name="local"
+              id="local-evento"
+            >
+              <option value="" selected>--- Selecione o local ---</option>
+              <option value="LOUNGE">Lounge(10 Lugares)</option>
+              <option value="OPENSPACE">Openspace(50 Lugares)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="tema-evento" class="col-form-label">Tema:</label>
+            <input
+              [ngModel]="editEvent.tema"
+              type="text"
+              class="form-control"
+              name="tema"
+              id="tema-evento"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="descricao-evento" class="col-form-label"
+              >Descrição:</label
+            >
+            <textarea
+              [ngModel]="editEvent.descricao"
+              class="form-control"
+              name="descricao"
+              id="descricao-evento"
+            ></textarea>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Local:</label>
-        <select [ngModel]="editEvent.local" class="form-control" name="local">
-          <option value="" selected>--- Selecione o local ---</option>
-          <option value="LOUNGE">Lounge(10 Lugares)</option>
-          <option value="OPENSPACE">Openspace(50 Lugares)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="recipient-name" class="col-form-label">Tema:</label>
-        <input
-          [ngModel]="editEvent.tema"
-          type="text"
-          class="form-control"
-          name="tema"
-          id="tema_evento"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="message-text" class="col-form-label">Descrição:</label>
-        <textarea
-          [ngModel]="editEvent.descricao"
-          class="form-control"
-          name="descricao"
-          id="descricao_evento"
-        ></textarea>
+      <div class="col-sm-6">
+        <!--Fazer inserção de participantes-->
       </div>
     </form>
   </app-modal>

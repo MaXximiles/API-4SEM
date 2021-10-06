@@ -156,7 +156,7 @@ export class FullCalendarComponent implements OnInit {
     calendarApi.unselect(); // clear date selection
   }
 
-  // TODO - Quando clicar no evento, abrir o modal de edição (o atributo "clickInfo" tem as informações necessárias)
+  // Quando clicar no evento, abrir o modal de edição (o atributo "clickInfo" tem as informações necessárias)
   handleEventClick(clickInfo: EventClickArg) {
     this.eventoService
       .fetchEventById(Number.parseInt(clickInfo.event.id))
