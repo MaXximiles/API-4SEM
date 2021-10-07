@@ -139,7 +139,7 @@ export class UserComponent implements OnInit {
       this.profileImage
     );
     this.subscriptions.push(
-      this.userService.updateUser(formData).subscribe(
+      this.userService.updateUser(formData, this.user.email).subscribe(
         (response: User) => {
           this.clickButton('closeEditUserModalButton');
           this.fetchUsers(false);
