@@ -12,8 +12,9 @@ Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores pa
 - Atualização do Back-end:
   - Cadastro de eventos;
   - Alteração de eventos;
-  - Integração com Flyway
-  - Integração com Oracle Cloud
+  - Integração com Flyway;
+  - Integração com Oracle Cloud;
+  - Aplicação das regras de negócio;
 - Atualização do Front-end:
   - Tela de exibição de eventos com Full Calendar;
   - Formulario para inserção de Eventos;
@@ -25,7 +26,7 @@ Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores pa
 
 ### Detalhes da Sprint:
 Resumo de modificações:
-- [Integração com Heroku](https://enduranceweb.herokuapp.com)
+- Integração com Heroku [acesse por aqui](https://enduranceweb.herokuapp.com);
 - Calendário de eventos;
 - Cadastro de eventos; 
 - Exibição de eventos;
