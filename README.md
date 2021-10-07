@@ -8,8 +8,8 @@
 Na terceira sprint temos o objetivo de desenvolver a visualização do status de agendamento e também criar níveis de usuário para definir controle e prioridade nos eventos.
 
 <p align=center> 
-</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%205.jpg?raw=true" width=300 height=200>
-<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%209.jpg?raw=true" width=300 height=200>
+</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%2012.jpg?raw=true" width=300 height=200>
+<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%203.jpg?raw=true" width=300 height=200>
 
 - Banco de Dados:
   - Versionamento do Banco de dados; 
