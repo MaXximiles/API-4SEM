@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
 
   open(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.modalRef = this.modalService.open(this.modalContent, { size: 'xl' });
+      this.modalRef = this.modalService.open(this.modalContent);
       this.modalRef.result.then(resolve, resolve);
     });
   }
