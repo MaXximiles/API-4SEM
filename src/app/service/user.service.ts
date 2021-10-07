@@ -25,7 +25,7 @@ export class UserService {
   }
 
   public updateUser(formData: FormData): Observable<User> {
-    return this.http.post<User>(`${this.host}/user/update`, formData);
+    return this.http.post<User>(`${this.host}/user/update-me`, formData);
   }
 
   public updateCurrentUser(formData: FormData): Observable<User> {
