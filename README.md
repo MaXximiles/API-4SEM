@@ -6,18 +6,20 @@
 ### Proposta:
 Na segunda sprint temos o objetivo de desenvolver o cadastro dos fornecedores para o controle do administrador, e também, habilitar a opção do administrador priorizar eventos do usuário.
 <p align=center> 
-</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%202.jpg?raw=true" width=300 height=200>
-<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%203.jpg?raw=true" width=300 height=200>
+</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%2011.jpg?raw=true" width=300 height=200>
+<img src="https://raw.githubusercontent.com//MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%2011.jpg?raw=true" width=300 height=200>
 
 - Atualização do Back-end:
-  - Cadastro de Fornecedores;
-  - Desenvolvimento de regras para evitar conflitos de agenda;
-  - Adição da opção de gerenciamento dos eventos para o admnistrador evitando conflitos de agenda;
+  - Cadastro de eventos;
+  - Alteração de eventos;
+  - Integração com Flyway
+  - Integração com Oracle Cloud
 - Atualização do Front-end:
-  - Dashboard dos fornecedores;
-  - Aviso de alteração na agenda;
-  - Exibição da nova opção de gerenciamento dos eventos para o administrador;
-
+  - Tela de exibição de eventos com Full Calendar;
+  - Formulario para inserção de Eventos;
+  - Formulário para edição de eventos;
+  - Reformulação de layout e cores;
+  - Compatibilidade com dispositivos movéis;
 
 </p></br><h1></h1>
 
