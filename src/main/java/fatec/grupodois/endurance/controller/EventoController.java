@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.EventoService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,15 +28,26 @@ public class EventoController extends ExceptionHandling{
         this.eventoService = eventoService;
     }
 
-    @PostMapping("/add/{email}")
-    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento, @PathVariable("email") String email)
+    @PostMapping("/add")
+    public ResponseEntity<Evento> addEvento(@RequestBody Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException {
+            EventoInicioExistException, EventOutOfOpeningHoursException,
+            MessagingException, EventDifferentDayException, 
+            EventWithInvalidStatusException {
 
-        Evento eventoSaved = eventoService.addEvento(evento);
-        Evento eventoWithOrganizer = eventoService.addOrganizer(email, eventoSaved);
+        Evento event = eventoService.addEvento(evento);
 
-        return new ResponseEntity<>(eventoWithOrganizer, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(event, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/add-guest/{id}")
+    public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
+            throws EventoNotFoundException, EventoFullException {
+
+        Evento event = eventoService.addParticipante(user, id);
+
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/delete/{id}")
@@ -89,7 +102,8 @@ public class EventoController extends ExceptionHandling{
                                                @RequestBody Evento evento)
             throws EventoNotFoundException, EventoInicioAfterException,
             EventIsOccurringException, EventOutOfOpeningHoursException,
-            EventoInicioExistException {
+            EventoInicioExistException, EventDifferentDayException {
+
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }

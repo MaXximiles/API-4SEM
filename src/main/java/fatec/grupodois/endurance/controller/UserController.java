@@ -41,7 +41,7 @@ public class UserController extends ExceptionHandling {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
-    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public UserController(UserService userService, AuthenticationManager authenticationManager,

@@ -98,6 +98,11 @@ public class ExceptionHandling implements ErrorController{
         return createHttpResponse(BAD_REQUEST, exc.getMessage());
     }
 
+    @ExceptionHandler(EventDifferentDayException.class)
+    public ResponseEntity<HttpResponse> eventDifferentDay(EventDifferentDayException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+
     @ExceptionHandler(EventoInicioAfterException.class)
     public ResponseEntity<HttpResponse> eventoInicioAfterException(EventoInicioAfterException exc) {
         return createHttpResponse(BAD_REQUEST, exc.getMessage());

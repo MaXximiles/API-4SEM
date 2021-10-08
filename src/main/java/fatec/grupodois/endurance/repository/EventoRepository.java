@@ -20,6 +20,6 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     @Query("SELECT s from Evento s WHERE s.inicio = ?1")
     Optional<List<Evento>> findEventoByDateTime(LocalDateTime date);
 
-    @Query("SELECT s from Evento s WHERE trunc(s.inicio) = ?1")
+    @Query("SELECT s from Evento s WHERE trunc(s.inicio) = TO_DATE(?1)")
     Optional<List<Evento>> findEventoByDate(LocalDate date);
 }
