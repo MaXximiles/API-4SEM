@@ -32,7 +32,7 @@ Resumo de modificações:
 - Exibição de eventos;
 - Versionamento do Banco de Dados;
 ### APRESENTAÇÃO
-<!--[📊 Apresentação em PDF]()-->
+[📊 Apresentação em PDF](https://github.com/MaXximiles/API-4SEM/blob/sprint-2/Sprint%202%20-%20FINAL%20.pdf)
 
 </p></br><h1></h1>
 
