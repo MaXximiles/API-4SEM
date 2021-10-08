@@ -50,7 +50,7 @@ public class EmailService {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT);
+        message.setSubject("Novo Evento!");
         message.setText("Olá, " + firstName + ".\n\nUm novo evento requer sua atenção: " + tema + "\n\n endurance Support Team");
         message.setSentDate(new Date());
         message.saveChanges();
