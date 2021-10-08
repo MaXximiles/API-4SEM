@@ -47,8 +47,8 @@ public class EventoServiceImpl implements EventoService {
 
         checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getLocal());
 
-        if(!evento.getStatus().equalsIgnoreCase("OPENSPACE") &&
-                !evento.getStatus().equalsIgnoreCase("LOUNGE")) {
+        if(!evento.getLocal().equalsIgnoreCase("OPENSPACE") &&
+                !evento.getLocal().equalsIgnoreCase("LOUNGE")) {
 
             throw new EventWithInvalidStatusException(EVENT_INVALID_STATUS);
         }
