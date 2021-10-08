@@ -1,4 +1,4 @@
-package fatec.grupodois.endurance.service.impl;
+/*package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
@@ -461,4 +461,4 @@ class EventoServiceImplTest {
         assertThat(capturedEvento.getTema()).isEqualTo(event2.getTema());
 
     }
-}
+}*/

@@ -120,7 +120,7 @@ public class EventoConfig {
             Evento event2 = Evento
                     .builder()
                     .id(2L)
-                    .inicio(date.plusMinutes(30L))
+                    .inicio(date.plusMinutes(120L))
                     .fim(date.plusHours(3L))
                     .local(LocalEvento.OPENSPACE.name())
                     .tema("Lean Agile 2")

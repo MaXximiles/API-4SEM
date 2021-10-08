@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +31,9 @@ public class EventoController extends ExceptionHandling{
     @PostMapping("/add")
     public ResponseEntity<Evento> addEvento(@RequestBody Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException {
+            EventoInicioExistException, EventOutOfOpeningHoursException,
+            MessagingException, EventDifferentDayException, 
+            EventWithInvalidStatusException {
 
         Evento event = eventoService.addEvento(evento);
 
@@ -99,7 +102,8 @@ public class EventoController extends ExceptionHandling{
                                                @RequestBody Evento evento)
             throws EventoNotFoundException, EventoInicioAfterException,
             EventIsOccurringException, EventOutOfOpeningHoursException,
-            EventoInicioExistException {
+            EventoInicioExistException, EventDifferentDayException {
+
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }
