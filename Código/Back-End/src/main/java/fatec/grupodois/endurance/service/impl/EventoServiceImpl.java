@@ -5,11 +5,17 @@ import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.EventoRepository;
+import fatec.grupodois.endurance.repository.UserRepository;
+import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -22,26 +28,45 @@ import static fatec.grupodois.endurance.constant.EventoImplConstant.*;
 public class EventoServiceImpl implements EventoService {
 
     private final EventoRepository eventoRepository;
+    private final EmailService emailService;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public EventoServiceImpl(EventoRepository eventoRepository) {
+    public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository) {
         this.eventoRepository = eventoRepository;
+        this.emailService = emailService;
+        this.userRepository = userRepository;
     }
 
 
-    public Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException {
+    public Evento addEvento(Evento evento)
+            throws EventoInicioAfterException, EventoInicioExistException,
+            EventIsOccurringException, EventOutOfOpeningHoursException,
+            MessagingException, EventDifferentDayException, EventWithInvalidStatusException {
 
-       checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal());
+        checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getLocal());
 
-        Arrays.stream(StatusEvento.values()).forEach(statusEvento -> {
-            statusEvento.name().equals(evento.getStatus().toUpperCase());
-        });
+        if(!evento.getStatus().equalsIgnoreCase("OPENSPACE") &&
+                !evento.getStatus().equalsIgnoreCase("LOUNGE")) {
 
-        evento.setMaxParticipantes(evento.getLocal().equals("Openspace")? 50:10);
+            throw new EventWithInvalidStatusException(EVENT_INVALID_STATUS);
+        }
+
+        evento.setMaxParticipantes(evento.getLocal().equals("OPENSPACE")? 50:10);
         evento.setCriacao(LocalDateTime.now());
         evento.setTotalParticipantes(0);
         evento.setParticipantes(new ArrayList<>());
+
+        if(evento.getUser().getRole().equals("ROLE_ADMIN")) {
+            evento.setStatus("CONFIRMADO");
+        } else {
+            List<User> adminUsers = userRepository.findAllAdmins();
+            System.out.println(adminUsers);
+            for(User u: adminUsers) {
+                emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
+            }
+        }
 
         return eventoRepository.save(evento);
     }
@@ -126,11 +151,10 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public Evento updateEvento(Long eventoId, Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventOutOfOpeningHoursException, EventoInicioExistException {
+            EventOutOfOpeningHoursException, EventoInicioExistException, EventDifferentDayException {
 
         Evento eventoDb = eventoRepository.findById(eventoId).get();
 
-        checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal());
 
         if(StringUtils.isNotEmpty(StringUtils.trim(evento.getTema())) &&
                 !StringUtils.equalsIgnoreCase(evento.getTema(), eventoDb.getTema())) {
@@ -140,13 +164,13 @@ public class EventoServiceImpl implements EventoService {
 
         if(Objects.nonNull(evento.getInicio()) &&
             !eventoDb.getInicio().equals(evento.getInicio())) {
-            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal());
+            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
             eventoDb.setInicio(evento.getInicio());
         }
 
         if(Objects.nonNull(evento.getFim()) &&
                 !eventoDb.getFim().equals(evento.getFim())) {
-            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal());
+            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
             eventoDb.setFim(evento.getFim());
         }
 
@@ -189,8 +213,8 @@ public class EventoServiceImpl implements EventoService {
 
     }
 
-    private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
-            EventoInicioExistException, EventIsOccurringException {
+    private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
+            EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
         if(inicio.isAfter(fim)) {
             throw new EventoInicioAfterException(inicio
                     + " depois de "
@@ -206,6 +230,10 @@ public class EventoServiceImpl implements EventoService {
             throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS);
         }
 
+        if(inicio.getDayOfMonth() != fim.getDayOfMonth()) {
+            throw new EventDifferentDayException(EVENT_DIFFERENT_DAY);
+        }
+
         LocalDate date = inicio.toLocalDate();
 
         Optional<List<Evento>> eventos = eventoRepository.findEventoByDate(date);
@@ -213,9 +241,7 @@ public class EventoServiceImpl implements EventoService {
 
         if (eventos.isPresent()) {
             for (Evento s : eventos.get()) {
-                System.out.println(s.getInicio());
-                System.out.println(inicio);
-                if (local.equalsIgnoreCase(s.getLocal())) {
+                if (local.equalsIgnoreCase(s.getLocal()) && !tema.equalsIgnoreCase(s.getTema())) {
                     if (s.getInicio().toLocalTime().equals(inicio.toLocalTime())) {
                         throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
                                 + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));

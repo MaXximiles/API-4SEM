@@ -16,7 +16,14 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
-@Table(name = "EVENTOS")
+@Table(
+        name = "EVENTOS",
+        uniqueConstraints = @UniqueConstraint(
+                name = "evt_tema_unique",
+                columnNames = "evt_tema"
+        )
+
+)
 public class Evento implements Serializable {
 
     @Id

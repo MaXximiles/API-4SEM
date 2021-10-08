@@ -1,9 +1,7 @@
 package fatec.grupodois.endurance.service;
 
-import fatec.grupodois.endurance.entity.TipoUsuario;
 import fatec.grupodois.endurance.entity.User;
-import fatec.grupodois.endurance.exception.EmailNotFoundException;
-import fatec.grupodois.endurance.exception.UserNotFoundException;
+import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.mail.MessagingException;
+import java.util.Date;
+
+import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 
 @SpringBootTest
@@ -25,56 +28,73 @@ class UserServiceImplTest {
     @MockBean
     private UserRepository userRepository;
 
+    private User user;
+
     @BeforeEach
-    void setUp() {
-        User user =
-                User.builder()
-                        .userFirstName("Teste")
-                        .userLastName("S")
-                        .userRg("111111")
-                        .userEmail("teste@gmail.com")
-                        .userRole(TipoUsuario.ADMIN)
-                        .userCpf("973.017.940-96")
-                        .userPassword("password")
-                        .userId(1L)
-                        .build();
+    void setUp() throws UserNotFoundException, EmailNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException {
 
-        Mockito.when(userRepository.findByEmail("teste@gmail.com"))
-                .thenReturn(java.util.Optional.ofNullable(user));
 
-        Mockito.when(userRepository.findById(1L))
-                .thenReturn(java.util.Optional.ofNullable(user));
+        this.user = User
+                .builder()
+                .firstName("Teste")
+                .lastName("S")
+                .email("teste@gmail.com")
+                .cpf("973.017.940-96")
+                .joinDate(new Date())
+                .password("123")
+                .isActive(true)
+                .isNotLocked(false)
+                .role(ROLE_GUEST.name())
+                .authorities(ROLE_GUEST.getAuthorities())
+                .profileImageUrl(null)
+                .id(1L)
+                .build();
 
+        userRepository.save(user);
+
+        Mockito.when(userRepository.findUserByEmail("teste@gmail.com"))
+                .thenReturn(user);
+
+        Mockito.when(userRepository.findUserById(1L))
+                .thenReturn(user);
+
+        Mockito.when(userRepository.findUserByCpf("973.017.940-96"))
+                .thenReturn(user);
+
+        Mockito.when(userRepository.save(any(User.class)))
+                .thenReturn(user);
+    }
+
+    @Test
+    @DisplayName("Register User")
+    void registerCustomer_Success() {
+
+        User savedUser = userRepository.save(user);
+        assertTrue(savedUser.isActive());
     }
 
     @Test
     @DisplayName("Get user on valid id")
     void whenValidId_thenUserShouldBeFound() throws UserNotFoundException {
-        User found = userService.fetchUserById(1L);
+        User found = userService.findUserById(1L);
 
-        assertEquals("Teste", found.getUserFirstName());
+        assertEquals("Teste", found.getFirstName());
     }
 
     @Test
     @DisplayName("Get user on valid email")
     void whenValidEmail_thenUserShouldBeFound() throws EmailNotFoundException {
-        User found = userService.fetchUserByEmail("teste@gmail.com");
+        User found = userService.findUserByEmail("teste@gmail.com");
 
-        assertEquals("teste@gmail.com", found.getUserEmail());
+        assertEquals("teste@gmail.com", found.getEmail());
     }
 
     @Test
-    @DisplayName("Update user on valid id")
-    void whenValidId_thenUserShouldUpdate() throws UserNotFoundException {
-        User found = userService.fetchUserById(1L);
+    @DisplayName("Get user on valid cpf")
+    void whenValidCpf_thenUserShouldBeFound() throws EmailNotFoundException {
+        User found = userService.findUserByCpf("973.017.940-96");
 
-        found.setUserEmail("teste1@gmail.com");
-
-        userService.addUser(found);
-
-        found = userService.fetchUserById(1L);
-
-        assertEquals("teste1@gmail.com", found.getUserEmail());
+        assertEquals("teste@gmail.com", found.getEmail());
     }
 
     @Test
@@ -88,24 +108,56 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Dont Update User on Invalid First Name Input")
-    public void whenInvalidName_thenShouldNotUpdate() throws UserNotFoundException {
-
-        User user = User.builder()
-                .userFirstName("")
-                .userLastName("A")
-                .userRg("1111112")
-                .userEmail("teste3@gmail.com")
-                .userRole(TipoUsuario.ADMIN)
-                .userCpf("973.017.940-96")
-                .userPassword("password")
-                .userId(2L)
+    @DisplayName("Email Taken")
+    public void whenEmailExist_thenShouldThrowError() throws UserNotFoundException, EmailNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, MessagingException {
+        User user = User
+                .builder()
+                .firstName("Teste2")
+                .lastName("S2")
+                .email("teste2@gmail.com")
+                .cpf("319.414.010-82")
+                .joinDate(new Date())
+                .password("123")
+                .isActive(true)
+                .isNotLocked(false)
+                .role(ROLE_GUEST.name())
+                .authorities(ROLE_GUEST.getAuthorities())
+                .profileImageUrl(null)
+                .id(1L)
                 .build();
-        userService.updateUser(1L, user);
 
-        User found = userService.fetchUserById(1L);
+        Mockito.when(userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
+                .thenReturn(user);
 
-        assertEquals("Teste", found.getUserFirstName());
-        assertEquals("A", found.getUserLastName());
+        User savedUser = userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
+
+        assertEquals(savedUser.getEmail(), "teste2@gmail.com");
+    }
+
+    @Test
+    @DisplayName("Cpf Taken")
+    public void whenCpfExist_thenShouldThrowError() throws UserNotFoundException, EmailNotFoundException, EmailExistException, MessagingException, CpfExistException, CpfNotFoundException {
+        User user = User
+                .builder()
+                .firstName("Teste2")
+                .lastName("S2")
+                .email("teste2@gmail.com")
+                .cpf("319.414.010-82")
+                .joinDate(new Date())
+                .password("123")
+                .isActive(true)
+                .isNotLocked(false)
+                .role(ROLE_GUEST.name())
+                .authorities(ROLE_GUEST.getAuthorities())
+                .profileImageUrl(null)
+                .id(1L)
+                .build();
+
+        Mockito.when(userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf()))
+                .thenReturn(user);
+
+        User savedUser = userService.register(user.getFirstName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getCpf());
+
+        assertEquals(savedUser.getCpf(), "319.414.010-82");
     }
 }
