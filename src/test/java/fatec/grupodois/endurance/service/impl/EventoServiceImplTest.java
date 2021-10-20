@@ -1,4 +1,4 @@
-/*package fatec.grupodois.endurance.service.impl;
+package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,9 +25,7 @@ import java.util.List;
 
 import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;;
 import static org.mockito.Mockito.verify;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +43,6 @@ class EventoServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new EventoServiceImpl(eventoRepository);
         this.user = User
                 .builder()
                 .firstName("Teste")
@@ -290,9 +288,9 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Add Evento")
-    void EventoAfter08AMShouldAdd() 
+    void EventoAfter08AMShouldAdd()
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException {
+            EventoInicioExistException, EventOutOfOpeningHoursException, EventWithInvalidLocalException, MessagingException, EventDifferentDayException {
 
         // given
         LocalTime open = LocalTime.of(8,00,00);
@@ -331,20 +329,8 @@ class EventoServiceImplTest {
     }
 
     @Test
-    void findEventoByStatus() {
-    }
-
-    @Test
-    void findEventoByDateTime() {
-    }
-
-    @Test
-    void findEventoByDate() {
-    }
-
-    @Test
     @DisplayName("Mesmo tema com letras minúsculas não deve dar update")
-    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -404,7 +390,7 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Tema diferente deve dar update")
-    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -461,4 +447,4 @@ class EventoServiceImplTest {
         assertThat(capturedEvento.getTema()).isEqualTo(event2.getTema());
 
     }
-}*/
+}

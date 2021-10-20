@@ -9,13 +9,10 @@ import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,14 +40,14 @@ public class EventoServiceImpl implements EventoService {
     public Evento addEvento(Evento evento)
             throws EventoInicioAfterException, EventoInicioExistException,
             EventIsOccurringException, EventOutOfOpeningHoursException,
-            MessagingException, EventDifferentDayException, EventWithInvalidStatusException {
+            MessagingException, EventDifferentDayException, EventWithInvalidLocalException {
 
         checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getLocal());
 
         if(!evento.getLocal().equalsIgnoreCase("OPENSPACE") &&
                 !evento.getLocal().equalsIgnoreCase("LOUNGE")) {
 
-            throw new EventWithInvalidStatusException(EVENT_INVALID_STATUS);
+            throw new EventWithInvalidLocalException(EVENT_INVALID_LOCAL);
         }
 
         evento.setMaxParticipantes(evento.getLocal().equals("OPENSPACE")? 50:10);
@@ -62,7 +59,6 @@ public class EventoServiceImpl implements EventoService {
             evento.setStatus("CONFIRMADO");
         } else {
             List<User> adminUsers = userRepository.findAllAdmins();
-            System.out.println(adminUsers);
             for(User u: adminUsers) {
                 emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
             }

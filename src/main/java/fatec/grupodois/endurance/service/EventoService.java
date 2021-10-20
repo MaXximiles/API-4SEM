@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface EventoService {
 
-    Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException, MessagingException, EventDifferentDayException, EventWithInvalidStatusException;
+    Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException, MessagingException, EventDifferentDayException, EventWithInvalidLocalException;
 
     void deleteEventoById(Long eventoId) throws EventoNotFoundException;
 

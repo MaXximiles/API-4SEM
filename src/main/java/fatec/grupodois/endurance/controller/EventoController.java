@@ -32,8 +32,8 @@ public class EventoController extends ExceptionHandling{
     public ResponseEntity<Evento> addEvento(@RequestBody Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
             EventoInicioExistException, EventOutOfOpeningHoursException,
-            MessagingException, EventDifferentDayException, 
-            EventWithInvalidStatusException {
+            MessagingException, EventDifferentDayException,
+            EventWithInvalidLocalException {
 
         Evento event = eventoService.addEvento(evento);
 

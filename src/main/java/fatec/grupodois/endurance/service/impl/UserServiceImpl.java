@@ -123,34 +123,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf)
-            throws EmailExistException, CpfExistException,
-            CpfNotFoundException, UserNotFoundException {
-        User userByNewEmail = findUserByEmail(newEmail);
-        User userByNewCpf = findUserByCpf(newCpf);
-        if(StringUtils.isNotBlank(currentEmail)) {
-           User currentUser = findUserByEmail(currentEmail);
-           if(currentUser == null) {
-               throw new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL + currentEmail);
-           }
-           if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
-               throw new EmailExistException(EMAIL_ALREADY_EXIST);
-           }
-           if(userByNewCpf != null && !currentUser.getId().equals(userByNewCpf.getId())) {
-               throw new CpfExistException(CPF_ALREADY_EXIST );
-           }
-           return currentUser;
-       } else {
-           if(userByNewEmail != null) {
-               throw new EmailExistException(EMAIL_ALREADY_EXIST);
-           }
-           if(userByNewCpf != null) {
-               throw new CpfExistException(CPF_ALREADY_EXIST );
-           }
-           return null;
-       }
-    }
-
     @Override
     public User fetchUserById(Long userId) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(userId);
@@ -234,10 +206,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateProfileImage(String email, MultipartFile profileImage)
             throws UserNotFoundException, EmailExistException,
-            CpfExistException, CpfNotFoundException, IOException {
+            CpfExistException, IOException {
 
         User user = validateNewCpfAndEmail(email, null, null);
         saveProfileImage(user, profileImage);
+        return user;
+    }
+
+    @Override
+    public User updateVaccineImage(String email, MultipartFile vaccineImage)
+            throws UserNotFoundException, EmailExistException,
+            CpfExistException, IOException {
+
+        User user = validateNewCpfAndEmail(email, null, null);
+        saveVaccineImage(user, vaccineImage);
         return user;
     }
 
@@ -311,10 +293,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    private void saveVaccineImage(User user, MultipartFile vaccineImage) throws IOException {
+        if(vaccineImage != null) {
+            Path userFolder = Paths.get(USER_FOLDER + user.getEmail() + VACCINE_IMAGE_FOLDER + FORWARD_SLASH).toAbsolutePath().normalize();
+            if(!Files.exists(userFolder)) {
+                Files.createDirectories(userFolder);
+                LOGGER.info(DIRECTORY_CREATED);
+            }
+            Files.deleteIfExists(Paths.get(userFolder + user.getEmail() + VACCINE_IMAGE + DOT + JPG_EXTENSION));
+            Files.copy(vaccineImage.getInputStream(),
+                    userFolder.resolve(user.getEmail() + VACCINE_IMAGE + DOT + JPG_EXTENSION), REPLACE_EXISTING);
+            user.setVaccineImage(setVaccineImageUrl(user.getEmail()));
+            userRepository.save(user);
+            LOGGER.info(FILE_SAVED_IN_FILE_SYSTEM + vaccineImage.getOriginalFilename());
+        }
+    }
+
     private String setProfileImageUrl(String email) {
 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(DEFAULT_USER_IMAGE_PATH + email + FORWARD_SLASH + email + DOT + JPG_EXTENSION)
+                .toUriString();
+    }
+
+    private String setVaccineImageUrl(String email) {
+
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(DEFAULT_USER_IMAGE_PATH + email + FORWARD_SLASH + VACCINE_IMAGE_FOLDER + FORWARD_SLASH + email + VACCINE_IMAGE + DOT + JPG_EXTENSION)
                 .toUriString();
     }
 
@@ -333,5 +338,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private String generatePassword() {
 
         return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf)
+            throws EmailExistException, CpfExistException,
+            UserNotFoundException {
+        User userByNewEmail = findUserByEmail(newEmail);
+        User userByNewCpf = findUserByCpf(newCpf);
+        if(StringUtils.isNotBlank(currentEmail)) {
+            User currentUser = findUserByEmail(currentEmail);
+            if(currentUser == null) {
+                throw new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL + currentEmail);
+            }
+            if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
+                throw new EmailExistException(EMAIL_ALREADY_EXIST);
+            }
+            if(userByNewCpf != null && !currentUser.getId().equals(userByNewCpf.getId())) {
+                throw new CpfExistException(CPF_ALREADY_EXIST );
+            }
+            return currentUser;
+        } else {
+            if(userByNewEmail != null) {
+                throw new EmailExistException(EMAIL_ALREADY_EXIST);
+            }
+            if(userByNewCpf != null) {
+                throw new CpfExistException(CPF_ALREADY_EXIST );
+            }
+            return null;
+        }
     }
 }

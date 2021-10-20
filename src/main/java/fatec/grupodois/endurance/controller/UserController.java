@@ -134,6 +134,24 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(updateProfileImage, OK);
     }
 
+    @PostMapping("/update-vaccine-image")
+    public ResponseEntity<User> updateVaccineImage(@RequestParam("email") String email,
+                                                   @RequestParam("vaccineImage") MultipartFile vaccineImage)
+
+            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+
+        User user = userService.updateVaccineImage(email, vaccineImage);
+
+        return new ResponseEntity<>(user, OK);
+    }
+
+    @GetMapping(path = "/image/{email}/vacina/{fileName}", produces = IMAGE_JPEG_VALUE)
+    public byte[] fetchVaccineImage(@PathVariable("email") String email,
+                                    @PathVariable("fileName") String fileName) throws IOException {
+
+        return Files.readAllBytes(Paths.get(USER_FOLDER + email + VACCINE_IMAGE_FOLDER + FORWARD_SLASH + fileName));
+    }
+
     @GetMapping(path = "/image/{email}/{fileName}", produces = IMAGE_JPEG_VALUE)
     public byte[] fetchProfileImage(@PathVariable("email") String email,
                                     @PathVariable("fileName") String fileName) throws IOException {
