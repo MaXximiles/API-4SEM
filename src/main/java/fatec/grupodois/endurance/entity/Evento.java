@@ -1,13 +1,13 @@
 package fatec.grupodois.endurance.entity;
 
-import fatec.grupodois.endurance.enumeration.LocalEvento;
-import fatec.grupodois.endurance.enumeration.StatusEvento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -15,7 +15,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name = "EVENTOS")
+@ToString
+@Table(
+        name = "EVENTOS",
+        uniqueConstraints = @UniqueConstraint(
+                name = "evt_tema_unique",
+                columnNames = "evt_tema"
+        )
+
+)
 public class Evento implements Serializable {
 
     @Id
@@ -30,30 +38,57 @@ public class Evento implements Serializable {
     )
     @Column(name="evt_id", nullable = false)
     private Long id;
-    @NotBlank
     @Column(name="evt_inicio", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime inicio;
-    @NotBlank
     @Column(name="evt_fim", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fim;
-    @NotBlank(message = "Por favor escolha o local do evento")
+    @NotBlank()
     @Column(name="evt_local", nullable = false)
-    private LocalEvento local;
-    @NotBlank(message = "Por favor especifique o tema do evento")
-    @Column(name="evt_tema")
+    private String local;
+    @NotBlank()
+    @Column(name="evt_tema", nullable = false)
     private String tema;
     @Column(name="evt_desc")
     private String descricao;
     @Column(name="evt_obs")
     private String observacao;
-    @Column(name="evt_usr_email")
-    private String userEmail;
+    @OneToOne
+    @JoinColumn(
+            name = "evt_usr_id",
+            referencedColumnName = "usr_id"
+    )
+    private User user;
     @Column(name="evt_criacao")
     private LocalDateTime criacao = LocalDateTime.now();
     @Column(name="evt_status", nullable = false)
-    private StatusEvento status;
+    private String status;
     @Column(name="evt_max_part", nullable = false)
     private Integer maxParticipantes;
     @Column(name="evt_total_part", nullable = false)
     private Integer totalParticipantes;
+
+    @ManyToMany
+    @JoinTable(
+            name="evento_usuario_part",
+            joinColumns = @JoinColumn(
+                    name = "eup_evt_id",
+                    referencedColumnName = "evt_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "eup_usr_id",
+                    referencedColumnName = "usr_id"
+            )
+    )
+    private List<User> participantes;
+
+    public boolean addParticipante(User user) {
+        if(this.maxParticipantes > this.totalParticipantes) {
+            participantes.add(user);
+            this.maxParticipantes++;
+            return true;
+        }
+        return false;
+    }
 }

@@ -24,6 +24,14 @@ public class EmailService {
         smtpTransport.close();
     }
 
+    public void sendNewEventEmail(String firstName, String tema, String email) throws MessagingException {
+        Message message = createEmailEvent(firstName, email, tema);
+        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
+        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
+        smtpTransport.sendMessage(message, message.getAllRecipients());
+        smtpTransport.close();
+    }
+
     private Message createEmail(String firstName, String password, String email) throws MessagingException {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(FROM_EMAIL));
@@ -31,6 +39,19 @@ public class EmailService {
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
         message.setSubject(EMAIL_SUBJECT);
         message.setText("Olá, " + firstName + ".\n\nSua nova senha: " + password + "\n\n endurance Support Team");
+        message.setSentDate(new Date());
+        message.saveChanges();
+
+        return message;
+    }
+
+    private Message createEmailEvent(String firstName, String email, String tema) throws MessagingException {
+        Message message = new MimeMessage(getEmailSession());
+        message.setFrom(new InternetAddress(FROM_EMAIL));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
+        message.setSubject("Novo Evento!");
+        message.setText("Olá, " + firstName + ".\n\nUm novo evento requer sua atenção: " + tema + "\n\n endurance Support Team");
         message.setSentDate(new Date());
         message.saveChanges();
 

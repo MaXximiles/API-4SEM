@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -50,8 +49,10 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "usr_senha", nullable = false)
     private String password;
-    @Column(name = "usr_image")
+    @Column(name = "usr_imagem")
     private String profileImageUrl;
+    @Column(name = "usr_vacina")
+    private String vaccineImage;
     @Column(name = "usr_ultimo_acesso")
     private Date lastLoginDate;
     @Column(name = "usr_ultimo_acesso_display")

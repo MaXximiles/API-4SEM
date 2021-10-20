@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.LocalEvento;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
@@ -14,16 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
+import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;;
 import static org.mockito.Mockito.verify;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,9 +39,25 @@ class EventoServiceImplTest {
     @Autowired
     private EventoService underTest;
 
+    private User user;
+
     @BeforeEach
     void setUp() {
-        underTest = new EventoServiceImpl(eventoRepository);
+        this.user = User
+                .builder()
+                .firstName("Teste")
+                .lastName("S")
+                .email("teste@gmail.com")
+                .cpf("973.017.940-96")
+                .joinDate(new Date())
+                .password("123")
+                .isActive(true)
+                .isNotLocked(false)
+                .role(ROLE_GUEST.name())
+                .authorities(ROLE_GUEST.getAuthorities())
+                .profileImageUrl(null)
+                .id(1L)
+                .build();
     }
 
     @Test
@@ -48,6 +66,7 @@ class EventoServiceImplTest {
 
         LocalTime open = LocalTime.of(10,00,00);
         LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
+        System.out.println(date);
 
         // given
         Evento event = Evento
@@ -55,13 +74,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(date)
                 .fim(date.plusHours(2L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -71,13 +90,13 @@ class EventoServiceImplTest {
                 .id(2L)
                 .inicio(date.plusMinutes(30L))
                 .fim(date.plusHours(3L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile 2")
                 .descricao("Entenda a nova tendência de arquitetura de software 2")
                 .observacao("Necessário carteira de vacinação 2")
-                .userEmail("exemplo2@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -112,13 +131,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(date)
                 .fim(date.plusHours(1L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -128,13 +147,13 @@ class EventoServiceImplTest {
                 .id(2L)
                 .inicio(date)
                 .fim(date.plusHours(3L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile 2")
                 .descricao("Entenda a nova tendência de arquitetura de software 2")
                 .observacao("Necessário carteira de vacinação 2")
-                .userEmail("exemplo2@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -169,13 +188,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(date)
                 .fim(LocalDateTime.now().plusHours(2L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -206,13 +225,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -243,13 +262,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -269,9 +288,9 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Add Evento")
-    void EventoAfter08AMShouldAdd() 
+    void EventoAfter08AMShouldAdd()
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException {
+            EventoInicioExistException, EventOutOfOpeningHoursException, EventWithInvalidLocalException, MessagingException, EventDifferentDayException {
 
         // given
         LocalTime open = LocalTime.of(8,00,00);
@@ -282,13 +301,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(date)
                 .fim(LocalDateTime.now().plusHours(2L))
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -310,20 +329,8 @@ class EventoServiceImplTest {
     }
 
     @Test
-    void findEventoByStatus() {
-    }
-
-    @Test
-    void findEventoByDateTime() {
-    }
-
-    @Test
-    void findEventoByDate() {
-    }
-
-    @Test
     @DisplayName("Mesmo tema com letras minúsculas não deve dar update")
-    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -335,13 +342,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -351,13 +358,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("lean agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -383,7 +390,7 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Tema diferente deve dar update")
-    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -395,13 +402,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Lean Agile")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();
@@ -411,13 +418,13 @@ class EventoServiceImplTest {
                 .id(1L)
                 .inicio(inicio)
                 .fim(fim)
-                .local(LocalEvento.OPENSPACE)
+                .local(LocalEvento.OPENSPACE.name())
                 .tema("Cascate")
                 .descricao("Entenda a nova tendência de arquitetura de software")
                 .observacao("Necessário carteira de vacinação")
-                .userEmail("exemplo@gmail.com")
+                .user(this.user)
                 .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE)
+                .status(StatusEvento.PENDENTE.name())
                 .maxParticipantes(50)
                 .totalParticipantes(1)
                 .build();

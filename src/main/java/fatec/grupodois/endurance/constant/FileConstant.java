@@ -12,4 +12,6 @@ public class FileConstant {
     public static final String NOT_AN_IMAGE_FILE = " não é um arquivo de imagem";
     public static final String TEMP_PROFILE_IMAGE_BASE_URL = "https://robohash.org/";
     public static final String DEFAULT_USER_PROFILE_IMAGE = "/user/image/profile/temp";
+    public static final String VACCINE_IMAGE_FOLDER = "/vacina";
+    public static final String VACCINE_IMAGE = "_vacina";
 }

@@ -36,6 +36,8 @@ public interface UserService {
 
     User updateProfileImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
 
+    public User updateVaccineImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, IOException;
+
     /*username = email*/
     UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException;
 
