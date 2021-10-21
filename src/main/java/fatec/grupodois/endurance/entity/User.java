@@ -65,6 +65,6 @@ public class User implements Serializable {
     private String[] authorities;
     @Column(name = "usr_ativo")
     private boolean isActive;
-    @Column(name = "usr_bloqueado")
+    @Column(name = "usr_nao_bloqueado")
     private boolean isNotLocked;
 }

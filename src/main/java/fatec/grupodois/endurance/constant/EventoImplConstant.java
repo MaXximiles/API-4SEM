@@ -8,4 +8,5 @@ public class EventoImplConstant {
     public static final String EVENT_IS_OCCURRING = "Evento ocorrendo no horário de início: ";
     public static final String EVENT_DIFFERENT_DAY = "Evento com ínício e fim em dias diferentes";
     public static final String EVENT_INVALID_LOCAL = "Evento com local inválido";
+    public static final String SUGGESTION = ". Sugestão de horário:";
 }

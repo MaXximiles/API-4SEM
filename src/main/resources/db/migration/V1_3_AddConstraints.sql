@@ -1,1 +1,0 @@
-alter table eventos add constraint FK69scmjufycxcsw2m1ld90n7lv foreign key (evt_usr_id) references usuarios;
