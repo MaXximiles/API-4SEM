@@ -25,8 +25,8 @@ spring:
     show-sql: true
     generate-ddl: true
     properties:
-      hibernate:
-        ddl-auto: create
+      #hibernate:
+        #ddl-auto: create
         dialect: org.hibernate.dialect.Oracle12cDialect
         format_sql: true
 
