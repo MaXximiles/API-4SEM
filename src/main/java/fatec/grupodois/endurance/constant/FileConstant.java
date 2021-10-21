@@ -14,4 +14,5 @@ public class FileConstant {
     public static final String DEFAULT_USER_PROFILE_IMAGE = "/user/image/profile/temp";
     public static final String VACCINE_IMAGE_FOLDER = "/vacina";
     public static final String VACCINE_IMAGE = "_vacina";
+    public static final String IMAGE_FILE_ERROR = "Ocorreu um erro ao ler seu arquivo de imagem";
 }

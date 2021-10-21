@@ -38,6 +38,7 @@ import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 public class UserController extends ExceptionHandling {
 
     public static final String USER_DELETED_SUCCESFULLY = "Usuário deletado com sucesso";
+    public static final String PASSWORD_SUCCESS = "Nova senha enviada para: ";
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
@@ -173,7 +174,7 @@ public class UserController extends ExceptionHandling {
                 byteArrayOutputStream.write(chunk, 0, bytesRead);
             }
         } catch(IOException e) {
-            throw new IOException("Ocorreu um erro ao ler seu arquivo de imagem");
+            throw new IOException(IMAGE_FILE_ERROR);
         }
 
         return byteArrayOutputStream.toByteArray();
@@ -230,7 +231,7 @@ public class UserController extends ExceptionHandling {
 
         User newPassword = userService.resetPasswordFront(cpf);
 
-        return response(OK, "Nova senha enviada para: " + newPassword.getEmail());
+        return response(OK, PASSWORD_SUCCESS + newPassword.getEmail());
     }
 
     @GetMapping("/reset-password/{email}")
@@ -239,7 +240,7 @@ public class UserController extends ExceptionHandling {
 
         userService.resetPassword(email);
 
-        return response(OK, "Nova senha enviada para: " + email.substring(5));
+        return response(OK, PASSWORD_SUCCESS + email.substring(5));
     }
 
     @DeleteMapping("/delete/{id}")

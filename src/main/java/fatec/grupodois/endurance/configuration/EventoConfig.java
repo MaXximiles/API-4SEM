@@ -30,7 +30,7 @@ public class EventoConfig {
     @Bean
     CommandLineRunner commandLineRunner(EventoRepository repo, UserRepository repo2) {
         return args -> {
-            /*
+
             String password = "12345";
             String encodedPassword = encodePassword(password);
 
@@ -105,7 +105,6 @@ public class EventoConfig {
             LocalTime open = LocalTime.of(10,00,00);
             LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
 
-            // given
             Evento event = Evento
                     .builder()
                     .id(1L)
@@ -141,13 +140,7 @@ public class EventoConfig {
             repo2.saveAll(List.of(user,user2,user3,user4));
 
             repo.saveAll(List.of(event,event2));
-            */
-
         };
-    }
-
-    private String generatePassword() {
-        return RandomStringUtils.randomAlphanumeric(10);
     }
 
     private String encodePassword(String password) {

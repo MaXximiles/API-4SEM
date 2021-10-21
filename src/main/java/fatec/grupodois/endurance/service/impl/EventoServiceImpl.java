@@ -9,6 +9,8 @@ import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class EventoServiceImpl implements EventoService {
     private final EventoRepository eventoRepository;
     private final EmailService emailService;
     private final UserRepository userRepository;
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 
     @Autowired
@@ -196,7 +199,7 @@ public class EventoServiceImpl implements EventoService {
 
     @Override
     public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException {
-
+        // TODO checar status do user
         Evento event = fetchEventoById(id);
 
         boolean flag = event.addParticipante(user);
@@ -231,28 +234,75 @@ public class EventoServiceImpl implements EventoService {
         }
 
         LocalDate date = inicio.toLocalDate();
-
         Optional<List<Evento>> eventos = eventoRepository.findEventoByDate(date);
-
+        List<LocalTime> horasDisp = getDaySchedule(eventos.get());
 
         if (eventos.isPresent()) {
             for (Evento s : eventos.get()) {
                 if (local.equalsIgnoreCase(s.getLocal()) && !tema.equalsIgnoreCase(s.getTema())) {
                     if (s.getInicio().toLocalTime().equals(inicio.toLocalTime())) {
+
                         throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
-                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                SUGGESTION + horasDisp.get(0));
                     } else if (inicio.toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
                     inicio.toLocalTime().isBefore(s.getFim().toLocalTime())) {
                         throw new EventIsOccurringException(EVENT_IS_OCCURRING
-                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                SUGGESTION + horasDisp.get(0));
                     } else if (fim.toLocalTime().isBefore(s.getFim().toLocalTime()) &&
                                 fim.toLocalTime().isAfter(s.getInicio().toLocalTime())) {
                         throw new EventIsOccurringException(EVENT_IS_OCCURRING
-                                + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+                                + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                                + SUGGESTION + horasDisp.get(0));
                     }
                 }
 
             }
         }
     }
+
+    private List<LocalTime> getDaySchedule(List<Evento> eventos) {
+
+        List<String> horasDisp = new ArrayList<>();
+        horasDisp.add("08:00");
+        horasDisp.add("09:00");
+        horasDisp.add("10:00");
+        horasDisp.add("11:00");
+        horasDisp.add("12:00");
+        horasDisp.add("13:00");
+        horasDisp.add("14:00");
+        horasDisp.add("15:00");
+        horasDisp.add("16:00");
+        horasDisp.add("17:00");
+        horasDisp.add("18:00");
+        horasDisp.add("19:00");
+        horasDisp.add("20:00");
+        horasDisp.add("21:00");
+        horasDisp.add("22:00");
+
+        List<LocalTime> horasDispAns = new ArrayList<>();
+
+        for(int i=0;i<eventos.size();i++) {
+            String time = eventos.get(i).getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+            String time2 = eventos.get(i).getFim().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+            for(int j=0;j<horasDisp.size();j++) {
+                if(time.equals(horasDisp.get(j)) || time2.equals(horasDisp.get(j))) {
+                    horasDisp.remove(j);
+                }
+            }
+        }
+
+        for(String s: horasDisp) {
+            String parts[] = s.split(":");
+            int h = Integer.valueOf(parts[0]);
+            int m = Integer.valueOf(parts[1]);
+            horasDispAns.add(LocalTime.of(h, m));
+        }
+
+        LOGGER.info(String.valueOf(horasDispAns));
+
+        return horasDispAns;
+    }
+
 }
