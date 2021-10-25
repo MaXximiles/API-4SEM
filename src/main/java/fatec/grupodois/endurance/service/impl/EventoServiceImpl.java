@@ -195,7 +195,7 @@ public class EventoServiceImpl implements EventoService {
             if(eventoDb.getStatus().equals("CONFIRMADO")) {
                 List<User> users = userRepository.findAll();
                 for(User s: users) {
-                    if(!s.getRole().equals("ROLE_ADMIN")){
+                    if(!s.getRole().equals("ROLE_ADMIN") && s.isActive() && s.isNotLocked()){
                         emailService.sendNewEventConfirmedEmail(s.getFirstName(),
                                 eventoDb.getTema(),
                                 s.getEmail(),
