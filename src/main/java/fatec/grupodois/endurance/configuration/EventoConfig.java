@@ -1,13 +1,11 @@
 package fatec.grupodois.endurance.configuration;
 
-import fatec.grupodois.endurance.constant.FileConstant;
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.LocalEvento;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

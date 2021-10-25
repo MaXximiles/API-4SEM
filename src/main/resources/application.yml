@@ -26,8 +26,8 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
-        hbm2ddl:
-            auto: create-drop
+        #hbm2ddl:
+            #auto:
         dialect: org.hibernate.dialect.Oracle12cDialect
         format_sql: true
 
