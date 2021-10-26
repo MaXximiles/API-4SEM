@@ -229,6 +229,20 @@ public class EventoServiceImpl implements EventoService {
 
     }
 
+    public Evento removeParticipante(User user, Long id) throws EventoNotFoundException {
+
+        Evento event = fetchEventoById(id);
+
+        for(int i=0;i<event.getParticipantes().size();i++) {
+            if(user.getEmail().equals(event.getParticipantes().get(i))) {
+                event.getParticipantes().remove(i);
+                break;
+            }
+        }
+
+        return eventoRepository.save(event);
+    }
+
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
             EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
         if(inicio.isAfter(fim)) {

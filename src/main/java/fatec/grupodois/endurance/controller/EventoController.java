@@ -43,9 +43,18 @@ public class EventoController extends ExceptionHandling{
 
     @PutMapping("/add-guest/{id}")
     public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException, EventoFullException {
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
 
         Evento event = eventoService.addParticipante(user, id);
+
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @PutMapping("/remove-guest/{id}")
+    public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
+
+        Evento event = eventoService.removeParticipante(user, id);
 
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
@@ -102,7 +111,7 @@ public class EventoController extends ExceptionHandling{
                                                @RequestBody Evento evento)
             throws EventoNotFoundException, EventoInicioAfterException,
             EventIsOccurringException, EventOutOfOpeningHoursException,
-            EventoInicioExistException, EventDifferentDayException {
+            EventoInicioExistException, EventDifferentDayException, MessagingException {
 
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, HttpStatus.OK);
