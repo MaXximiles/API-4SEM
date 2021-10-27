@@ -25,7 +25,10 @@ export class UserService {
   }
 
   public updateUser(formData: FormData, userEmail: String): Observable<User> {
-    return this.http.post<User>(`${this.host}/user/update/${userEmail}`, formData);
+    return this.http.post<User>(
+      `${this.host}/user/update/${userEmail}`,
+      formData
+    );
   }
 
   public updateCurrentUser(formData: FormData): Observable<User> {
@@ -41,6 +44,17 @@ export class UserService {
   public updateProfileImage(formData: FormData): Observable<HttpEvent<User>> {
     return this.http.post<User>(
       `${this.host}/user/update-profile-image`,
+      formData,
+      {
+        reportProgress: true,
+        observe: 'events',
+      }
+    );
+  }
+
+  public updateVaccineImage(formData: FormData): Observable<HttpEvent<User>> {
+    return this.http.post<User>(
+      `${this.host}/user/update-vaccine-image`,
       formData,
       {
         reportProgress: true,

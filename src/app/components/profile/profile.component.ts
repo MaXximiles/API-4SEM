@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   public refreshing: boolean = false;
   private currentEmail: string;
   public profileImage!: File;
+  public vaccineImage!: File;
   private subscriptions: Subscription[] = [];
   public fileName: string = '';
 
@@ -84,6 +85,10 @@ export class ProfileComponent implements OnInit {
     this.clickButton('profile-image-input');
   }
 
+  public updateVaccineImage(): void {
+    this.clickButton('vaccine-image-input');
+  }
+
   private clickButton(buttonId: string): void {
     document.getElementById(buttonId).click();
   }
@@ -104,6 +109,13 @@ export class ProfileComponent implements OnInit {
     this.profileImage = file[0];
   }
 
+  public onVaccineImageChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files as FileList;
+    this.fileName = file[0].name;
+    this.vaccineImage = file[0];
+  }
+
   public onUpdateProfileImage(): void {
     const formData = new FormData();
     var flag = true;
@@ -116,6 +128,32 @@ export class ProfileComponent implements OnInit {
             this.sendNotification(
               NotificationType.SUCCESS,
               `Foto de perfil atualizada com sucesso`
+            );
+            flag = false;
+          }
+        },
+        (errorResponse: HttpErrorResponse) => {
+          this.sendNotification(
+            NotificationType.ERROR,
+            errorResponse.error.message
+          );
+        }
+      )
+    );
+  }
+
+  public onUpdateVaccineImage(): void {
+    const formData = new FormData();
+    var flag = true;
+    formData.append('email', this.user.email);
+    formData.append('vaccineImage', this.vaccineImage);
+    this.subscriptions.push(
+      this.userService.updateVaccineImage(formData).subscribe(
+        (event: HttpEvent<any>) => {
+          if (flag) {
+            this.sendNotification(
+              NotificationType.SUCCESS,
+              `Carteira de vacinação atualizada com sucesso`
             );
             flag = false;
           }

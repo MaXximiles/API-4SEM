@@ -158,6 +158,43 @@
                         </div>
                       </div>
                       <div class="row">
+                        <div class="col-7">
+                          <div
+                            class="
+                              d-flex
+                              justify-content-left
+                              align-items-left
+                              rounded
+                            "
+                          >
+                            <img
+                              class="rounded"
+                              height="200px"
+                              width="100%"
+                              src="{{ user?.vaccineImage }}"
+                              alt="Carteira de vacinação"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="
+                            col-5
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                          "
+                        >
+                          <button
+                            (click)="updateVaccineImage()"
+                            class="btn btn-primary mt-2"
+                            type="button"
+                          >
+                            <i class="fa fa-fw fa-camera"></i>
+                            <span>Atualizar carteira de vacinação </span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="row">
                         <div class="col-12 col-sm-5 offset-sm-1 mb-3">
                           <div class="mb-2">
                             <b>Configurações da Conta</b>
@@ -247,6 +284,18 @@
     (change)="onProfileImageChange($event); onUpdateProfileImage()"
     name="profile-image-input"
     id="profile-image-input"
+    placeholder="file"
+    accept="image/*"
+  />
+</form>
+
+<!-- vaccine image change form -->
+<form enctype="multipart/form-data" style="display: none">
+  <input
+    type="file"
+    (change)="onVaccineImageChange($event); onUpdateVaccineImage()"
+    name="vaccine-image-input"
+    id="vaccine-image-input"
     placeholder="file"
     accept="image/*"
   />

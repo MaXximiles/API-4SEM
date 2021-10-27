@@ -9,6 +9,7 @@ export class User {
   public lastLoginDateDisplay?: Date | null = null;
   public joinDate?: Date | null = null;
   public profileImageUrl?: string;
+  public vaccineImage?: string;
   public role?: string;
   public authorities?: [];
   public active?: boolean;
