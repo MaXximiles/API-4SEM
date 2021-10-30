@@ -1,5 +1,6 @@
 package fatec.grupodois.endurance.service;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.exception.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,9 +35,11 @@ public interface UserService {
 
     User updateProfileImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
 
-    public User updateVaccineImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, IOException;
+    User updateVaccineImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, IOException;
 
     List<User> fetchAllUsers();
+
+    List<Evento> getUserParticipacoes(Long userId);
 
     void deleteUser(Long id);
 

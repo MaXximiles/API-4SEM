@@ -1,5 +1,6 @@
 package fatec.grupodois.endurance.controller;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.HttpResponse;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.entity.UserPrincipal;
@@ -72,9 +73,6 @@ public class UserController extends ExceptionHandling {
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
-
-        LOGGER.info(("ACTIVE>>>>" + isActive));
-        LOGGER.info("NONLOCKED>>>>>>>>" + isNonLocked);
        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
                                                 Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
                                                 profileImage);
@@ -250,6 +248,14 @@ public class UserController extends ExceptionHandling {
         userService.deleteUser(id);
 
         return response(OK, USER_DELETED_SUCCESFULLY);
+    }
+
+    @GetMapping("/user-participations/{id}")
+    public ResponseEntity<List<Evento>> getParticipations(@PathVariable("id") Long id) {
+
+        List<Evento> participacoes = userService.getUserParticipacoes(id);
+
+        return new ResponseEntity<>(participacoes, OK);
     }
 
     private ResponseEntity<HttpResponse> response(HttpStatus status, String s) {

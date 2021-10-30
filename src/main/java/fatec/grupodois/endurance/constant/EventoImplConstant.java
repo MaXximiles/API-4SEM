@@ -10,4 +10,5 @@ public class EventoImplConstant {
     public static final String EVENT_INVALID_LOCAL = "Evento com local inválido";
     public static final String SUGGESTION = ". Sugestão de horário:";
     public static final String USER_IS_NOT_ACTIVE = "Usuário não está com a conta atividade, por favor checar se foi feito o upload da imagem da vacina e contatar um de nossos administradores";
+    public static final String USER_ALREADY_PARTICIPATING = "Usuário já está cadastrado no evento";
 }
