@@ -7,7 +7,6 @@ import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +14,8 @@ import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/events")
@@ -38,25 +39,25 @@ public class EventoController extends ExceptionHandling{
         Evento event = eventoService.addEvento(evento);
 
 
-        return new ResponseEntity<>(event, HttpStatus.CREATED);
+        return new ResponseEntity<>(event, CREATED);
     }
 
     @PutMapping("/add-guest/{id}")
     public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
 
         Evento event = eventoService.addParticipante(user, id);
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(event, OK);
     }
 
     @PutMapping("/remove-guest/{id}")
     public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
+            throws EventoNotFoundException {
 
         Evento event = eventoService.removeParticipante(user, id);
 
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(event, OK);
     }
 
     @DeleteMapping(path = "/delete/{id}")
@@ -64,28 +65,35 @@ public class EventoController extends ExceptionHandling{
                                                 throws EventoNotFoundException {
         eventoService.deleteEventoById(eventoId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(OK);
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<Evento>> fetchEventoList() {
         List<Evento> eventos = eventoService.findAllEventos();
 
-        return new ResponseEntity<>(eventos, HttpStatus.OK);
+        return new ResponseEntity<>(eventos, OK);
+    }
+
+    @GetMapping(path = "/get-participantes")
+    public ResponseEntity<List<User>> fetchParticipantes(@RequestBody Evento event) {
+        List<User> participantes = eventoService.getParticipantes(event);
+
+        return new ResponseEntity<>(participantes, OK);
     }
 
     @GetMapping("/fetch/{id}")
     public ResponseEntity<Evento> fetchEventoById(@PathVariable("id") Long eventoId)
                                                     throws EventoNotFoundException {
         Evento evento = eventoService.fetchEventoById(eventoId);
-        return new ResponseEntity<>(evento, HttpStatus.CREATED);
+        return new ResponseEntity<>(evento, CREATED);
     }
 
     @GetMapping(path = "/all/status/{eventoStatus}")
     public ResponseEntity<List<Evento>> fetchEventoListByStatus(@PathVariable("eventoStatus")StatusEvento status) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByStatus(status);
 
-        return new ResponseEntity<>(eventos, HttpStatus.OK);
+        return new ResponseEntity<>(eventos, OK);
     }
 
     @GetMapping(path = "/all/date-time/{eventoInicio}")
@@ -94,7 +102,7 @@ public class EventoController extends ExceptionHandling{
                                                                           LocalDateTime date) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByDateTime(date);
 
-        return new ResponseEntity<>(eventos, HttpStatus.OK);
+        return new ResponseEntity<>(eventos, OK);
     }
 
     @GetMapping(path = "/all/date/{eventoInicio}")
@@ -103,7 +111,7 @@ public class EventoController extends ExceptionHandling{
                                                                       LocalDate date) throws EventoNotFoundException {
         List<Evento> eventos = eventoService.findEventoByDate(date);
 
-        return new ResponseEntity<>(eventos, HttpStatus.OK);
+        return new ResponseEntity<>(eventos, OK);
     }
 
     @PutMapping(path = "/update/{eventoId}")
@@ -114,7 +122,7 @@ public class EventoController extends ExceptionHandling{
             EventoInicioExistException, EventDifferentDayException, MessagingException {
 
         eventoService.updateEvento(eventoId, evento);
-        return new ResponseEntity<>(evento, HttpStatus.OK);
+        return new ResponseEntity<>(evento, OK);
     }
 
 }

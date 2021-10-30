@@ -330,7 +330,7 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Mesmo tema com letras minúsculas não deve dar update")
-    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
+    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException, MessagingException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -373,7 +373,7 @@ class EventoServiceImplTest {
                 .willReturn(java.util.Optional.of(event));
 
         //when
-        //underTest.updateEvento(1L,event2);
+        underTest.updateEvento(1L,event2);
 
         //then
         ArgumentCaptor<Evento> studentArgumentCaptor =
@@ -390,7 +390,7 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Tema diferente deve dar update")
-    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException {
+    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException, MessagingException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -433,7 +433,7 @@ class EventoServiceImplTest {
                 .willReturn(java.util.Optional.of(event));
 
         //when
-       // underTest.updateEvento(1L,event2);
+        underTest.updateEvento(1L,event2);
 
         //then
         ArgumentCaptor<Evento> studentArgumentCaptor =

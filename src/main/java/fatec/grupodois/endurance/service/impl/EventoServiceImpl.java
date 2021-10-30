@@ -211,17 +211,20 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
+    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
 
         Evento event = fetchEventoById(id);
 
-        if(!user.isActive()) {
-            boolean flag = event.addParticipante(user);
-            if(flag) {
-                return eventoRepository.save(event);
-            } else {
-                throw new EventoFullException(EVENT_IS_FULL);
+        if(user.isActive()) {
+            if(!event.getParticipantes().contains(user)){
+                boolean flag = event.addParticipante(user);
+                if(flag) {
+                    return eventoRepository.save(event);
+                } else {
+                    throw new EventoFullException(EVENT_IS_FULL);
+                }
             }
+            throw new UserJaCadastradoNoEventoException(USER_ALREADY_PARTICIPATING);
         }
 
         throw new UserIsNotActiveException(USER_IS_NOT_ACTIVE);
@@ -241,6 +244,11 @@ public class EventoServiceImpl implements EventoService {
         }
 
         return eventoRepository.save(event);
+    }
+
+    @Override
+    public List<User> getParticipantes(Evento event) {
+        return event.getParticipantes();
     }
 
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,

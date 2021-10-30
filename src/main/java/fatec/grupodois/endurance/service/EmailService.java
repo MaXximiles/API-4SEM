@@ -1,7 +1,6 @@
 package fatec.grupodois.endurance.service;
 
 import com.sun.mail.smtp.SMTPTransport;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;

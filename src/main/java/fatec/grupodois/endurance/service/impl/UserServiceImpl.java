@@ -1,9 +1,11 @@
 package fatec.grupodois.endurance.service.impl;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.enumeration.Role;
 import fatec.grupodois.endurance.exception.*;
+import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.UserService;
@@ -51,7 +53,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           BCryptPasswordEncoder passwordEncoder,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User register(String firstName, String lastName, String email, String cpf, String password) throws
             EmailExistException,
-            CpfExistException, CpfNotFoundException, UserNotFoundException {
+            CpfExistException, UserNotFoundException {
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
         String encodedPassword = encodePassword(password);
@@ -225,6 +229,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> fetchAllUsers() { return userRepository.findAll(); }
+
+    @Override
+    public List<Evento> getUserParticipacoes(Long userId) {
+        return userRepository.getUserParticipacoes(userId);
+    }
 
     @Override
     public void deleteUser(Long usuarioID) { userRepository.deleteById(usuarioID); }
