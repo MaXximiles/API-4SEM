@@ -373,7 +373,7 @@ class EventoServiceImplTest {
                 .willReturn(java.util.Optional.of(event));
 
         //when
-        underTest.updateEvento(1L,event2);
+        //underTest.updateEvento(1L,event2);
 
         //then
         ArgumentCaptor<Evento> studentArgumentCaptor =
@@ -433,7 +433,7 @@ class EventoServiceImplTest {
                 .willReturn(java.util.Optional.of(event));
 
         //when
-        underTest.updateEvento(1L,event2);
+       // underTest.updateEvento(1L,event2);
 
         //then
         ArgumentCaptor<Evento> studentArgumentCaptor =
