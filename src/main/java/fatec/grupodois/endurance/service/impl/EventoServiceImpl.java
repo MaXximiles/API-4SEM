@@ -150,7 +150,7 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public Evento updateEvento(Long eventoId, Evento evento)
             throws EventoInicioAfterException, EventIsOccurringException,
-            EventOutOfOpeningHoursException, EventoInicioExistException, EventDifferentDayException {
+            EventOutOfOpeningHoursException, EventoInicioExistException, EventDifferentDayException, MessagingException {
 
         Evento eventoDb = eventoRepository.findById(eventoId).get();
 
@@ -191,6 +191,19 @@ public class EventoServiceImpl implements EventoService {
         if(Objects.nonNull(evento.getStatus()) &&
                 evento.getStatus() != eventoDb.getStatus()) {
             eventoDb.setStatus(evento.getStatus());
+
+            if(eventoDb.getStatus().equals("CONFIRMADO")) {
+                List<User> users = userRepository.findAll();
+                for(User s: users) {
+                    if(!s.getRole().equals("ROLE_ADMIN") && s.isActive() && s.isNotLocked()){
+                        emailService.sendNewEventConfirmedEmail(s.getFirstName(),
+                                eventoDb.getTema(),
+                                s.getEmail(),
+                                eventoDb.getInicio(),
+                                eventoDb.getFim());
+                    }
+                }
+            }
         }
 
 
@@ -198,18 +211,36 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException {
-        // TODO checar status do user
+    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException, UserIsNotActiveException {
+
         Evento event = fetchEventoById(id);
 
-        boolean flag = event.addParticipante(user);
-
-        if(flag) {
-            return eventoRepository.save(event);
-        } else {
-            throw new EventoFullException(EVENT_IS_FULL);
+        if(!user.isActive()) {
+            boolean flag = event.addParticipante(user);
+            if(flag) {
+                return eventoRepository.save(event);
+            } else {
+                throw new EventoFullException(EVENT_IS_FULL);
+            }
         }
 
+        throw new UserIsNotActiveException(USER_IS_NOT_ACTIVE);
+
+
+    }
+
+    public Evento removeParticipante(User user, Long id) throws EventoNotFoundException {
+
+        Evento event = fetchEventoById(id);
+
+        for(int i=0;i<event.getParticipantes().size();i++) {
+            if(user.getEmail().equals(event.getParticipantes().get(i))) {
+                event.getParticipantes().remove(i);
+                break;
+            }
+        }
+
+        return eventoRepository.save(event);
     }
 
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
