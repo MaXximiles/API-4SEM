@@ -13,6 +13,7 @@ import {
 import ptBRlocale from '@fullcalendar/core/locales/pt-br';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { Evento } from 'src/app/model/event';
+import { User } from 'src/app/model/user';
 import { EventoService } from 'src/app/service/evento.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { ModalComponent } from '../modal/modal.component';
@@ -28,7 +29,8 @@ export class FullCalendarComponent implements OnInit {
   @ViewChild('calendar') private fullcalendar: FullCalendar;
   @ViewChild('modalEvento') private modalComponent: ModalComponent;
   @ViewChild('eventForm') private eventForm: NgForm;
-
+  invitedUsers: User[] = [];
+  selectedUser: User = {};
   editEvent: Evento = new Evento();
 
   modalConfig: ModalConfig = null;
@@ -201,6 +203,10 @@ export class FullCalendarComponent implements OnInit {
       this.eventForm.resetForm();
     });
   }
+
+  onDeleteUser(invitedUser): void {}
+
+  onSelectUser(selectedUser): void {}
 
   private sendNotification(
     notificationType: NotificationType,
