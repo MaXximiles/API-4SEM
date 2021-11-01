@@ -24,9 +24,9 @@
         hidden
       />
 
-      <div class="col">
+      <div class="col-sm-6">
         <div class="form-group row">
-          <div class="col-sm-6">
+          <div class="row">
             <div class="col-sm-6">
               <label for="evento-inicio" class="col-form-label">Inicio:</label>
               <input
@@ -97,6 +97,58 @@
         </div>
       </div>
       <div class="col-sm-6">
+        <div class="dropdown mb-2">
+          <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            id="dropdown_coins"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Adicionar Usuário
+          </button>
+          <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
+            <form class="px-4 py-2">
+              <input
+                type="search"
+                name="usersFilter"
+                [(ngModel)]="filter"
+                class="form-control"
+                id="searchUser"
+                placeholder="Nome ou Email"
+                autofocus="autofocus"
+                (ngModelChange)="filterUsers($event)"
+              />
+            </form>
+            <div id="menuItems" *ngFor="let user of users">
+              <div
+                class="dropdown-item"
+                style="cursor: pointer"
+                (click)="onAddUser(user)"
+              >
+                {{ user.firstName }} {{ user.lastName }}
+                <small id="userHelp" class="form-text text-muted my-0">{{
+                  user.email
+                }}</small>
+              </div>
+            </div>
+            <div
+              id="empty"
+              class="dropdown-header"
+              *ngIf="!users.length && filter.length"
+            >
+              Nenhum usuário encontrado
+            </div>
+            <div
+              id="empty2"
+              class="dropdown-header"
+              *ngIf="!users.length && !filter.length"
+            >
+              Digite um termo de pesquisa
+            </div>
+          </div>
+        </div>
         <table class="table table-hover table-striped">
           <thead class="table-borderless">
             <tr
@@ -134,7 +186,7 @@
                 <div class="btn-group">
                   <button
                     class="btn btn-outline-danger"
-                    (click)="onDeleteUser(invitedUser.id)"
+                    (click)="onDeleteUser(invitedUser)"
                   >
                     <i class="fas fa-trash"></i>
                   </button>

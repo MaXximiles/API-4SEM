@@ -44,6 +44,17 @@ export class EventoService {
     );
   }
 
+  public addGuest(user: User, id: number): Observable<Evento> {
+    return this.http.put<Evento>(`${this.host}/events/add-guest/${id}`, user);
+  }
+
+  public removeGuest(user: User, id: number): Observable<Evento> {
+    return this.http.put<Evento>(
+      `${this.host}/events/remove-guest/${id}`,
+      user
+    );
+  }
+
   public createEventFormData(evento: Evento): FormData {
     const formData = new FormData();
     formData.append('id', evento.id?.toString() || null);

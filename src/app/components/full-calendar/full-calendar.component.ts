@@ -16,6 +16,7 @@ import { Evento } from 'src/app/model/event';
 import { User } from 'src/app/model/user';
 import { EventoService } from 'src/app/service/evento.service';
 import { NotificationService } from 'src/app/service/notification.service';
+import { UserService } from 'src/app/service/user.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalConfig } from '../modal/modal.config';
 
@@ -31,7 +32,12 @@ export class FullCalendarComponent implements OnInit {
   @ViewChild('eventForm') private eventForm: NgForm;
   invitedUsers: User[] = [];
   selectedUser: User = {};
+  unfilteredUsers: User[] = [];
+  users: User[] = [];
+  addedUsers: User[] = [];
+  deletedUsers: User[] = [];
   editEvent: Evento = new Evento();
+  filter: string = '';
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
@@ -105,10 +111,13 @@ export class FullCalendarComponent implements OnInit {
 
   constructor(
     private eventoService: EventoService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchUsers();
+  }
 
   // Função que é chamada quando o usuário finaliza o modal de insert para inserir o evento na API (OK)
   public onAddNewEvent(eventForm: NgForm): void {
@@ -116,6 +125,10 @@ export class FullCalendarComponent implements OnInit {
     this.eventoService.addEvent(formData).subscribe(
       (response: Evento) => {
         this.fullcalendar.getApi().refetchEvents();
+
+        this.addedUsers.forEach((user) => {
+          this.eventoService.addGuest(user, response.id);
+        });
 
         this.sendNotification(
           NotificationType.SUCCESS,
@@ -133,9 +146,22 @@ export class FullCalendarComponent implements OnInit {
 
   public onEditEvent(eventForm: NgForm): void {
     const formData = this.eventoService.createEventFormData(eventForm.value);
+
     this.eventoService.updateEvent(formData).subscribe(
       (response: Evento) => {
         this.fullcalendar.getApi().refetchEvents();
+        console.log(this.addedUsers);
+        this.addedUsers.forEach((user) => {
+          this.eventoService
+            .addGuest(user, response.id)
+            .subscribe((result: Evento) => {
+              console.log(result);
+            });
+        });
+
+        this.deletedUsers.forEach((user) => {
+          this.eventoService.removeGuest(user, response.id);
+        });
 
         this.sendNotification(
           NotificationType.SUCCESS,
@@ -204,9 +230,58 @@ export class FullCalendarComponent implements OnInit {
     });
   }
 
-  onDeleteUser(invitedUser): void {}
+  onDeleteUser(deletedUser: User): void {
+    this.addedUsers = this.addedUsers.filter((user) => {
+      return user.id === deletedUser.id ? false : true;
+    });
+
+    this.invitedUsers = this.invitedUsers.filter((user) => {
+      return user.id === deletedUser.id ? false : true;
+    });
+
+    this.deletedUsers.push(deletedUser);
+  }
 
   onSelectUser(selectedUser): void {}
+
+  onAddUser(addedUser: User): void {
+    this.deletedUsers = this.deletedUsers.filter((user) => {
+      return user.id === addedUser.id ? false : true;
+    });
+
+    this.invitedUsers.push(addedUser);
+    this.addedUsers.push(addedUser);
+
+    this.filterUsers(this.filter);
+  }
+
+  filterUsers(filter): void {
+    if (!filter.length) {
+      this.users = [];
+
+      return;
+    }
+
+    this.users = this.unfilteredUsers.filter((unfilteredUser) => {
+      if (
+        (`${unfilteredUser.firstName} ${unfilteredUser.lastName}`.includes(
+          filter
+        ) ||
+          unfilteredUser.email.includes(filter)) &&
+        !this.invitedUsers.includes(unfilteredUser)
+      ) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  fetchUsers() {
+    this.userService.fetchAllUsers().subscribe((users: User[]) => {
+      this.unfilteredUsers = users;
+    });
+  }
 
   private sendNotification(
     notificationType: NotificationType,
