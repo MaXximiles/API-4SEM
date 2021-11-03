@@ -243,6 +243,8 @@ public class EventoServiceImpl implements EventoService {
             }
         }
 
+        event.setTotalParticipantes(event.getTotalParticipantes()-1);
+
         return eventoRepository.save(event);
     }
 
