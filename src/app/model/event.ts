@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export class Evento {
   id?: number;
   inicio?: Date;
@@ -9,6 +11,7 @@ export class Evento {
   userEmail?: string;
   criacao?: Date;
   status?: string;
+  participantes: User[];
   maxParticipantes?: number;
   totalParticipantes?: number;
 
@@ -22,6 +25,7 @@ export class Evento {
     this.userEmail = '';
     this.criacao = null;
     this.status = '';
+    this.participantes = [];
     this.maxParticipantes = null;
     this.totalParticipantes = null;
   }
