@@ -237,7 +237,7 @@ public class EventoServiceImpl implements EventoService {
         Evento event = fetchEventoById(id);
 
         for(int i=0;i<event.getParticipantes().size();i++) {
-            if(user.getEmail().equals(event.getParticipantes().get(i))) {
+            if(user.getEmail().equals(event.getParticipantes().get(i).getEmail())) {
                 event.getParticipantes().remove(i);
                 break;
             }
