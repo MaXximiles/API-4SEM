@@ -73,9 +73,6 @@ public class UserController extends ExceptionHandling {
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
-
-        LOGGER.info(("ACTIVE>>>>" + isActive));
-        LOGGER.info("NONLOCKED>>>>>>>>" + isNonLocked);
        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
                                                 Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
                                                 profileImage);
