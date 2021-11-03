@@ -232,7 +232,8 @@ export class FullCalendarComponent implements OnInit {
 
   // Abre o modal e insere o evento na API (OK)
   handleDateSelect(selectInfo: DateSelectArg) {
-    this.authService.getUserFromLocalCache().role === 'ROLE_ADMIN' &&
+    (this.authService.getUserFromLocalCache().role === 'ROLE_ADMIN' ||
+      this.authService.getUserFromLocalCache().role === 'ROLE_ORACLE') &&
       this.openModalInsert();
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect(); // clear date selection
@@ -246,12 +247,12 @@ export class FullCalendarComponent implements OnInit {
         (evento) => {
           if (
             this.authService.getUserFromLocalCache().role === 'ROLE_ADMIN' ||
-            this.authService.getUserFromLocalCache().role === 'ROLE_ORACLE'
+            (this.authService.getUserFromLocalCache().role === 'ROLE_ORACLE' &&
+              evento.userEmail ===
+                this.authService.getUserFromLocalCache().email)
           ) {
             this.openModalEdit(evento);
-          } else if (
-            this.authService.getUserFromLocalCache().role === 'ROLE_GUEST'
-          ) {
+          } else {
             if (
               evento.participantes.find((participante) => {
                 return (
