@@ -71,7 +71,7 @@ public class UserController extends ExceptionHandling {
                                         @RequestParam("isNonLocked") String isNonLocked,
                                         @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
 
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException, MessagingException {
 
        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
                                                 Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
