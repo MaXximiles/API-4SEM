@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                            String email, String cpf,
                            String role, boolean isNonLocked,
                            boolean isActive, MultipartFile profileImage)
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, IOException, MessagingException {
 
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
@@ -121,6 +121,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         LOGGER.info("New user password>>>>" + password);
         LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
+        emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         if(profileImage != null) {
             saveProfileImage(user, profileImage);
         }

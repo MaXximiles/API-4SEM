@@ -61,7 +61,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com início no meio de outro Evento")
+    @DisplayName("Add Evento com início no meio de outro Evento == Exc")
     void whenEventoOccurring_ShouldThrowExc()  {
 
         LocalTime open = LocalTime.of(10,00,00);
@@ -112,14 +112,15 @@ class EventoServiceImplTest {
 
         // then
         assertEquals("Evento ocorrendo no horário de início: "
-                + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                + ". Sugestão de horário:08:00",
                 exc.getMessage());
 
 
     }
 
     @Test
-    @DisplayName("Add Evento com início == de outro Evento")
+    @DisplayName("Add Evento com início == de outro Evento == Exc")
     void whenEventoExist_ShouldThrowExc() {
 
         // given
@@ -169,14 +170,15 @@ class EventoServiceImplTest {
 
         // then
         assertEquals("Evento já cadastrado com ínício: "
-                        + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                        + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                + ". Sugestão de horário:08:00",
                 exc.getMessage());
 
 
     }
 
     @Test
-    @DisplayName("Add Evento com início fora do horário de funcionamento")
+    @DisplayName("Add Evento com início fora do horário de funcionamento == Exc")
     void whenEventoOutOfOpeningHours_ShouldThrowExc() {
 
         // given
@@ -211,7 +213,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com final fora do horário de funcionamento")
+    @DisplayName("Add Evento com final fora do horário de funcionamento == Exception")
     void whenEventoOutOfClosingHours_ShouldThrowExc() {
 
         // given
@@ -248,7 +250,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com inicio > final")
+    @DisplayName("Add Evento com inicio > final == Exception")
     void whenInicioAfterFinal_ShouldThrowExc() {
 
         // given
@@ -283,48 +285,6 @@ class EventoServiceImplTest {
                         + " depois de "
                         + event.getFim(),
                 exc.getMessage());
-
-    }
-
-    @Test
-    @DisplayName("Add Evento")
-    void EventoAfter08AMShouldAdd()
-            throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException, EventWithInvalidLocalException, MessagingException, EventDifferentDayException {
-
-        // given
-        LocalTime open = LocalTime.of(8,00,00);
-        LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
-
-        Evento event = Evento
-                .builder()
-                .id(1L)
-                .inicio(date)
-                .fim(LocalDateTime.now().plusHours(2L))
-                .local(LocalEvento.OPENSPACE.name())
-                .tema("Lean Agile")
-                .descricao("Entenda a nova tendência de arquitetura de software")
-                .observacao("Necessário carteira de vacinação")
-                .user(this.user)
-                .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE.name())
-                .maxParticipantes(50)
-                .totalParticipantes(1)
-                .build();
-
-        // when
-        underTest.addEvento(event);
-
-        // then
-        ArgumentCaptor<Evento> studentArgumentCaptor =
-                ArgumentCaptor.forClass(Evento.class);
-
-        verify(eventoRepository)
-                .save(studentArgumentCaptor.capture());
-
-        Evento capturedEvento = studentArgumentCaptor.getValue();
-
-        assertThat(capturedEvento).isEqualTo(event);
 
     }
 
