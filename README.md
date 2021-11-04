@@ -66,6 +66,11 @@ Front-end:
 <b></br>Opção de enviar carteira de vacinação</br></br>
 <img src=https://user-images.githubusercontent.com/68132461/140236225-87de7742-13bb-496d-85d0-120f60fcba29.jpeg></br>
 </p></br><h1></h1>
+
+
+<p align=center>
+<b></br>Burndown</br></br>
+<img src=https://user-images.githubusercontent.com/68132461/140238787-6f787dd8-f7b9-4b39-af89-41f333760f8d.jpeg></br>
 </p></br><h1></h1>
 
 
