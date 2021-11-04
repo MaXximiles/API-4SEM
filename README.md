@@ -7,8 +7,9 @@
 Na última sprint temos o objetivo de desenvolver o módulo de relatórios para os administradores, e também o processo de validação da carteira de vacinação dos usuários.
 
 <p align=center> 
-</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%206.jpg?raw=true" width=300 height=200>
-<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documenta%C3%A7%C3%A3o/User%20Story%20Cards/story%20card%207.jpg?raw=true" width=300 height=200>
+</br><img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%203.jpg?raw=true" width=300 height=200>
+<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%206.jpg?raw=true" width=300 height=200>
+<img src="https://raw.githubusercontent.com/MaXximiles/API-4SEM/main/Documentação/User%20Story%20Cards/story%20card%209.jpg?raw=true" width=300 height=200>
 
 - Banco de Dados:
   - Versionamento do Banco de dados; 
