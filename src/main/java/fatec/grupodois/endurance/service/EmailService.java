@@ -3,11 +3,17 @@ package fatec.grupodois.endurance.service;
 import com.sun.mail.smtp.SMTPTransport;
 import org.springframework.stereotype.Service;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -50,7 +56,28 @@ public class EmailService {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
         message.setSubject(EMAIL_SUBJECT);
-        message.setText("Olá, " + firstName + ".\n\nSua nova senha: " + password + "\n\n endurance Support Team");
+
+        MimeMultipart multipart = new MimeMultipart("related");
+
+        BodyPart messageBodyPart = new MimeBodyPart();
+        String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Sua nova senha: "
+                + password + "</p><br><br><img src=\"cid:image\">+<br><p>endurance Support Team</p>";
+
+        messageBodyPart.setContent(htmlText, "text/html");
+
+        multipart.addBodyPart(messageBodyPart);
+
+        /*image*/
+        messageBodyPart = new MimeBodyPart();
+        DataSource fds = new FileDataSource("endurance_logo.png");
+
+        messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setHeader("Content-ID", "<image>");
+
+        multipart.addBodyPart(messageBodyPart);
+
+        message.setContent(multipart);
+
         message.setSentDate(new Date());
         message.saveChanges();
 
@@ -63,7 +90,29 @@ public class EmailService {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
         message.setSubject("Novo Evento!");
-        message.setText("Olá, " + firstName + ".\n\nUm novo evento requer sua atenção: " + tema + "\n\n endurance Support Team");
+
+        MimeMultipart multipart = new MimeMultipart("related");
+
+        BodyPart messageBodyPart = new MimeBodyPart();
+        String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Um novo evento requer sua atenção: "
+                + tema + "</p><br><br><img src=\"cid:image\">+<br><p>endurance Support Team</p>";
+
+        messageBodyPart.setContent(htmlText, "text/html");
+
+        multipart.addBodyPart(messageBodyPart);
+
+        /*image*/
+        messageBodyPart = new MimeBodyPart();
+        DataSource fds = new FileDataSource("endurance_logo.png");
+
+        messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setHeader("Content-ID", "<image>");
+
+        multipart.addBodyPart(messageBodyPart);
+
+        message.setContent(multipart);
+
+        /*message.setText("Olá, " + firstName + ".\n\nUm novo evento requer sua atenção: " + tema + "\n\n endurance Support Team" + "\n<img >");*/
         message.setSentDate(new Date());
         message.saveChanges();
 

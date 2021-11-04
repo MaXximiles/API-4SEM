@@ -15,4 +15,5 @@ public class FileConstant {
     public static final String VACCINE_IMAGE_FOLDER = "/vacina";
     public static final String VACCINE_IMAGE = "_vacina";
     public static final String IMAGE_FILE_ERROR = "Ocorreu um erro ao ler seu arquivo de imagem";
+    public static final String VACCINE_PLACEHOLDER = "https://i.ibb.co/n0DVTs1/vaccine-placeholder.png";
 }
