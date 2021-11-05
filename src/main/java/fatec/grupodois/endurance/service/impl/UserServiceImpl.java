@@ -5,7 +5,6 @@ import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.enumeration.Role;
 import fatec.grupodois.endurance.exception.*;
-import fatec.grupodois.endurance.repository.EventoRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.UserService;
@@ -82,6 +81,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(ROLE_GUEST.name())
                 .authorities(ROLE_GUEST.getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
+                .vaccineImage("https://i.ibb.co/n0DVTs1/vaccine-placeholder.png")
                 .build();
 
         LOGGER.info("User>>>>" + user.toString());
@@ -110,11 +110,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .cpf(cpf)
                 .joinDate(new Date())
                 .password(encodedPassword)
-                .isActive(true)
-                .isNotLocked(true)
+                .isActive(isActive)
+                .isNotLocked(isNonLocked)
                 .role(getRoleEnumName(role).name())
                 .authorities(getRoleEnumName(role).getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
+                .vaccineImage(VACCINE_PLACEHOLDER)
                 .build();
 
         LOGGER.info("User>>>>" + user.toString());
