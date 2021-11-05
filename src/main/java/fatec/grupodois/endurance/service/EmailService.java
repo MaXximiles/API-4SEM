@@ -60,12 +60,14 @@ public class EmailService {
         MimeMultipart multipart = new MimeMultipart("related");
 
         BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "
-            <H3>Olá, " + firstName + ".</H3><br>
-            <img src=\"cid:image\">+<br><p>Endurance Support Team</p><br>
-            <p>Seja bem vindo ao Endurance, estmos felizes com sua inscrição.
-            <br> Abaixo segue sua senha para acessar o sistema.</p>
-            <br><p>Sua nova senha é: " + password + "</p>";
+        String htmlText = "<H3>Olá, " + firstName + ".</H3><br>"+
+            "<img src=\"cid:image\">+<br><p>Endurance Support Team</p><br>"+
+            "<p>Seja bem vindo ao Endurance, estmos felizes com sua inscrição."+
+            "<br> Abaixo segue sua senha para acessar o sistema.</p>"+
+            "<br><p>Sua nova senha é: " + password + "</p>";
+                
+                
+      
 
         messageBodyPart.setContent(htmlText, "text/html");
 
