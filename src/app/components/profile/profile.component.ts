@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit {
     formData.append('profileImage', this.profileImage);
     this.subscriptions.push(
       this.userService.updateProfileImage(formData).subscribe(
-        (event: HttpEvent<any>) => {
+        (event: HttpEvent<User>) => {
           if (flag) {
             this.sendNotification(
               NotificationType.SUCCESS,

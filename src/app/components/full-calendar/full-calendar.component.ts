@@ -11,6 +11,7 @@ import {
   FullCalendarComponent as FullCalendar,
 } from '@fullcalendar/angular';
 import ptBRlocale from '@fullcalendar/core/locales/pt-br';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { Evento } from 'src/app/model/event';
@@ -88,6 +89,11 @@ export class FullCalendarComponent implements OnInit {
             )
               ? '#00bcd4'
               : '#ff9800',
+            backgroundColor: evento.participantes.find(
+              (user) => user.id === this.authService.getUserFromLocalCache().id
+            )
+              ? '#00bcd4'
+              : '#ff9800',
           };
 
           events.push(eventInputTemp);
@@ -143,7 +149,11 @@ export class FullCalendarComponent implements OnInit {
 
         this.sendNotification(
           NotificationType.SUCCESS,
-          `O evento ${response.descricao} foi marcado com de "${response.inicio}" até "${response.fim}" com sucesso`
+          `O evento ${response.descricao} foi marcado com de "${moment(
+            response.inicio
+          ).format('DD/MM/YYYY hh:mm:ss')}" até "${moment(response.fim).format(
+            'DD/MM/YYYY hh:mm:ss'
+          )}" com sucesso`
         );
       },
       (errorResponse: HttpErrorResponse) => {
@@ -180,7 +190,11 @@ export class FullCalendarComponent implements OnInit {
 
         this.sendNotification(
           NotificationType.SUCCESS,
-          `O evento ${response.descricao} foi atualizado de "${response.inicio}" até "${response.fim}" com sucesso`
+          `O evento ${response.descricao} foi atualizado de "${moment(
+            response.inicio
+          ).format('DD/MM/YYYY hh:mm:ss')}" até "${moment(response.fim).format(
+            'DD/MM/YYYY hh:mm:ss'
+          )}" com sucesso`
         );
       },
       (errorResponse: HttpErrorResponse) => {
@@ -248,8 +262,7 @@ export class FullCalendarComponent implements OnInit {
           if (
             this.authService.getUserFromLocalCache().role === 'ROLE_ADMIN' ||
             (this.authService.getUserFromLocalCache().role === 'ROLE_ORACLE' &&
-              evento.userEmail ===
-                this.authService.getUserFromLocalCache().email)
+              evento.user.id === this.authService.getUserFromLocalCache().id)
           ) {
             this.openModalEdit(evento);
           } else {

@@ -66,6 +66,7 @@ export class EventoService {
     formData.append('local', evento.local);
     formData.append('tema', evento.tema);
     formData.append('descricao', evento.descricao);
+    formData.append('status', evento.status);
     return formData;
   }
 
