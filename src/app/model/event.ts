@@ -14,6 +14,7 @@ export class Evento {
   participantes: User[];
   maxParticipantes?: number;
   totalParticipantes?: number;
+  user?: User;
 
   constructor() {
     this.inicio = null;
@@ -28,5 +29,6 @@ export class Evento {
     this.participantes = [];
     this.maxParticipantes = null;
     this.totalParticipantes = null;
+    this.user = new User();
   }
 }

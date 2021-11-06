@@ -171,8 +171,17 @@
                               class="rounded"
                               height="200px"
                               width="100%"
+                              *ngIf="user?.vaccineImage"
                               src="{{ user?.vaccineImage }}"
-                              alt="Carteira de vacinação"
+                              alt="Imagem da carteira de vacinação"
+                            />
+                            <img
+                              class="rounded"
+                              height="200px"
+                              width="100%"
+                              *ngIf="!user?.vaccineImage"
+                              src="..\..\assets\imagens\no_image.jpg"
+                              alt="Imagem da carteira de vacinação"
                             />
                           </div>
                         </div>
