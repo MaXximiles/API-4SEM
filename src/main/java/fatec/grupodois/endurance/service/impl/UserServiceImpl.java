@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                            String cpf, String role,
                            boolean isNonLocked, boolean isActive, MultipartFile profileImage,
                            String adminEmail)
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, IOException {
 
         User currentUser = validateNewCpfAndEmail(currentEmail, newEmail, cpf);
         boolean flag = false;

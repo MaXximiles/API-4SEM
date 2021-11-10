@@ -65,6 +65,7 @@ public class EventoServiceImpl implements EventoService {
             for(User u: adminUsers) {
                 emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
             }
+            evento.setStatus("PENDENTE");
         }
 
         return eventoRepository.save(evento);

@@ -48,7 +48,7 @@ public class Evento implements Serializable {
     @Column(name="evt_local", nullable = false)
     private String local;
     @NotBlank()
-    @Column(name="evt_tema", nullable = false)
+    @Column(name="evt_tema", nullable = false, unique = true)
     private String tema;
     @Column(name="evt_desc")
     private String descricao;
@@ -57,10 +57,12 @@ public class Evento implements Serializable {
     @OneToOne
     @JoinColumn(
             name = "evt_usr_id",
-            referencedColumnName = "usr_id"
+            referencedColumnName = "usr_id",
+            nullable = false
     )
     private User user;
-    @Column(name="evt_criacao")
+    @Column(name="evt_criacao", nullable = false)
+    @NotBlank
     private LocalDateTime criacao = LocalDateTime.now();
     @Column(name="evt_status", nullable = false)
     private String status;
@@ -82,6 +84,20 @@ public class Evento implements Serializable {
             )
     )
     private List<User> participantes;
+
+    @ManyToMany
+    @JoinTable(
+            name="evento_fornecedor_map",
+            joinColumns = @JoinColumn(
+                    name = "efm_evt_id",
+                    referencedColumnName = "evt_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="efm_frn_id",
+                    referencedColumnName = "frn_id"
+            )
+    )
+    private List<Fornecedor> fornecedores;
 
     public boolean addParticipante(User user) {
         if(this.maxParticipantes > this.totalParticipantes) {
