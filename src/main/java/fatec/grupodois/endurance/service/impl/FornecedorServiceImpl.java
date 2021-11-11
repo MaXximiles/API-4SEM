@@ -53,9 +53,7 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public void deleteFornecedorById(Long id) {
-
-    }
+    public void deleteFornecedorById(Long id) { fornecedorRepository.deleteById(id); }
 
     @Override
     public List<Fornecedor> findAllFornecedores() {
