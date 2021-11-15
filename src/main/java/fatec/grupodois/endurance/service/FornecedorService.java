@@ -25,7 +25,7 @@ public interface FornecedorService {
 
     Fornecedor fetchFornecedorByDescricao(String descricao) throws FornecedorNotFoundException, DescricaoExistsException;
 
-    Fornecedor updateFornecedor(Long id, Fornecedor fornecedor) throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException;
+    Fornecedor updateFornecedor(String emailAtual, String cnpj, String email, String observacao, String descricao) throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException;
 
-    List<Evento> fetchFornecedorMap(Long id);
+    List<Evento> fetchFornecedorMap(String cnpj);
 }
