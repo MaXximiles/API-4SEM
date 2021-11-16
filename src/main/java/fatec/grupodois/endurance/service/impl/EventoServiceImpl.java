@@ -201,7 +201,8 @@ public class EventoServiceImpl implements EventoService {
                                 eventoDb.getTema(),
                                 s.getEmail(),
                                 eventoDb.getInicio(),
-                                eventoDb.getFim());
+                                eventoDb.getFim(),
+                                eventoDb.getLocal());
                     }
                 }
             }
@@ -254,6 +255,7 @@ public class EventoServiceImpl implements EventoService {
         return event.getParticipantes();
     }
 
+    /* PRIVATE METHOD CRIADO PARA CHECAR REGRAS DE NEGOCIO */
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
             EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
         if(inicio.isAfter(fim)) {
@@ -268,7 +270,8 @@ public class EventoServiceImpl implements EventoService {
                 || fim.toLocalTime().isAfter(close)
                 || inicio.toLocalTime().isAfter(close)
                 || fim.toLocalTime().isBefore(open)) {
-            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS);
+            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS); /* checa se o horário escolhido está
+                                                                                        entre o horário de funcionamento da casa Oracle*/
         }
 
         if(inicio.getDayOfMonth() != fim.getDayOfMonth()) {
@@ -286,7 +289,7 @@ public class EventoServiceImpl implements EventoService {
 
                         throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
                                 + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                SUGGESTION + horasDisp.get(0));
+                                SUGGESTION + horasDisp.get(0)); /* MOSTRA UMA SUGESTAO SIMPLES DE HORARIO */
                     } else if (inicio.toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
                     inicio.toLocalTime().isBefore(s.getFim().toLocalTime())) {
                         throw new EventIsOccurringException(EVENT_IS_OCCURRING

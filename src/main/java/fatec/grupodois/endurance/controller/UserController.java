@@ -232,11 +232,13 @@ public class UserController extends ExceptionHandling {
         return response(OK, PASSWORD_SUCCESS + newPassword.getEmail());
     }
 
-    @GetMapping("/reset-password/{email}")
-    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email)
-            throws EmailNotFoundException, MessagingException {
+    @PutMapping("/change-password/{email}")
+    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email,
+                                                      @RequestParam("senhaAntiga") String senhaAntiga,
+                                                      @RequestParam("novaSenha") String novaSenha)
+            throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException {
 
-        userService.resetPassword(email);
+        userService.changePassword(email, senhaAntiga, novaSenha);
 
         return response(OK, PASSWORD_SUCCESS + email.substring(5));
     }
