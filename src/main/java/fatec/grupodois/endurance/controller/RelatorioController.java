@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -45,7 +44,7 @@ public class RelatorioController
                 " \n" +
                 " <table cellspacing='0' cellpadding='0' border='1' width='100%' style='border-color:Black;'> \n" +
                 " <tr bgcolor='#4169E1'><td colspan='7' align='center'> \n" +
-                "<img src='./endurance_logo.png' width='50' height='50'> \n" +
+                "<img src='./endurance_logoB.png' width='70' height='50'> \n" +
                 "<font color='white' size='+2'><b>  RELATÓRIO DE EVENTOS POR PERÍODO </b></font></td></tr>\n " +
                 " <tr bgcolor='#4169E1'> \n" +
                 " <td align='center'><b><font color='white'> DATA </font></b></td> \n" +
@@ -121,8 +120,8 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
+       /* File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
         HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf"));
@@ -228,7 +227,7 @@ public class RelatorioController
                 " \n" +
                 " <table cellspacing='0' cellpadding='0' border='1' width='100%' style='border-color:Black;'> \n" +
                 " <tr bgcolor='#4169E1'><td colspan='"+colspan+"' align='center'> \n" +
-                "<img src='./endurance_logo.png' width='50' height='50'> \n" +
+                "<img src='./endurance_logoB.png' width='70' height='50'> \n" +
                 "<font color='white' size='+2'><b>  RELATÓRIO DE EVENTOS DE "+titulo+" </b></font></td></tr>\n " +
                 " <tr bgcolor='#4169E1'> \n" +
                 " <td align='center'><b><font color='white'> DATA </font></b></td> \n" +
@@ -255,10 +254,8 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
-
-
+        /*File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
         HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
@@ -349,8 +346,8 @@ public class RelatorioController
                 " <table cellspacing='0' cellpadding='0' border='1' width='100%' style='border-color:Black;'> \n" +
                 " \n" +
                 " <tr bgcolor='#4169E1'>\n" +
-                " <td colspan='4' align='center'> \n" +
-                " <img src='./endurance_logo.png' width='50' height='50'> \n" +
+                " <td colspan='4' align='center' valign='middle'> \n" +
+                " <img src='./endurance_logoB.png' width='70' height='50'> \n" +
                 " <font color='white' size='+2'><b>  RELATÓRIO DE USUARIOS E VACINA </b></font>\n" +
                 " </td>\n" +
                 " </tr>\n " +
@@ -383,8 +380,8 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
+        /*File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
         HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf"));

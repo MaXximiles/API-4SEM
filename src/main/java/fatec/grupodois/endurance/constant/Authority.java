@@ -18,7 +18,11 @@ public class Authority {
                                                         "evento: read",
                                                         "evento:create",
                                                         "evento:delete",
-                                                        "evento:update"
+                                                        "evento:update",
+                                                        "fornecedor:read",
+                                                        "fornecedor:create",
+                                                        "fornecedor:delete",
+                                                        "fornecedor:update"
                                                      };
 
 }

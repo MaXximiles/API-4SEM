@@ -95,35 +95,47 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public Fornecedor updateFornecedor(Long id, Fornecedor fornecedor) throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException {
+    public Fornecedor updateFornecedor(String emailAtual, String cnpj, String email, String observacao, String descricao)
+            throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException {
 
-        Fornecedor fornecedorDb = fornecedorRepository.findById(id).get();
+        Fornecedor fornecedorDb = fornecedorRepository.findFornecedorByEmail(email).get();
 
-        if(StringUtils.isNotEmpty(StringUtils.trim(fornecedor.getDescricao())) &&
-                !StringUtils.equalsIgnoreCase(fornecedor.getDescricao(), fornecedorDb.getDescricao())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(descricao)) &&
+                !StringUtils.equalsIgnoreCase(descricao, fornecedorDb.getDescricao())) {
 
-            checkDescricao(fornecedor.getDescricao(), true);
-            fornecedorDb.setDescricao(fornecedor.getDescricao());
+            checkDescricao(descricao, true);
+            fornecedorDb.setDescricao(descricao);
         }
 
-        if(StringUtils.isNotEmpty(StringUtils.trim(fornecedor.getEmail())) &&
-                !StringUtils.equalsIgnoreCase(fornecedor.getEmail(), fornecedorDb.getEmail())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(email)) &&
+                !StringUtils.equalsIgnoreCase(email, fornecedorDb.getEmail())) {
 
-            checkEmail(fornecedor.getEmail(), true);
-            fornecedorDb.setEmail(fornecedor.getEmail());
+            checkEmail(email, true);
+            fornecedorDb.setEmail(email);
         }
 
-        if(StringUtils.isNotEmpty(StringUtils.trim(fornecedor.getObservacao())) &&
-                !StringUtils.equalsIgnoreCase(fornecedor.getObservacao(), fornecedorDb.getObservacao())) {
+        if(StringUtils.isNotEmpty(StringUtils.trim(observacao)) &&
+                !StringUtils.equalsIgnoreCase(observacao, fornecedorDb.getObservacao())) {
 
-            fornecedorDb.setObservacao(fornecedor.getObservacao());
+            fornecedorDb.setObservacao(observacao);
+        }
+
+        if(StringUtils.isNotEmpty(StringUtils.trim(cnpj)) &&
+                !StringUtils.equalsIgnoreCase(cnpj, fornecedorDb.getCnpj())) {
+
+            fornecedorDb.setCnpj(cnpj);
         }
 
         return fornecedorRepository.save(fornecedorDb);
     }
 
     @Override
-    public List<Evento> fetchFornecedorMap(Long id) { return fornecedorRepository.getFornecedorMap(id); }
+    public List<Evento> fetchFornecedorMap(String cnpj) {
+
+        Fornecedor fornecedor = fornecedorRepository.findFornecedorByCnpj(cnpj).get();
+
+        return fornecedorRepository.getFornecedorMap(fornecedor.getId());
+    }
 
     private Fornecedor checkCnpj(String cnpj, boolean inserir) throws FornecedorNotFoundException, CnpjExistsException {
 

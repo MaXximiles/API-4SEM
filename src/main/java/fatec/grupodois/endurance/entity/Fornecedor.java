@@ -43,19 +43,19 @@ public class Fornecedor {
     @Column(name="frn_id", nullable = false)
     private Long id;
 
-    @Column(name="frn_descricao")
+    @Column(name="frn_descricao", columnDefinition = "VARCHAR2(25)", unique = true, nullable = false)
     @NotBlank
     private String descricao;
 
-    @Column(name="frn_cnpj")
+    @Column(name="frn_cnpj", columnDefinition = "VARCHAR2(14)", unique = true, nullable = false)
     @CNPJ
     @NotBlank
     private String cnpj;
 
-    @Column(name="frn_email")
+    @Column(name="frn_email", columnDefinition = "VARCHAR2(100)", unique = true, nullable = false)
     @NotBlank
     private String email;
 
-    @Column(name="frn_obs")
+    @Column(name="frn_obs", columnDefinition = "VARCHAR2(255)")
     private String observacao;
 }

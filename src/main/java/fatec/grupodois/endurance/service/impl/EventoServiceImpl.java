@@ -45,7 +45,7 @@ public class EventoServiceImpl implements EventoService {
             EventIsOccurringException, EventOutOfOpeningHoursException,
             MessagingException, EventDifferentDayException, EventWithInvalidLocalException {
 
-        checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getLocal());
+        checkEventIntegrity(evento, evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getLocal());
 
         if(!evento.getLocal().equalsIgnoreCase("OPENSPACE") &&
                 !evento.getLocal().equalsIgnoreCase("LOUNGE")) {
@@ -65,6 +65,7 @@ public class EventoServiceImpl implements EventoService {
             for(User u: adminUsers) {
                 emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
             }
+            evento.setStatus("PENDENTE");
         }
 
         return eventoRepository.save(evento);
@@ -163,13 +164,13 @@ public class EventoServiceImpl implements EventoService {
 
         if(Objects.nonNull(evento.getInicio()) &&
             !eventoDb.getInicio().equals(evento.getInicio())) {
-            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
+            checkEventIntegrity(evento, evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
             eventoDb.setInicio(evento.getInicio());
         }
 
         if(Objects.nonNull(evento.getFim()) &&
                 !eventoDb.getFim().equals(evento.getFim())) {
-            checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
+            checkEventIntegrity(evento, evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
             eventoDb.setFim(evento.getFim());
         }
 
@@ -200,7 +201,8 @@ public class EventoServiceImpl implements EventoService {
                                 eventoDb.getTema(),
                                 s.getEmail(),
                                 eventoDb.getInicio(),
-                                eventoDb.getFim());
+                                eventoDb.getFim(),
+                                eventoDb.getLocal());
                     }
                 }
             }
@@ -211,11 +213,17 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
+    public Evento addParticipante(User user, Long id)
+            throws EventoNotFoundException, EventoFullException,
+            UserIsNotActiveException, UserJaCadastradoNoEventoException,
+            EventoNaoConfirmadoException {
 
         Evento event = fetchEventoById(id);
+        if(!event.getStatus().equals("CONFIRMADO")) {
+            throw  new EventoNaoConfirmadoException(EVENTO_NAO_CONFIRMADO);
+        }
 
-        if(user.isActive()) {
+        if(user.isActive() && user.isNotLocked()) {
             if(!event.getParticipantes().contains(user)){
                 boolean flag = event.addParticipante(user);
                 if(flag) {
@@ -253,8 +261,9 @@ public class EventoServiceImpl implements EventoService {
         return event.getParticipantes();
     }
 
-    private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
-            EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
+    /* PRIVATE METHOD CRIADO PARA CHECAR REGRAS DE NEGOCIO */
+    private void checkEventIntegrity(Evento eventoCriado, LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
+            EventoInicioExistException, EventIsOccurringException, EventDifferentDayException, MessagingException {
         if(inicio.isAfter(fim)) {
             throw new EventoInicioAfterException(inicio
                     + " depois de "
@@ -267,7 +276,8 @@ public class EventoServiceImpl implements EventoService {
                 || fim.toLocalTime().isAfter(close)
                 || inicio.toLocalTime().isAfter(close)
                 || fim.toLocalTime().isBefore(open)) {
-            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS);
+            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS); /* checa se o horário escolhido está
+                                                                                        entre o horário de funcionamento da casa Oracle*/
         }
 
         if(inicio.getDayOfMonth() != fim.getDayOfMonth()) {
@@ -282,20 +292,41 @@ public class EventoServiceImpl implements EventoService {
             for (Evento s : eventos.get()) {
                 if (local.equalsIgnoreCase(s.getLocal()) && !tema.equalsIgnoreCase(s.getTema())) {
                     if (s.getInicio().toLocalTime().equals(inicio.toLocalTime())) {
+                        if(s.getStatus().equals("CONFIRMADO") || s.getStatus().equals("CONFLITO")) {
+                            throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
+                                    + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                    SUGGESTION + horasDisp.get(0)); /* MOSTRA UMA SUGESTAO SIMPLES DE HORARIO */
+                        } else if(s.getStatus().equals("PENDENTE")) {
+                            eventoCriado.setStatus("CONFLITO");
+                            s.setStatus("CONFLITO");
+                            eventoRepository.save(s);
+                            mandarEmailConflitoParaAdmin(s, eventoCriado);
+                        }
 
-                        throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
-                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                SUGGESTION + horasDisp.get(0));
                     } else if (inicio.toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
                     inicio.toLocalTime().isBefore(s.getFim().toLocalTime())) {
-                        throw new EventIsOccurringException(EVENT_IS_OCCURRING
-                                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                SUGGESTION + horasDisp.get(0));
+                        if(s.getStatus().equals("CONFIRMADO") || s.getStatus().equals("CONFLITO")) {
+                            throw new EventIsOccurringException(EVENT_IS_OCCURRING
+                                    + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                    SUGGESTION + horasDisp.get(0));
+                        } else if(s.getStatus().equals("PENDENTE")) {
+                            eventoCriado.setStatus("CONFLITO");
+                            s.setStatus("CONFLITO");
+                            eventoRepository.save(s);
+                            mandarEmailConflitoParaAdmin(s, eventoCriado);
+                        }
                     } else if (fim.toLocalTime().isBefore(s.getFim().toLocalTime()) &&
                                 fim.toLocalTime().isAfter(s.getInicio().toLocalTime())) {
-                        throw new EventIsOccurringException(EVENT_IS_OCCURRING
-                                + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
-                                + SUGGESTION + horasDisp.get(0));
+                        if(s.getStatus().equals("CONFIRMADO") || s.getStatus().equals("CONFLITO")) {
+                            throw new EventIsOccurringException(EVENT_IS_OCCURRING
+                                    + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    + SUGGESTION + horasDisp.get(0));
+                        } else if (s.getStatus().equals("PENDENTE")) {
+                            eventoCriado.setStatus("CONFLITO");
+                            s.setStatus("CONFLITO");
+                            eventoRepository.save(s);
+                            mandarEmailConflitoParaAdmin(s, eventoCriado);
+                        }
                     }
                 }
 
@@ -346,4 +377,17 @@ public class EventoServiceImpl implements EventoService {
         return horasDispAns;
     }
 
+    private void mandarEmailConflitoParaAdmin(Evento evento1, Evento evento2) throws MessagingException {
+
+        List<User> admins = userRepository.findAllAdmins();
+
+        for(User u: admins) {
+            emailService.enviarEmailDeConflito(evento1.getTema(),
+                    evento2.getTema(),
+                    evento1.getInicio(),
+                    evento1.getUser().getRole(),
+                    evento2.getUser().getRole(),
+                    u.getEmail());
+        }
+    }
 }
