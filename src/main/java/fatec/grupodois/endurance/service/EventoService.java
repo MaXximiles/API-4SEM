@@ -35,7 +35,7 @@ public interface EventoService {
             EventoInicioExistException, EventDifferentDayException, MessagingException;
 
     Evento addParticipante(User user, Long id)
-            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException;
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException, EventoNaoConfirmadoException;
 
     Evento removeParticipante(User user, Long id) throws EventoNotFoundException;
 

@@ -8,6 +8,7 @@ public class EmailConstant {
     public static final String CC_EMAIL = "";
     public static final String EMAIL_SUBJECT_NOVA_SENHA = "endurance - Nova Senha";
     public static final String EMAIL_SUBJECT_NOVO_EVENTO = "endurance - Novo Evento!";
+    public static final String EMAIL_SUBJECT_CONFLITO_EVENTO = "endurance - Conflito entre Eventos!";
     public static final String EMAIL_SUBJECT_EVENTO_CONFIRMADO = "endurance - Convite para Evento Confirmado!";
     public static final String GMAIL_SMTP_SERVER = "smtp.gmail.com";
     public static final String SMTP_HOST = "mail.smtp.host";
