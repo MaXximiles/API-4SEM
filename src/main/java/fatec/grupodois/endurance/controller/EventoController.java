@@ -44,7 +44,7 @@ public class EventoController extends ExceptionHandling{
 
     @PutMapping("/add-guest/{id}")
     public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException, EventoNaoConfirmadoException {
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
 
         Evento event = eventoService.addParticipante(user, id);
 
