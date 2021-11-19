@@ -58,14 +58,6 @@ public class EmailService {
         smtpTransport.close();
     }
 
-    public void enviarEmailDeConflito(String tema, String tema2, LocalDateTime inicio, String role1, String role2, String email) throws MessagingException {
-        Message message = criarEmailConflitoEvento(tema, tema2, inicio, role1, role2, email);
-        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
-        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
-        smtpTransport.sendMessage(message, message.getAllRecipients());
-        smtpTransport.close();
-    }
-
     private Message createEmail(String firstName, String password, String email) throws MessagingException {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(FROM_EMAIL));
@@ -77,7 +69,7 @@ public class EmailService {
 
         BodyPart messageBodyPart = new MimeBodyPart();
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Sua nova senha: "
-                + password + "</p>" + ANEXAR_LOGO;
+                + password + ANEXAR_LOGO;
 
         messageBodyPart.setContent(htmlText, "text/html");
 
@@ -111,7 +103,7 @@ public class EmailService {
 
         BodyPart messageBodyPart = new MimeBodyPart();
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Um novo evento requer sua atenção: "
-                + tema + ".</p>" + ANEXAR_LOGO;
+                + tema + ANEXAR_LOGO;
 
         messageBodyPart.setContent(htmlText, "text/html");
 
@@ -157,51 +149,6 @@ public class EmailService {
                 + " no nosso espaço "
                 + local
                 +"."
-                +"</p>"
-                + ANEXAR_LOGO;
-
-        messageBodyPart.setContent(htmlText, "text/html");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        /*image*/
-        messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-
-        message.setSentDate(new Date());
-        message.saveChanges();
-
-        return message;
-    }
-
-    private Message criarEmailConflitoEvento(String tema, String tema2, LocalDateTime inicio, String role1, String role2, String email) throws MessagingException {
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT_EVENTO_CONFIRMADO);
-
-        MimeMultipart multipart = new MimeMultipart("related");
-
-        BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "<p>Os eventos: "
-                + tema
-                + "("
-                + "<b>" + role1 + "</b>)"
-                + " e "
-                + tema2
-                + "("
-                + "<b>" + role2 + "</b>)"
-                + " requerem sua atenção! Conflito no horário de início: "
-                + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
-                + ".</p>"
                 + ANEXAR_LOGO;
 
         messageBodyPart.setContent(htmlText, "text/html");
