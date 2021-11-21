@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RelatoriColaboradoresComponent } from './relatori-colaboradores.component';
+import { RelatoriColaboradoresComponent } from './relatorio-colaboradores.component';
 
 describe('RelatoriColaboradoresComponent', () => {
   let component: RelatoriColaboradoresComponent;
@@ -22,4 +22,4 @@ describe('RelatoriColaboradoresComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

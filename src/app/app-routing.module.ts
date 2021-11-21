@@ -11,7 +11,7 @@ import { LoginGuard } from './guard/login.guard';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
 import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
-import { RelatoriColaboradoresComponent } from './relatori-colaboradores/relatori-colaboradores.component';
+import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relatorio-colaboradores.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },

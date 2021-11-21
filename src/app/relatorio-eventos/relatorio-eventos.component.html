@@ -29,9 +29,15 @@
     
 </div>
 
-<!-- <div class="jumbotron">
-DISPLAY DO PDF AQUI    
-</div> -->
+<div class="jumbotron" >
+    <!-- AQUI É FEITA A EXIBIÇÃO DO PDC. [src] recebe a variavel "doc"  do component -->
+    <pdf-viewer [src]="doc" [render-text]="true" style="display: block;"> 
+    </pdf-viewer>
+
+    <a [href]="doc"> TESTE DE DOWNLOAD</a>
+
+</div>
+
 
 
 </div>
