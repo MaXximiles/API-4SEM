@@ -9,6 +9,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { LoginGuard } from './guard/login.guard';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
+import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
+import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
+import { RelatoriColaboradoresComponent } from './relatori-colaboradores/relatori-colaboradores.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -37,6 +40,21 @@ const routes: Routes = [
   {
     path: 'fornecedores',
     component: FornecedoresComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'relatorio-eventos',
+    component: RelatorioEventosComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'relatorio-vacina',
+    component: RelatorioVacinaComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'relatorio-colaboradores',
+    component: RelatoriColaboradoresComponent,
     canActivate: [AuthenticationGuard],
   },
 ];

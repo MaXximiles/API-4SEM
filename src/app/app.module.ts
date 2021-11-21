@@ -29,6 +29,9 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ModalComponent } from './components/modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
+import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
+import { RelatoriColaboradoresComponent } from './relatori-colaboradores/relatori-colaboradores.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -92,6 +95,9 @@ FullCalendarModule.registerPlugins([
     EventosComponent,
     FullCalendarComponent,
     ModalComponent,
+    RelatorioEventosComponent,
+    RelatorioVacinaComponent,
+    RelatoriColaboradoresComponent,
   ],
   imports: [
     BrowserModule,
