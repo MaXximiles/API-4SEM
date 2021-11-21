@@ -1,4 +1,4 @@
-<div id="pesquisa">
+<!-- <div id="pesquisa">
 
     <form>
         <div class="form-group">
@@ -26,25 +26,94 @@
     <table class="table table-hover table-bordered">
         
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome Fornecedor</th>
-            <th scope="col">CNPJ</th>
-            <th scope="col">Serviço</th>
-            <th scope="col">Ação</th>
+            <th scope="col" align="center">ID</th>
+            <th scope="col" align="center">Nome Fornecedor</th>
+            <th scope="col" align="center">CNPJ</th>
+            <th scope="col" align="center">Serviço</th>
+            <th scope="col" align="center">Ação</th>
           </tr>
         
         <tbody>
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-
-            </td>
+            <th scope="row" align="center">1</th>
+            <td align="center">Mark</td>
+            <td align="center">Otto</td>
+            <td align="center">@mdo</td>
+            <td align="center"></td>
           </tr>
           
         </tbody>
       </table>
 
+</div> -->
+
+<div class="container">
+
+  <div class="mb-3 float-end">
+    <div class="btn-group mr-2">
+      <form class="form-inline my-2 my-lg-0 justify-content-center">
+        <input
+          name="searchTerm"
+          class="form-control mr-sm-2"
+          ngModel
+          type="search"
+          placeholder="Procurar fornecedores..."
+        />
+      </form>
+      <button
+        type="button"
+        class="btn btn-info"
+        data-toggle="modal"
+        data-target="#addUserModal"
+      >
+        <i class="fa fa-plus" style="color: #fff"></i
+        ><font style="color: #fff">&nbsp;Novo Fornecedor</font>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2 text-center">
+    <div class="col-md-4"></div>
+    <!-- <div class="col-md-6">
+      <h4>Endurance - Gerenciamento de Eventos</h4>
+    </div> -->
+    <div class="col-md-6"></div>
+  </div>
+
+  <!-- main content -->
+  <div class="tab-content mt-3" id="myTabContent">
+    <!-- user table -->
+    <div class="tab-pane fade show active" id="users">
+      <div class="mb-3 float-end">
+        <div class="btn-group mr-2">
+          <form class="form-inline my-2 my-lg-0 justify-content-center">
+          </form>
+        </div>
+        <div class="btn-group" style="margin-left: 2px">
+        </div>
+      </div>
+      <table class="table table-hover table-striped">
+        <thead class="table-borderless">
+          <tr
+            class="text-center"
+            style="background-color: #2563eb; color: #eee"
+          >
+            <th>NOME</th>
+            <th>CNPJ</th>
+            <th>CONTATO</th>
+            <th>SERVIÇO</th>
+            <th>AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-center">
+            <td>FORNECEDOR TESTE</td>
+            <td>11111111111</td>
+            <td>(12)919191</td>
+            <td>BUFFET</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </div>
