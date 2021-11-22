@@ -1,10 +1,12 @@
 package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.EventoRepository;
+import fatec.grupodois.endurance.repository.FornecedorRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.EventoService;
@@ -30,13 +32,16 @@ public class EventoServiceImpl implements EventoService {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final FornecedorRepository fornecedorRepository;
 
 
     @Autowired
-    public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository) {
+    public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository,
+                             FornecedorRepository fornecedorRepository) {
         this.eventoRepository = eventoRepository;
         this.emailService = emailService;
         this.userRepository = userRepository;
+        this.fornecedorRepository = fornecedorRepository;
     }
 
 
@@ -251,6 +256,17 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public List<User> getParticipantes(Evento event) {
         return event.getParticipantes();
+    }
+
+    public Evento addFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException {
+
+        Evento event = fetchEventoById(id);
+
+        if(event.getFornecedores().contains(fornecedor)) {
+            throw new FornecedorJaCadastradoNoEventoException("Fornecedor já foi cadastrado no evento");
+        }
+
+        return eventoRepository.save(event);
     }
 
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
