@@ -269,6 +269,22 @@ public class EventoServiceImpl implements EventoService {
         return eventoRepository.save(event);
     }
 
+    public Evento removerFornecedor (Fornecedor fornecedor, Long id) throws EventoNotFoundException {
+
+        Evento event = fetchEventoById(id);
+
+        event.getFornecedores().remove(fornecedor);
+
+        return eventoRepository.save(event);
+    }
+
+    public List<Fornecedor> getFornecedores(Long id) throws EventoNotFoundException {
+
+        Evento event = fetchEventoById(id);
+
+        return event.getFornecedores();
+    }
+
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
             EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
         if(inicio.isAfter(fim)) {

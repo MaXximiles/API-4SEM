@@ -61,6 +61,22 @@ public class EventoController extends ExceptionHandling{
         return new ResponseEntity<>(event, OK);
     }
 
+    @PutMapping("/remove-fornecedor/{id}")
+    public ResponseEntity<Evento> removeParticipante(@RequestBody Fornecedor fornecedor, @PathVariable("id") Long id)
+            throws EventoNotFoundException {
+
+        Evento event = eventoService.removerFornecedor(fornecedor, id);
+
+        return new ResponseEntity<>(event, OK);
+    }
+
+    @GetMapping(path = "/get-fornecedores/{id}")
+    public ResponseEntity<List<Fornecedor>> fetchFornecedores(@PathVariable Long id) throws EventoNotFoundException {
+        List<Fornecedor> fornecedores = eventoService.getFornecedores(id);
+
+        return new ResponseEntity<>(fornecedores, OK);
+    }
+
     @PutMapping("/remove-guest/{id}")
     public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
             throws EventoNotFoundException {
