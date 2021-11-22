@@ -36,17 +36,37 @@
               Usuários
             </a>
           </li>
-          <li class="nav-item" *ngIf="user.role !== 'ROLE_GUEST'">
+
+          <li class="nav-item" *ngIf="user.role === 'ROLE_ADMIN'">
             <a
-              class="nav-link ml-1 disabled"
+              [ngClass]="this.router.url === '/fornecedores' ? 'active' : ''"
+              class="nav-link ml-1"
               data-toggle="tab"
+              [routerLink]="['fornecedores']"
+            >
+              <i class="fa fa-users"></i>
+              Fornecedores
+            </a>
+          </li>
+          
+          <li class="nav-item dropdown" *ngIf="user.role !== 'ROLE_GUEST'">
+            <a
+              class="nav-link ml-1 dropdown-toggle"
+              data-toggle="dropdown"
               [routerLink]=""
               style="user-select: none"
             >
               <i class="fa fa-cogs"></i>
               Relatórios
             </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" [routerLink]="['relatorio-eventos']">Eventos</a>
+              <a class="dropdown-item" [routerLink]="['relatorio-vacina']">Vacina</a>
+              <a class="dropdown-item" [routerLink]="['relatorio-colaboradores']">Colaboradores</a>
+            </div>
           </li>
+
+
           <li class="nav-item">
             <a
               [ngClass]="this.router.url === '/user/profile' ? 'active' : ''"
