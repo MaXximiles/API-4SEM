@@ -91,25 +91,6 @@ public class ExceptionHandling implements ErrorController{
     }
     /* fim específico para User */
 
-    /* Especifico para Fornecedor */
-
-    @ExceptionHandler(EmailExistsException.class)
-    public ResponseEntity<HttpResponse> emailExistsException(EmailExistsException exception) {
-        return createHttpResponse(BAD_REQUEST, exception.getMessage());
-    }
-
-    @ExceptionHandler(CnpjExistsException.class)
-    public ResponseEntity<HttpResponse> cnpjExistsException(CnpjExistsException exception) {
-        return createHttpResponse(BAD_REQUEST, exception.getMessage());
-    }
-
-    @ExceptionHandler(DescricaoExistsException.class)
-    public ResponseEntity<HttpResponse> descricaoExistsException(DescricaoExistsException exception) {
-        return createHttpResponse(BAD_REQUEST, exception.getMessage());
-    }
-
-    /* fim especifico para Fornecedor */
-
 
     /* Especifico para Evento */
     @ExceptionHandler(EventIsOccurringException.class)
