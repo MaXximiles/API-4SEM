@@ -16,7 +16,17 @@ import java.util.Date;
 @Setter
 @Builder
 @ToString
-@Table(name = "USUARIOS")
+@Table(name = "USUARIOS",
+        uniqueConstraints = {
+            @UniqueConstraint(
+            name = "usr_cpf_unique",
+            columnNames = "usr_cpf"
+            ), @UniqueConstraint(
+                name = "usr_email_unique",
+                columnNames = "usr_email"
+            )
+        }
+      )
 public class User implements Serializable {
 
 
@@ -33,17 +43,17 @@ public class User implements Serializable {
     @Column(name = "usr_id", updatable = false)
     private Long id;
     @NotBlank
-    @Column(name = "usr_nome", nullable = false)
+    @Column(name = "usr_nome", columnDefinition = "VARCHAR2(25)",nullable = false)
     private String firstName;
     @NotBlank
-    @Column(name = "usr_sobrenome", nullable = false)
+    @Column(name = "usr_sobrenome", columnDefinition = "VARCHAR2(100)", nullable = false)
     private String lastName;
     @CPF
     @NotBlank(message = "Por favor informar um CPF válido.")
-    @Column(name = "usr_cpf", nullable = false)
+    @Column(name = "usr_cpf", columnDefinition = "VARCHAR2(11)", nullable = false, unique = true)
     private String cpf;
     @NotBlank(message = "Por favor informar e-mail.")
-    @Column(name = "usr_email", nullable = false)
+    @Column(name = "usr_email", nullable = false, unique = true)
     private String email;
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -59,7 +69,7 @@ public class User implements Serializable {
     private Date lastLoginDateDisplay;
     @Column(name = "usr_data_cadastro")
     private Date joinDate;
-    @Column(name = "usr_tipo")
+    @Column(name = "usr_tipo", columnDefinition = "VARCHAR2(25)", nullable = false)
     private String role;
     @Column(name = "usr_autoridades")
     private String[] authorities;
