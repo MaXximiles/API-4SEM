@@ -32,14 +32,6 @@ public class EmailService {
         smtpTransport.close();
     }
 
-    public void enviarEmailSenhaAlterada(String firstName, String password, String email) throws MessagingException {
-        Message message = createEmail(firstName, password, email);
-        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
-        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
-        smtpTransport.sendMessage(message, message.getAllRecipients());
-        smtpTransport.close();
-    }
-
     public void sendNewEventEmail(String firstName, String tema, String email) throws MessagingException {
         Message message = createEmailEvent(firstName, email, tema);
         SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
@@ -50,8 +42,8 @@ public class EmailService {
 
     public void sendNewEventConfirmedEmail(String firstName, String tema,
                                            String email, LocalDateTime inicio,
-                                           LocalDateTime fim, String local) throws MessagingException {
-        Message message = createEmailEventConfirmed(firstName, email, tema, inicio, fim, local);
+                                           LocalDateTime fim) throws MessagingException {
+        Message message = createEmailEventConfirmed(firstName, email, tema, inicio, fim);
         SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
         smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
         smtpTransport.sendMessage(message, message.getAllRecipients());
@@ -63,13 +55,13 @@ public class EmailService {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT_NOVA_SENHA);
+        message.setSubject(EMAIL_SUBJECT);
 
         MimeMultipart multipart = new MimeMultipart("related");
 
         BodyPart messageBodyPart = new MimeBodyPart();
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Sua nova senha: "
-                + password + ANEXAR_LOGO;
+                + password + "</p><br><br><img src=\"cid:image\">+<br><p>endurance Support Team</p>";
 
         messageBodyPart.setContent(htmlText, "text/html");
 
@@ -77,7 +69,7 @@ public class EmailService {
 
         /*image*/
         messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
+        DataSource fds = new FileDataSource("endurance_logo.png");
 
         messageBodyPart.setDataHandler(new DataHandler(fds));
         messageBodyPart.setHeader("Content-ID", "<image>");
@@ -97,13 +89,13 @@ public class EmailService {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT_NOVO_EVENTO);
+        message.setSubject("Novo Evento!");
 
         MimeMultipart multipart = new MimeMultipart("related");
 
         BodyPart messageBodyPart = new MimeBodyPart();
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Um novo evento requer sua atenção: "
-                + tema + ANEXAR_LOGO;
+                + tema + "</p><br><br><img src=\"cid:image\">+<br><p>endurance Support Team</p>";
 
         messageBodyPart.setContent(htmlText, "text/html");
 
@@ -111,7 +103,7 @@ public class EmailService {
 
         /*image*/
         messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
+        DataSource fds = new FileDataSource("endurance_logo.png");
 
         messageBodyPart.setDataHandler(new DataHandler(fds));
         messageBodyPart.setHeader("Content-ID", "<image>");
@@ -120,6 +112,7 @@ public class EmailService {
 
         message.setContent(multipart);
 
+        /*message.setText("Olá, " + firstName + ".\n\nUm novo evento requer sua atenção: " + tema + "\n\n endurance Support Team" + "\n<img >");*/
         message.setSentDate(new Date());
         message.saveChanges();
 
@@ -128,44 +121,24 @@ public class EmailService {
 
     private Message createEmailEventConfirmed(String firstName, String email,
                                               String tema, LocalDateTime inicio,
-                                              LocalDateTime fim, String local) throws MessagingException {
+                                              LocalDateTime fim) throws MessagingException {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(FROM_EMAIL));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
-        message.setSubject(EMAIL_SUBJECT_EVENTO_CONFIRMADO);
-
-        MimeMultipart multipart = new MimeMultipart("related");
-
-        BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Um novo evento, com o tema: "
+        message.setSubject("Convite para novo evento");
+        message.setText("Olá, "
+                + firstName
+                + ".\n\nUm novo evento, com o tema : "
                 + tema
-                + " foi confirmado!<br>Aguardamos sua presença das "
+                + "foi confirmado! Aguardamos sua presença das "
                 + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
                 + " até "
                 + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
                 + " no dia "
                 + inicio.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                + " no nosso espaço "
-                + local
-                +"."
-                + ANEXAR_LOGO;
-
-        messageBodyPart.setContent(htmlText, "text/html");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        /*image*/
-        messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-
+                + "."
+                + "\n\n Atenciosamente, endurance Support Team");
         message.setSentDate(new Date());
         message.saveChanges();
 

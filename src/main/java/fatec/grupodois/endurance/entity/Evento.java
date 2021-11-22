@@ -26,64 +26,47 @@ import java.util.List;
 )
 public class Evento implements Serializable {
 
-    public static final String ID_NAME = "EVT_ID";
-    public static final String SEQUENCE_NAME = "EVENTOS_SEQUENCE";
-    public static final String COLUNA_INICIO = "EVT_INICIO";
-    public static final String COLUNA_FIM = "EVT_FIM";
-    public static final String COLUNA_LOCAL = "EVT_LOCAL";
-    public static final String COLUNA_TEMA = "EVT_TEMA";
-    public static final String COLUNA_DESCRICAO = "EVT_DESCRICAO";
-    public static final String COLUNA_OBSERVACAO = "EVT_OBSERVACAO";
-    public static final String COLUNA_USUARIO = "EVT_USR_ID";
-    public static final String COLUNA_CRIACAO = "EVT_CRIACAO";
-    public static final String COLUNA_STATUS = "EVT_STATUS";
-    public static final String COLUNA_MAX_PARTICIPANTES = "EVT_MAX_PART";
-    public static final String COLUNA_TOTAL_PARTICIPANTES = "EVT_TOTAL_PART";
-
-
     @Id
     @SequenceGenerator(
-            name = SEQUENCE_NAME,
-            sequenceName = SEQUENCE_NAME,
+            name = "eventos_sequence",
+            sequenceName = "eventos_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.IDENTITY,
-            generator = SEQUENCE_NAME
+            generator = "eventos_sequence"
     )
-    @Column(name=ID_NAME, nullable = false)
+    @Column(name="evt_id", nullable = false)
     private Long id;
-    @Column(name=COLUNA_INICIO, nullable = false)
+    @Column(name="evt_inicio", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime inicio;
-    @Column(name=COLUNA_FIM, nullable = false)
+    @Column(name="evt_fim", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fim;
     @NotBlank()
-    @Column(name=COLUNA_LOCAL, columnDefinition = "VARCHAR2(9)", nullable = false)
+    @Column(name="evt_local", nullable = false)
     private String local;
     @NotBlank()
-    @Column(name=COLUNA_TEMA, columnDefinition = "VARCHAR2(50)", nullable = false, unique = true)
+    @Column(name="evt_tema", nullable = false)
     private String tema;
-    @Column(name=COLUNA_DESCRICAO, columnDefinition = "VARCHAR2(150)")
+    @Column(name="evt_desc")
     private String descricao;
-    @Column(name=COLUNA_OBSERVACAO, columnDefinition = "VARCHAR2(150)")
+    @Column(name="evt_obs")
     private String observacao;
     @OneToOne
     @JoinColumn(
-            name = COLUNA_USUARIO,
-            referencedColumnName = "usr_id",
-            nullable = false
+            name = "evt_usr_id",
+            referencedColumnName = "usr_id"
     )
     private User user;
-    @Column(name=COLUNA_CRIACAO, nullable = false)
-    @NotBlank
+    @Column(name="evt_criacao")
     private LocalDateTime criacao = LocalDateTime.now();
-    @Column(name=COLUNA_STATUS, columnDefinition = "VARCHAR2(10)", nullable = false)
+    @Column(name="evt_status", nullable = false)
     private String status;
-    @Column(name=COLUNA_MAX_PARTICIPANTES, nullable = false)
+    @Column(name="evt_max_part", nullable = false)
     private Integer maxParticipantes;
-    @Column(name=COLUNA_TOTAL_PARTICIPANTES, nullable = false)
+    @Column(name="evt_total_part", nullable = false)
     private Integer totalParticipantes;
 
     @ManyToMany
@@ -99,20 +82,6 @@ public class Evento implements Serializable {
             )
     )
     private List<User> participantes;
-
-    @ManyToMany
-    @JoinTable(
-            name="evento_fornecedor_map",
-            joinColumns = @JoinColumn(
-                    name = "efm_evt_id",
-                    referencedColumnName = "evt_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name="efm_frn_id",
-                    referencedColumnName = "frn_id"
-            )
-    )
-    private List<Fornecedor> fornecedores;
 
     public boolean addParticipante(User user) {
         if(this.maxParticipantes > this.totalParticipantes) {
