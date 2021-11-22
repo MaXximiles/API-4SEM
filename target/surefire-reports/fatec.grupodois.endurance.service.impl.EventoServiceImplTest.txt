@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: fatec.grupodois.endurance.service.impl.EventoServiceImplTest
--------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 6.033 s <<< FAILURE! - in fatec.grupodois.endurance.service.impl.EventoServiceImplTest
-EventoAfter08AMShouldAdd  Time elapsed: 0.04 s  <<< ERROR!
-fatec.grupodois.endurance.exception.EventOutOfOpeningHoursException: Evento fora do horário de funcionamento: 08:00 às 22:00
-	at fatec.grupodois.endurance.service.impl.EventoServiceImplTest.EventoAfter08AMShouldAdd(EventoServiceImplTest.java:316)
-
