@@ -29,7 +29,6 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ModalComponent } from './components/modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
 import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
 import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relatorio-colaboradores.component';
@@ -98,7 +97,7 @@ FullCalendarModule.registerPlugins([
     EventosComponent,
     FullCalendarComponent,
     ModalComponent,
-	RelatorioEventosComponent,
+    RelatorioEventosComponent,
     RelatorioVacinaComponent,
     RelatoriColaboradoresComponent,
   ],
@@ -111,7 +110,7 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     NgxMaskModule.forRoot(),
     NgbModule,
-	PdfViewerModule,
+    PdfViewerModule,
   ],
   providers: [
     AuthenticationService,

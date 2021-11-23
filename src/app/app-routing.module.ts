@@ -8,7 +8,6 @@ import { UserComponent } from './user/user.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EventosComponent } from './eventos/eventos.component';
 import { LoginGuard } from './guard/login.guard';
-
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
 import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
