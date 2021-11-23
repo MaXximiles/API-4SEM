@@ -67,10 +67,7 @@ public class EmailService {
     }
 
     private Message createEmail(String firstName, String password, String email) throws MessagingException {
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
+        Message message = getMessage(email);
         message.setSubject(EMAIL_SUBJECT_NOVA_SENHA);
 
         MimeMultipart multipart = new MimeMultipart("related");
@@ -79,6 +76,12 @@ public class EmailService {
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Sua nova senha: "
                 + password + "</p>" + ANEXAR_LOGO;
 
+        salvarCorpoEmail(message, multipart, messageBodyPart, htmlText);
+
+        return message;
+    }
+
+    private void salvarCorpoEmail(Message message, MimeMultipart multipart, BodyPart messageBodyPart, String htmlText) throws MessagingException {
         messageBodyPart.setContent(htmlText, "text/html");
 
         multipart.addBodyPart(messageBodyPart);
@@ -96,15 +99,10 @@ public class EmailService {
 
         message.setSentDate(new Date());
         message.saveChanges();
-
-        return message;
     }
 
     private Message createEmailEvent(String firstName, String email, String tema) throws MessagingException {
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
+        Message message = getMessage(email);
         message.setSubject(EMAIL_SUBJECT_NOVO_EVENTO);
 
         MimeMultipart multipart = new MimeMultipart("related");
@@ -113,23 +111,7 @@ public class EmailService {
         String htmlText = "<H3>Olá, " + firstName + ".</H3><br><p>Um novo evento requer sua atenção: "
                 + tema + ".</p>" + ANEXAR_LOGO;
 
-        messageBodyPart.setContent(htmlText, "text/html");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        /*image*/
-        messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-
-        message.setSentDate(new Date());
-        message.saveChanges();
+        salvarCorpoEmail(message, multipart, messageBodyPart, htmlText);
 
         return message;
     }
@@ -137,10 +119,7 @@ public class EmailService {
     private Message createEmailEventConfirmed(String firstName, String email,
                                               String tema, LocalDateTime inicio,
                                               LocalDateTime fim, String local) throws MessagingException {
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
+        Message message = getMessage(email);
         message.setSubject(EMAIL_SUBJECT_EVENTO_CONFIRMADO);
 
         MimeMultipart multipart = new MimeMultipart("related");
@@ -160,32 +139,13 @@ public class EmailService {
                 +"</p>"
                 + ANEXAR_LOGO;
 
-        messageBodyPart.setContent(htmlText, "text/html");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        /*image*/
-        messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-
-        message.setSentDate(new Date());
-        message.saveChanges();
+        salvarCorpoEmail(message, multipart, messageBodyPart, htmlText);
 
         return message;
     }
 
     private Message criarEmailConflitoEvento(String tema, String tema2, LocalDateTime inicio, String role1, String role2, String email) throws MessagingException {
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(FROM_EMAIL));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
+        Message message = getMessage(email);
         message.setSubject(EMAIL_SUBJECT_EVENTO_CONFIRMADO);
 
         MimeMultipart multipart = new MimeMultipart("related");
@@ -204,23 +164,16 @@ public class EmailService {
                 + ".</p>"
                 + ANEXAR_LOGO;
 
-        messageBodyPart.setContent(htmlText, "text/html");
+        salvarCorpoEmail(message, multipart, messageBodyPart, htmlText);
 
-        multipart.addBodyPart(messageBodyPart);
+        return message;
+    }
 
-        /*image*/
-        messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(LOGO);
-
-        messageBodyPart.setDataHandler(new DataHandler(fds));
-        messageBodyPart.setHeader("Content-ID", "<image>");
-
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-
-        message.setSentDate(new Date());
-        message.saveChanges();
+    private Message getMessage(String email) throws MessagingException {
+        Message message = new MimeMessage(getEmailSession());
+        message.setFrom(new InternetAddress(FROM_EMAIL));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(CC_EMAIL, false));
 
         return message;
     }

@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @ToString
 @Table(
-        name = "EVENTOS",
+        name = Evento.TABLE_NAME,
         uniqueConstraints = @UniqueConstraint(
                 name = "evt_tema_unique",
                 columnNames = "evt_tema"
@@ -26,6 +26,7 @@ import java.util.List;
 )
 public class Evento implements Serializable {
 
+    public static final String TABLE_NAME = "EVENTOS";
     public static final String ID_NAME = "EVT_ID";
     public static final String SEQUENCE_NAME = "EVENTOS_SEQUENCE";
     public static final String COLUNA_INICIO = "EVT_INICIO";
@@ -72,7 +73,7 @@ public class Evento implements Serializable {
     @OneToOne
     @JoinColumn(
             name = COLUNA_USUARIO,
-            referencedColumnName = "usr_id",
+            referencedColumnName = User.ID_NAME,
             nullable = false
     )
     private User user;
@@ -91,11 +92,11 @@ public class Evento implements Serializable {
             name="evento_usuario_part",
             joinColumns = @JoinColumn(
                     name = "eup_evt_id",
-                    referencedColumnName = "evt_id"
+                    referencedColumnName = ID_NAME
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "eup_usr_id",
-                    referencedColumnName = "usr_id"
+                    referencedColumnName = User.ID_NAME
             )
     )
     private List<User> participantes;

@@ -118,9 +118,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .vaccineImage(VACCINE_PLACEHOLDER)
                 .build();
 
-        LOGGER.info("User>>>>" + user.toString());
-        LOGGER.info("New user password>>>>" + password);
-        LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         if(profileImage != null) {
