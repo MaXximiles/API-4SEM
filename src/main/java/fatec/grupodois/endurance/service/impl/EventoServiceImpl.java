@@ -321,7 +321,7 @@ public class EventoServiceImpl implements EventoService {
                         if(s.getStatus().equals("CONFIRMADO") || s.getStatus().equals("CONFLITO")) {
                             throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
                                     + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                    SUGGESTION + horasDisp.get(0)); /* MOSTRA UMA SUGESTAO SIMPLES DE HORARIO */
+                                    SUGGESTION + horasDisp.get(0));
                         } else if(s.getStatus().equals("PENDENTE")) {
                             eventoCriado.setStatus("CONFLITO");
                             s.setStatus("CONFLITO");
