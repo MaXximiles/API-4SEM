@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class RelatorioController
 {
     /* Relatório de eventos por periodo */
     @GetMapping(path = "/eventos_periodo")
-    public void Relat_periodo(@RequestParam(value = "datainicio", required = false) String datainicio,
+    public String Relat_periodo(@RequestParam(value = "datainicio", required = false) String datainicio,
                        @RequestParam(value= "datafim", required = false) String datafim) throws Exception
     {
         Connection conn = null;
@@ -121,20 +120,23 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
+        /*File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("C:\\endurance\\Relatorio_Eventos_Periodo_"+dataTitulo+".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf"));
         /* ******************************************************************************************
         *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
         ******************************************************************************************* */
         document.close();
+
+        String caminho = "./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf";
+        return caminho;
     }
 
     /* Relatório de eventos por usuario */
     @GetMapping(path = "/eventos_usuario")
-    public void Relat_usuario(@RequestParam(value= "usuario_id", required = false) int usuario_id) throws Exception
+    public String Relat_usuario(@RequestParam(value= "usuario_id", required = false) int usuario_id) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -255,21 +257,24 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
+        /*File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("C:\\endurance\\Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
         /* ******************************************************************************************
          *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
          ******************************************************************************************* */
         document.close();
+
+        String caminho = "./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf";
+        return caminho;
     }
 
 
     /* Relatório de usuarios vacina */
     @GetMapping(path = "/eventos_vacina")
-    public void Relat_vacina(@RequestParam(value= "vacinados", required = false) int vacinados) throws Exception
+    public String Relat_vacina(@RequestParam(value= "vacinados", required = false) int vacinados) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -381,15 +386,18 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        File pasta = new File("C:\\endurance");
-        pasta.mkdir();
+        /*File pasta = new File("C:\\endurance");
+        pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("C:\\endurance\\Relatorio_Vacina_"+dataTitulo+".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf"));
         /* ******************************************************************************************
          *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
          ******************************************************************************************* */
         document.close();
+
+        String caminho = "./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf";
+        return caminho;
     }
 
 
