@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,53 +16,73 @@ import java.util.Date;
 @Setter
 @Builder
 @ToString
-@Table(name = "USUARIOS")
+@Table(name = User.TABLE_NAME)
 public class User implements Serializable {
+
+    public static final String TABLE_NAME = "USUARIOS";
+    public static final String ID_NAME = "USR_ID";
+    public static final String SEQUENCE_NAME = "USUARIOS_SEQUENCE";
+    public static final String COLUNA_NOME = "USR_NOME";
+    public static final String COLUNA_SOBRENOME = "USR_SOBRENOME";
+    public static final String COLUNA_CPF = "USR_CPF";
+    public static final String COLUNA_EMAIL = "USR_EMAIL";
+    public static final String COLUNA_SENHA = "USR_SENHA";
+    public static final String COLUNA_IMAGEM = "USR_IMAGEM";
+    public static final String COLUNA_VACINA = "USR_VACINA";
+    public static final String COLUNA_ULTIMO_ACESSO = "USR_ULTIMO_ACESSO";
+    public static final String COLUNA_ULTIMO_ACESSO_DISPLAY = "USR_ULTIMO_ACESSO_DISPLAY";
+    public static final String COLUNA_DATA_CADASTRO = "USR_DATA_CADASTRO";
+    public static final String COLUNA_TIPO = "USR_TIPO";
+    public static final String COLUNA_AUTORIDADES = "USR_AUTORIDADES";
+    public static final String COLUNA_ATIVO = "USR_ATIVO";
+    public static final String COLUNA_BLOQUEADO = "USR_NAO_BLOQUEADO";
 
 
     @Id
     @SequenceGenerator(
-            name = "usuarios_sequence",
-            sequenceName = "usuarios_sequence",
+            name = SEQUENCE_NAME,
+            sequenceName = SEQUENCE_NAME,
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.IDENTITY,
-            generator = "user_sequence"
+            generator = SEQUENCE_NAME
     )
-    @Column(name = "usr_id", updatable = false)
+    @Column(name = ID_NAME, updatable = false)
     private Long id;
     @NotBlank
-    @Column(name = "usr_nome", nullable = false)
+    @Column(name = COLUNA_NOME, nullable = false)
     private String firstName;
     @NotBlank
-    @Column(name = "usr_sobrenome", nullable = false)
+    @Column(name = COLUNA_SOBRENOME, nullable = false)
     private String lastName;
     @CPF
-    @NotBlank(message = "Por favor informar um CPF válido.")
-    @Column(name = "usr_cpf", nullable = false)
+    @NotBlank()
+    @Column(name = COLUNA_CPF, nullable = false, unique = true)
     private String cpf;
-    @NotBlank(message = "Por favor informar e-mail.")
-    @Column(name = "usr_email", nullable = false)
+    @NotBlank()
+    @Column(name = COLUNA_EMAIL, nullable = false, unique = true)
     private String email;
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "usr_senha", nullable = false)
+    @Column(name = COLUNA_SENHA, nullable = false)
     private String password;
-    @Column(name = "usr_image")
+    @Column(name = COLUNA_IMAGEM)
     private String profileImageUrl;
-    @Column(name = "usr_ultimo_acesso")
+    @Column(name = COLUNA_VACINA)
+    private String vaccineImage;
+    @Column(name = COLUNA_ULTIMO_ACESSO)
     private Date lastLoginDate;
-    @Column(name = "usr_ultimo_acesso_display")
+    @Column(name = COLUNA_ULTIMO_ACESSO_DISPLAY)
     private Date lastLoginDateDisplay;
-    @Column(name = "usr_data_cadastro")
+    @Column(name = COLUNA_DATA_CADASTRO)
     private Date joinDate;
-    @Column(name = "usr_tipo")
+    @Column(name = COLUNA_TIPO)
     private String role;
-    @Column(name = "usr_autoridades")
+    @Column(name = COLUNA_AUTORIDADES)
     private String[] authorities;
-    @Column(name = "usr_ativo")
+    @Column(name = COLUNA_ATIVO)
     private boolean isActive;
-    @Column(name = "usr_bloqueado")
+    @Column(name = COLUNA_BLOQUEADO)
     private boolean isNotLocked;
 }

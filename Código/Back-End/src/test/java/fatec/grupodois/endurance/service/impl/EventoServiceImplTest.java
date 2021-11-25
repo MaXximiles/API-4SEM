@@ -1,4 +1,4 @@
-/*package fatec.grupodois.endurance.service.impl;
+package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,9 +25,7 @@ import java.util.List;
 
 import static fatec.grupodois.endurance.enumeration.Role.ROLE_GUEST;
 import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;;
 import static org.mockito.Mockito.verify;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +43,6 @@ class EventoServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new EventoServiceImpl(eventoRepository);
         this.user = User
                 .builder()
                 .firstName("Teste")
@@ -63,7 +61,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com início no meio de outro Evento")
+    @DisplayName("Add Evento com início no meio de outro Evento == Exc")
     void whenEventoOccurring_ShouldThrowExc()  {
 
         LocalTime open = LocalTime.of(10,00,00);
@@ -114,14 +112,15 @@ class EventoServiceImplTest {
 
         // then
         assertEquals("Evento ocorrendo no horário de início: "
-                + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                + ". Sugestão de horário:08:00",
                 exc.getMessage());
 
 
     }
 
     @Test
-    @DisplayName("Add Evento com início == de outro Evento")
+    @DisplayName("Add Evento com início == de outro Evento == Exc")
     void whenEventoExist_ShouldThrowExc() {
 
         // given
@@ -171,14 +170,15 @@ class EventoServiceImplTest {
 
         // then
         assertEquals("Evento já cadastrado com ínício: "
-                        + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
+                        + event2.getInicio().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                + ". Sugestão de horário:08:00",
                 exc.getMessage());
 
 
     }
 
     @Test
-    @DisplayName("Add Evento com início fora do horário de funcionamento")
+    @DisplayName("Add Evento com início fora do horário de funcionamento == Exc")
     void whenEventoOutOfOpeningHours_ShouldThrowExc() {
 
         // given
@@ -213,7 +213,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com final fora do horário de funcionamento")
+    @DisplayName("Add Evento com final fora do horário de funcionamento == Exception")
     void whenEventoOutOfClosingHours_ShouldThrowExc() {
 
         // given
@@ -250,7 +250,7 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento com inicio > final")
+    @DisplayName("Add Evento com inicio > final == Exception")
     void whenInicioAfterFinal_ShouldThrowExc() {
 
         // given
@@ -289,62 +289,8 @@ class EventoServiceImplTest {
     }
 
     @Test
-    @DisplayName("Add Evento")
-    void EventoAfter08AMShouldAdd() 
-            throws EventoInicioAfterException, EventIsOccurringException,
-            EventoInicioExistException, EventOutOfOpeningHoursException {
-
-        // given
-        LocalTime open = LocalTime.of(8,00,00);
-        LocalDateTime date = LocalDateTime.of(LocalDateTime.now().toLocalDate(), open);
-
-        Evento event = Evento
-                .builder()
-                .id(1L)
-                .inicio(date)
-                .fim(LocalDateTime.now().plusHours(2L))
-                .local(LocalEvento.OPENSPACE.name())
-                .tema("Lean Agile")
-                .descricao("Entenda a nova tendência de arquitetura de software")
-                .observacao("Necessário carteira de vacinação")
-                .user(this.user)
-                .criacao(LocalDateTime.now())
-                .status(StatusEvento.PENDENTE.name())
-                .maxParticipantes(50)
-                .totalParticipantes(1)
-                .build();
-
-        // when
-        underTest.addEvento(event);
-
-        // then
-        ArgumentCaptor<Evento> studentArgumentCaptor =
-                ArgumentCaptor.forClass(Evento.class);
-
-        verify(eventoRepository)
-                .save(studentArgumentCaptor.capture());
-
-        Evento capturedEvento = studentArgumentCaptor.getValue();
-
-        assertThat(capturedEvento).isEqualTo(event);
-
-    }
-
-    @Test
-    void findEventoByStatus() {
-    }
-
-    @Test
-    void findEventoByDateTime() {
-    }
-
-    @Test
-    void findEventoByDate() {
-    }
-
-    @Test
     @DisplayName("Mesmo tema com letras minúsculas não deve dar update")
-    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenSameTema_ShouldNotUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException, MessagingException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -404,7 +350,7 @@ class EventoServiceImplTest {
 
     @Test
     @DisplayName("Tema diferente deve dar update")
-    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException {
+    void whenDifferentTema_ShouldUpdateEvento() throws EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoNotFoundException, EventoInicioExistException, EventDifferentDayException, MessagingException {
         // given
         LocalTime open = LocalTime.of(9,00,00);
         LocalTime close = LocalTime.of(10,00,00);
@@ -461,4 +407,4 @@ class EventoServiceImplTest {
         assertThat(capturedEvento.getTema()).isEqualTo(event2.getTema());
 
     }
-}*/
+}

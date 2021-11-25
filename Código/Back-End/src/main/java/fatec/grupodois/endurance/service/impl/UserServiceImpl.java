@@ -1,5 +1,6 @@
 package fatec.grupodois.endurance.service.impl;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.enumeration.Role;
@@ -51,7 +52,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           BCryptPasswordEncoder passwordEncoder,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User register(String firstName, String lastName, String email, String cpf, String password) throws
             EmailExistException,
-            CpfExistException, CpfNotFoundException, UserNotFoundException {
+            CpfExistException, UserNotFoundException {
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
         String encodedPassword = encodePassword(password);
@@ -78,6 +81,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(ROLE_GUEST.name())
                 .authorities(ROLE_GUEST.getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
+                .vaccineImage("https://i.ibb.co/n0DVTs1/vaccine-placeholder.png")
                 .build();
 
         LOGGER.info("User>>>>" + user.toString());
@@ -91,7 +95,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                            String email, String cpf,
                            String role, boolean isNonLocked,
                            boolean isActive, MultipartFile profileImage)
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, IOException, MessagingException {
 
         validateNewCpfAndEmail(EMPTY, email, cpf);
 
@@ -111,44 +115,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(getRoleEnumName(role).name())
                 .authorities(getRoleEnumName(role).getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
+                .vaccineImage(VACCINE_PLACEHOLDER)
                 .build();
 
-        LOGGER.info("User>>>>" + user.toString());
-        LOGGER.info("New user password>>>>" + password);
-        LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
+        emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         if(profileImage != null) {
             saveProfileImage(user, profileImage);
         }
         return user;
-    }
-
-    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf)
-            throws EmailExistException, CpfExistException,
-            CpfNotFoundException, UserNotFoundException {
-        User userByNewEmail = findUserByEmail(newEmail);
-        User userByNewCpf = findUserByCpf(newCpf);
-        if(StringUtils.isNotBlank(currentEmail)) {
-           User currentUser = findUserByEmail(currentEmail);
-           if(currentUser == null) {
-               throw new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL + currentEmail);
-           }
-           if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
-               throw new EmailExistException(EMAIL_ALREADY_EXIST);
-           }
-           if(userByNewCpf != null && !currentUser.getId().equals(userByNewCpf.getId())) {
-               throw new CpfExistException(CPF_ALREADY_EXIST );
-           }
-           return currentUser;
-       } else {
-           if(userByNewEmail != null) {
-               throw new EmailExistException(EMAIL_ALREADY_EXIST);
-           }
-           if(userByNewCpf != null) {
-               throw new CpfExistException(CPF_ALREADY_EXIST );
-           }
-           return null;
-       }
     }
 
     @Override
@@ -234,7 +209,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateProfileImage(String email, MultipartFile profileImage)
             throws UserNotFoundException, EmailExistException,
-            CpfExistException, CpfNotFoundException, IOException {
+            CpfExistException, IOException {
 
         User user = validateNewCpfAndEmail(email, null, null);
         saveProfileImage(user, profileImage);
@@ -242,23 +217,54 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User updateVaccineImage(String email, MultipartFile vaccineImage)
+            throws UserNotFoundException, EmailExistException,
+            CpfExistException, IOException {
+
+        User user = validateNewCpfAndEmail(email, null, null);
+        saveVaccineImage(user, vaccineImage);
+        return user;
+    }
+
+    @Override
     public List<User> fetchAllUsers() { return userRepository.findAll(); }
+
+    @Override
+    public List<Evento> getUserParticipacoes(Long userId) {
+        return userRepository.getUserParticipacoes(userId);
+    }
 
     @Override
     public void deleteUser(Long usuarioID) { userRepository.deleteById(usuarioID); }
 
     @Override
-    public void resetPassword(String email) throws EmailNotFoundException, MessagingException {
+    public void changePassword(String email, String oldPassword, String newPassword) throws EmailNotFoundException, SenhaFormatoInvalidoException, MessagingException {
 
         User user = userRepository.findUserByEmail(email);
         if (user == null) {
             throw new EmailNotFoundException(USER_NOT_FOUND_BY_EMAIL + email);
         }
 
-        String password = generatePassword();
-        user.setPassword(encodePassword(password));
-        userRepository.save(user);
-        emailService.sendNewPasswordEmail(user.getFirstName(), password, email);
+        String password = user.getPassword();
+        if(this.passwordEncoder.matches(oldPassword, password)) {
+
+            if (newPassword.length() < 8) {
+                throw new SenhaFormatoInvalidoException(SENHA_CURTA);
+            }
+            if (newPassword.length() > 16) {
+                throw new SenhaFormatoInvalidoException(SENHA_LONGA);
+            }
+            if (!StringUtils.isAlphanumeric(newPassword)) {
+                throw new SenhaFormatoInvalidoException(SENHA_NAO_ALFANUMERICA);
+            }
+            if (StringUtils.containsAny(newPassword, ' ')) {
+                throw new SenhaFormatoInvalidoException(SENHA_COM_ESPACAMENTO);
+            }
+
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            emailService.enviarEmailSenhaAlterada(user.getFirstName(), newPassword, email);
+        }
     }
 
     @Override
@@ -311,10 +317,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    private void saveVaccineImage(User user, MultipartFile vaccineImage) throws IOException {
+        if(vaccineImage != null) {
+            Path userFolder = Paths.get(USER_FOLDER + user.getEmail() + VACCINE_IMAGE_FOLDER + FORWARD_SLASH).toAbsolutePath().normalize();
+            if(!Files.exists(userFolder)) {
+                Files.createDirectories(userFolder);
+                LOGGER.info(DIRECTORY_CREATED);
+            }
+            Files.deleteIfExists(Paths.get(userFolder + user.getEmail() + VACCINE_IMAGE + DOT + JPG_EXTENSION));
+            Files.copy(vaccineImage.getInputStream(),
+                    userFolder.resolve(user.getEmail() + VACCINE_IMAGE + DOT + JPG_EXTENSION), REPLACE_EXISTING);
+            user.setVaccineImage(setVaccineImageUrl(user.getEmail()));
+            userRepository.save(user);
+            LOGGER.info(FILE_SAVED_IN_FILE_SYSTEM + vaccineImage.getOriginalFilename());
+        }
+    }
+
     private String setProfileImageUrl(String email) {
 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(DEFAULT_USER_IMAGE_PATH + email + FORWARD_SLASH + email + DOT + JPG_EXTENSION)
+                .toUriString();
+    }
+
+    private String setVaccineImageUrl(String email) {
+
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(DEFAULT_USER_IMAGE_PATH + email + FORWARD_SLASH + VACCINE_IMAGE_FOLDER + FORWARD_SLASH + email + VACCINE_IMAGE + DOT + JPG_EXTENSION)
                 .toUriString();
     }
 
@@ -333,5 +362,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private String generatePassword() {
 
         return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private User validateNewCpfAndEmail(String currentEmail, String newEmail, String newCpf)
+            throws EmailExistException, CpfExistException,
+            UserNotFoundException {
+        User userByNewEmail = findUserByEmail(newEmail);
+        User userByNewCpf = findUserByCpf(newCpf);
+        if(StringUtils.isNotBlank(currentEmail)) {
+            User currentUser = findUserByEmail(currentEmail);
+            if(currentUser == null) {
+                throw new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL + currentEmail);
+            }
+            if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
+                throw new EmailExistException(EMAIL_ALREADY_EXIST);
+            }
+            if(userByNewCpf != null && !currentUser.getId().equals(userByNewCpf.getId())) {
+                throw new CpfExistException(CPF_ALREADY_EXIST );
+            }
+            return currentUser;
+        } else {
+            if(userByNewEmail != null) {
+                throw new EmailExistException(EMAIL_ALREADY_EXIST);
+            }
+            if(userByNewCpf != null) {
+                throw new CpfExistException(CPF_ALREADY_EXIST );
+            }
+            return null;
+        }
     }
 }

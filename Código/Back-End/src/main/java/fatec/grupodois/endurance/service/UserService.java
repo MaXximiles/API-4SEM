@@ -1,9 +1,8 @@
 package fatec.grupodois.endurance.service;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.exception.*;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
@@ -26,7 +25,7 @@ public interface UserService {
     User addNewUser(String firstName, String lastName,
                     String email, String cpf, String role,
                     boolean isNonLocked, boolean isActive,
-                    MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
+                    MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException, MessagingException;
 
     User updateUser(String currentEmail, String firstName, String lastName,
                     String email, String cpf, String role,
@@ -36,14 +35,15 @@ public interface UserService {
 
     User updateProfileImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException;
 
-    /*username = email*/
-    UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException;
+    User updateVaccineImage(String email, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, CpfExistException, IOException;
 
     List<User> fetchAllUsers();
 
+    List<Evento> getUserParticipacoes(Long userId);
+
     void deleteUser(Long id);
 
-    void resetPassword(String email) throws EmailNotFoundException, MessagingException;
+    void changePassword(String email, String oldPassword, String newPassword) throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException;
 
     User resetPasswordFront(String cpf) throws EmailNotFoundException, CpfNotFoundException, MessagingException;
 }

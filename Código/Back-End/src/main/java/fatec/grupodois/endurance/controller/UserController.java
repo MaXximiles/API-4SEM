@@ -1,5 +1,6 @@
 package fatec.grupodois.endurance.controller;
 
+import fatec.grupodois.endurance.entity.Evento;
 import fatec.grupodois.endurance.entity.HttpResponse;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.entity.UserPrincipal;
@@ -38,6 +39,7 @@ import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 public class UserController extends ExceptionHandling {
 
     public static final String USER_DELETED_SUCCESFULLY = "Usuário deletado com sucesso";
+    public static final String PASSWORD_SUCCESS = "Nova senha enviada para: ";
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
@@ -69,11 +71,8 @@ public class UserController extends ExceptionHandling {
                                         @RequestParam("isNonLocked") String isNonLocked,
                                         @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
 
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException, MessagingException {
 
-
-        LOGGER.info(("ACTIVE>>>>" + isActive));
-        LOGGER.info("NONLOCKED>>>>>>>>" + isNonLocked);
        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
                                                 Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
                                                 profileImage);
@@ -134,6 +133,24 @@ public class UserController extends ExceptionHandling {
         return new ResponseEntity<>(updateProfileImage, OK);
     }
 
+    @PostMapping("/update-vaccine-image")
+    public ResponseEntity<User> updateVaccineImage(@RequestParam("email") String email,
+                                                   @RequestParam("vaccineImage") MultipartFile vaccineImage)
+
+            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+
+        User user = userService.updateVaccineImage(email, vaccineImage);
+
+        return new ResponseEntity<>(user, OK);
+    }
+
+    @GetMapping(path = "/image/{email}/vacina/{fileName}", produces = IMAGE_JPEG_VALUE)
+    public byte[] fetchVaccineImage(@PathVariable("email") String email,
+                                    @PathVariable("fileName") String fileName) throws IOException {
+
+        return Files.readAllBytes(Paths.get(USER_FOLDER + email + VACCINE_IMAGE_FOLDER + FORWARD_SLASH + fileName));
+    }
+
     @GetMapping(path = "/image/{email}/{fileName}", produces = IMAGE_JPEG_VALUE)
     public byte[] fetchProfileImage(@PathVariable("email") String email,
                                     @PathVariable("fileName") String fileName) throws IOException {
@@ -155,7 +172,7 @@ public class UserController extends ExceptionHandling {
                 byteArrayOutputStream.write(chunk, 0, bytesRead);
             }
         } catch(IOException e) {
-            throw new IOException("Ocorreu um erro ao ler seu arquivo de imagem");
+            throw new IOException(IMAGE_FILE_ERROR);
         }
 
         return byteArrayOutputStream.toByteArray();
@@ -212,16 +229,18 @@ public class UserController extends ExceptionHandling {
 
         User newPassword = userService.resetPasswordFront(cpf);
 
-        return response(OK, "Nova senha enviada para: " + newPassword.getEmail());
+        return response(OK, PASSWORD_SUCCESS + newPassword.getEmail());
     }
 
     @GetMapping("/reset-password/{email}")
-    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email)
-            throws EmailNotFoundException, MessagingException {
+    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email,
+                                                      @RequestParam("oldPassword") String senhaAntiga,
+                                                      @RequestParam("newPassword") String novaSenha)
+            throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException {
 
-        userService.resetPassword(email);
+        userService.changePassword(email, senhaAntiga, novaSenha);
 
-        return response(OK, "Nova senha enviada para: " + email.substring(5));
+        return response(OK, PASSWORD_SUCCESS + email.substring(5));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -231,6 +250,14 @@ public class UserController extends ExceptionHandling {
         userService.deleteUser(id);
 
         return response(OK, USER_DELETED_SUCCESFULLY);
+    }
+
+    @GetMapping("/user-participations/{id}")
+    public ResponseEntity<List<Evento>> getParticipations(@PathVariable("id") Long id) {
+
+        List<Evento> participacoes = userService.getUserParticipacoes(id);
+
+        return new ResponseEntity<>(participacoes, OK);
     }
 
     private ResponseEntity<HttpResponse> response(HttpStatus status, String s) {
