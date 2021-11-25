@@ -4,22 +4,40 @@
     
     <h1 style="text-align: center;"> Relatório de Eventos </h1>
 
-    <form class="px-4 py-2" >
-    <div class="col-sm-12 form-row">
-        
-        
-        <div class="col">
-        <label for="evento-inicio" class="col-form-label" >Inicio:</label>
-        <input type="date" [(ngModel)]="dataIni" class="form-control " name="inicio" id="evento-inicio" value=""/>
-        </div>
-
-        <div class="col">
-        <label for="evento-fim" class="col-form-label">Fim:</label>
-        <input type="date" [(ngModel)]="dataFim" class="form-control" name="fim" id="evento-fim" value="" />
-        </div>
-        
-        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="gerarRelatorio()">Gerar Relatório</button>
-
-    </div>
-    </form>
     
+    <div class="col-sm-12">
+
+        <label for="evento-inicio" class="col-form-label">Inicio:</label>
+        <input
+        type="date"
+        class="form-control"
+        name="inicio"
+        id="evento-inicio"
+        value=""
+        />
+        <label for="evento-fim" class="col-form-label">Fim:</label>
+        <input
+        type="date"
+        class="form-control"
+        name="fim"
+        id="evento-fim"
+        value=""
+        />
+        
+        <button class="btn btn-primary float-right" type="submit">Gerar Relatório</button>
+    </div>
+    
+</div>
+
+<div class="jumbotron" >
+    <!-- AQUI É FEITA A EXIBIÇÃO DO PDC. [src] recebe a variavel "doc"  do component -->
+    <pdf-viewer [src]="doc" [render-text]="true" style="display: block;"> 
+    </pdf-viewer>
+
+    <a [href]="doc"> TESTE DE DOWNLOAD</a>
+
+</div>
+
+
+
+</div>

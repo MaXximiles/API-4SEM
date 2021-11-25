@@ -31,18 +31,4 @@ export class RelatoriosService {
       responseType: 'blob' as 'json'
     });
   }
-
-  public relatorioEvento(dataini: String, datafim: String)
-  {
-      return this.http.get(`${this.host}/relatorios/eventos_periodo/${dataini},${datafim}`, {
-      responseType: 'blob' as 'json'
-    });
-  }
-
-  public relatorioVacina(vacinados: string)
-  {
-      return this.http.get(`${this.host}/relatorios/eventos_vacina/${vacinados}`, {
-      responseType: 'blob' as 'json'
-    });
-  }
 }
