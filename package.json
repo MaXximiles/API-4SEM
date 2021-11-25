@@ -2,10 +2,10 @@
   "name": "enduranceapp",
   "version": "0.0.0",
   "scripts": {
-    "start": "ng serve --port $PORT --host 0.0.0.0 --disable-host-check",
-    "build": "ng build --prod",
+    "start": "node --max_old_space_size=2048 node_modules/.bin/react-scripts start",
+    "build": "node --max_old_space_size=2048 node_modules/.bin/react-scripts build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "react-scripts test",
     "postinstall": "ng build --aot --prod",
     "heroku-postbuild": "ng build --configuration=production  export NODE_OPTIONS='--max-old-space-size=8192'"
   },
