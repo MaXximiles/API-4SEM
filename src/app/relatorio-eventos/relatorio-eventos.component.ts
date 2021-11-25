@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { stringify } from 'querystring';
+import { Relatorio } from '../model/relatorio';
+import { RelatoriosService } from '../service/relatorios.service';
 
 
 @Component({
@@ -8,14 +11,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RelatorioEventosComponent implements OnInit {
   
-  // AQUI COM  A VAR "doc" INDICAMOS O CAMINHO DO PDF
-  doc = "C:/Users/lucas/Documents/MATEUS/FACULDADE/git%20atualizado/front/API-4SEM/src/app/relatorio-eventos/pdf.pdf";
+  private relatorio: Relatorio[];
 
-  constructor() { }
+  dataIni: String = "";
+  dataFim: String = "";
 
-  ngOnInit(): void {
-    
+  constructor(private relatoriosService: RelatoriosService) { }
+
+  ngOnInit(): void { }
+
+  gerarRelatorio()
+  {
+
+    this.relatoriosService.relatorioEvento(this.dataIni,this.dataFim).subscribe((res: any) => 
+    {
+      const file = new Blob([res], 
+      {
+        type: res.type
+      });
+      
+      const blob = window.URL.createObjectURL(file);
+
+      const link = document.createElement('a');
+      link.href = blob;
+      link.download = 'relatorioEventos.pdf';
+      link.click();
+
+      window.URL.revokeObjectURL(blob);
+      link.remove();
+    });
   }
-
-
 }

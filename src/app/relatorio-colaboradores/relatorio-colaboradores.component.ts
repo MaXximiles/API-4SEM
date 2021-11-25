@@ -104,7 +104,7 @@ export class RelatoriColaboradoresComponent implements OnInit {
 
       const link = document.createElement('a');
       link.href = blob;
-      link.download = 'report.pdf';
+      link.download = 'relatorioColaborador.pdf';
       link.click();
 
       window.URL.revokeObjectURL(blob);

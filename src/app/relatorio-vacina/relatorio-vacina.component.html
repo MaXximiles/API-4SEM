@@ -5,28 +5,17 @@
         <h1 style="text-align: center;"> Relatório de Vacina </h1>
     
         <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="vacinados" name="relatorio" mdbInput>
+            <input type="radio" class="custom-control-input" id="vacinados" [(ngModel)]="radioOption" value="1" mdbInput>
             <label class="custom-control-label" for="vacinados">Vacinados</label>
         </div>
         
         <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="todos" name="relatorio" checked mdbInput>
+            <input type="radio" class="custom-control-input" id="todos" [(ngModel)]="radioOption" value="0" checked mdbInput>
             <label class="custom-control-label" for="todos">Todos</label>
         </div>
 
-        <button class="btn btn-primary float-right" type="submit">Gerar Relatório</button>
-    </div>
-    
-    <div class="jumbotron" >
-        <!-- AQUI É FEITA A EXIBIÇÃO DO PDC. [src] recebe a variavel "doc"  do component -->
-       
-        <!-- <pdf-viewer [src]="doc" [render-text]="true" style="display: block;"> 
-        </pdf-viewer>
-    
-        <a [href]="doc"> TESTE DE DOWNLOAD</a> -->
-    
-    </div>
-    
+        <button  class="btn btn-primary btn-lg btn-block" type="submit" (click)="gerarRelatorio()" >Gerar Relatório</button>
+    </div> 
     
     
     </div>
