@@ -33,7 +33,7 @@ import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos
 import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
 import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relatorio-colaboradores.component';
 
-
+import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -110,6 +110,7 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     NgxMaskModule.forRoot(),
     NgbModule,
+    PdfViewerModule,
   ],
   providers: [
     AuthenticationService,

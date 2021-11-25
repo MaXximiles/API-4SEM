@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://enduranceback.herokuapp.com/login'
+  apiUrl: 'http://localhost:8080'
 };
