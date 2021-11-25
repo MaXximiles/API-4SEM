@@ -4,12 +4,15 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.text.Document;
 import fatec.grupodois.endurance.DBConexao;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,17 +22,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import static fatec.grupodois.endurance.constant.FileConstant.*;
-
 
 @RestController
 @RequestMapping("/relatorios")
 public class RelatorioController
 {
     /* Relatório de eventos por periodo */
-    @GetMapping(path = "/eventos_periodo")
-    public String Relat_periodo(@RequestParam(value = "datainicio", required = false) String datainicio,
-                       @RequestParam(value= "datafim", required = false) String datafim) throws Exception
+    @GetMapping(path = "/eventos_periodo/{datainicio},{datafim}")
+    public ResponseEntity<byte[]> Relat_periodo(@PathVariable(value = "datainicio", required = false) String datainicio,
+                       @PathVariable(value= "datafim", required = false) String datafim) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -39,7 +40,7 @@ public class RelatorioController
         String sql = " SELECT evt_id, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
                 " FROM eventos " +
                 " WHERE evt_inicio " +
-                " BETWEEN TO_DATE('"+datainicio+"','DD/MM/YYYY') AND TO_DATE ('"+datafim+"','DD/MM/YYYY') ORDER BY evt_inicio ";
+                " BETWEEN TO_DATE('"+datainicio+"','YYYY-MM-DD') AND TO_DATE ('"+datafim+"','YYYY-MM-DD') ORDER BY evt_inicio ";
         resultadoBanco = stm.executeQuery(sql);
 
         String htmlText = "<html> \n" +
@@ -128,19 +129,32 @@ public class RelatorioController
         pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf"));
         /* ******************************************************************************************
         *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
         ******************************************************************************************* */
         document.close();
 
-        String caminho = "./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf";
-        return caminho;
+        //String caminho = "./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf";
+        //return caminho;
+
+        Path path = Paths.get("./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf");
+        byte[] pdfContents = null;
+        try {pdfContents = Files.readAllBytes(path);}
+        catch (IOException e) { e.printStackTrace();}
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String filename = "Relatorio_Eventos_Periodo_"+dataTitulo+".pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
+        return response;
     }
 
     /* Relatório de eventos por usuario */
-    @GetMapping(path = "/eventos_usuario/{id}")
-    public ResponseEntity Relat_usuario(@PathVariable(value= "id", required = false) Long usuario_id) throws Exception
+    @GetMapping(path = "/eventos_usuario/{usuarioid}")
+    public  ResponseEntity<byte[]> Relat_usuario(@PathVariable(value= "usuarioid", required = false) Long usuarioid) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -148,8 +162,8 @@ public class RelatorioController
         Statement stm = conn.createStatement();
 
         String query = "";
-        if(usuario_id == 0 ){ query = " WHERE evt_usr_id <> 0";}
-        else{ query = " WHERE evt_usr_id = " + usuario_id; }
+        if(usuarioid == 0 ){ query = " WHERE evt_usr_id <> 0";}
+        else{ query = " WHERE evt_usr_id = " + usuarioid; }
 
 
         String sql = " SELECT evt_id, usr_nome, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
@@ -206,7 +220,7 @@ public class RelatorioController
                     " <td align='center'>"+ data + "</td> \n" +
                     " <td align='center'>"+ HoraIni + "</td> \n" +
                     " <td align='center'>"+ HoraFim + "</td> \n";
-            if(usuario_id == 0){htmlText2 += " <td align='center'>"+ usuario_nome + "</td> \n";}
+            if(usuarioid == 0){htmlText2 += " <td align='center'>"+ usuario_nome + "</td> \n";}
             htmlText2 += " <td align='center'>"+ evento + "</td> \n" +
                     " <td align='center'>"+ descricao + "</td> \n" +
                     " <td align='center'>"+ local + "</td> \n" +
@@ -218,7 +232,7 @@ public class RelatorioController
 
         String titulo;
         String colspan;
-        if(usuario_id == 0)
+        if(usuarioid == 0)
         {
             titulo = "TODOS USUÁRIOS";
             colspan = "8";
@@ -240,7 +254,7 @@ public class RelatorioController
                 " <td align='center'><b><font color='white'> DATA </font></b></td> \n" +
                 " <td align='center'><b><font color='white'> HORA INICIO </font></b></td> \n" +
                 " <td align='center'><b><font color='white'> HORA TÉRMINO </font></b></td> \n";
-        if(usuario_id == 0){htmlText1 += " <td align='center'><b><font color='white'> USUÁRIO </font></b></td> \n";}
+        if(usuarioid == 0){htmlText1 += " <td align='center'><b><font color='white'> USUÁRIO </font></b></td> \n";}
         htmlText1 += " <td align='center'><b><font color='white'> EVENTO </font></b></td> \n" +
                 " <td align='center'><b><font color='white'> DESCRIÇÃO </font></b></td> \n" +
                 " <td align='center'><b><font color='white'> LOCAL </font></b></td> \n" +
@@ -265,20 +279,37 @@ public class RelatorioController
         pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream(USER_FOLDER + "/relatorios/relatorios_eventos_usuario" + dataTitulo + ".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
+        //HtmlConverter.convertToPdf(htmlText, new FileOutputStream( System.getProperty("user.home") + "/eventportal/user/relatorios/" + "Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
+
         /* ******************************************************************************************
          *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
          ******************************************************************************************* */
         document.close();
-        HttpHeaders headers = new HttpHeaders();
 
-        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(Files.readAllBytes(Paths.get(USER_FOLDER + "/relatorios/relatorios_eventos_usuario" + dataTitulo + ".pdf")));
+        //String caminho = System.getProperty("user.home") + "\\eventportal\\user\\relatorios\\" + "Relatorio_eventos_usuario_"+dataTitulo+".pdf";
+        //return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/eventportal/user/relatorios/" + "Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
+        //return caminho;
+
+        //Path path = Paths.get(System.getProperty("user.home")+ "\\eventportal\\user\\relatorios\\");
+        Path path = Paths.get("./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf");
+        byte[] pdfContents = null;
+        try {pdfContents = Files.readAllBytes(path);}
+        catch (IOException e) { e.printStackTrace();}
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String filename = "Relatorio_eventos_usuario_"+dataTitulo+".pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
+        return response;
+
     }
 
-
     /* Relatório de usuarios vacina */
-    @GetMapping(path = "/eventos_vacina")
-    public String Relat_vacina(@RequestParam(value= "vacinados", required = false) int vacinados) throws Exception
+    @GetMapping(path = "/eventos_vacina/{vacinados}")
+    public ResponseEntity<byte[]> Relat_vacina(@PathVariable(value= "vacinados", required = false) String vacinados) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -286,7 +317,7 @@ public class RelatorioController
         Statement stm = conn.createStatement();
 
         String sql;
-        if(vacinados == 1)//TODOS OS USUARIOS QUE SÃO VACINADOS
+        if(vacinados.equals("1"))//TODOS OS USUARIOS QUE SÃO VACINADOS
         {
             sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
                   " WHERE usr_vacina IS NOT NULL " +
@@ -297,7 +328,10 @@ public class RelatorioController
             sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
                   " ORDER BY usr_nome ";
         }
+
+        System.out.println(sql);
         resultadoBanco = stm.executeQuery(sql);
+
 
         int qtdVacinados = 0;
         int qtdUsuarios = 0;
@@ -390,9 +424,6 @@ public class RelatorioController
         Date date = new Date();
         String dataTitulo = dateFormat.format(date);
 
-        /*File pasta = new File("C:\\endurance");
-        pasta.mkdir();*/
-
         /* Convertendo String para HTML e salvando no arquivo final */
         HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf"));
         /* ******************************************************************************************
@@ -400,8 +431,21 @@ public class RelatorioController
          ******************************************************************************************* */
         document.close();
 
-        String caminho = "./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf";
-        return caminho;
+        //String caminho = "./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf";
+        //return caminho;
+
+        Path path = Paths.get("./src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf");
+        byte[] pdfContents = null;
+        try {pdfContents = Files.readAllBytes(path);}
+        catch (IOException e) { e.printStackTrace();}
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String filename = "/src/tempArq/Relatorio_Vacina_"+dataTitulo+".pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
+        return response;
     }
 
 
