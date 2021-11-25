@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve --port $PORT --host 0.0.0.0 --disable-host-check",
-    "build": "ng build --prod",
+    "build-prod": "node --max_old_space_size = 5048 ./node_modules/@angular/cli/bin/ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "postinstall": "ng build --aot --prod",
