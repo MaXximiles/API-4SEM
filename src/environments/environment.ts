@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: apiUrl: 'http://enduranceback.herokuapp.com',
+  apiUrl: apiUrl: 'https://enduranceback.herokuapp.com',
 };
 
 /*
