@@ -48,6 +48,83 @@
 </div> -->
 
 <div class="container">
+  <app-modal #modalFornecedor [modalConfig]="modalConfig">
+    <form
+      class="row"
+      #fornecedorForm="ngForm"
+      (ngSubmit)="
+        editFornecedor.id
+          ? onEditedFornecedor(fornecedorForm)
+          : onAddNewFornecedor(fornecedorForm)
+      "
+    >
+      <input
+        [ngModel]="editFornecedor.id"
+        type="text"
+        class="form-control"
+        name="id"
+        value=""
+        hidden
+      />
+
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="evento-inicio" class="col-form-label"
+                >Descricao:</label
+              >
+              <input
+                [ngModel]="editFornecedor.descricao"
+                type="text"
+                class="form-control"
+                name="descricao"
+                id="descricao-fornecedor"
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="evento-fim" class="col-form-label">CNPJ:</label>
+              <input
+                [ngModel]="editFornecedor.cnpj"
+                type="text"
+                class="form-control"
+                name="cnpj"
+                id="cnpj-fornecedor"
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="tema-evento" class="col-form-label">Email:</label>
+              <input
+                [ngModel]="editFornecedor.email"
+                type="text"
+                class="form-control"
+                name="email"
+                id="email-fornecedor"
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="descricao-evento" class="col-form-label"
+                >Observação:</label
+              >
+              <textarea
+                [ngModel]="editFornecedor.observacao"
+                class="form-control"
+                name="observacao"
+                id="observacao-fornecedor"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </app-modal>
 
   <div class="mb-3 float-end">
     <div class="btn-group mr-2">
@@ -64,7 +141,7 @@
         type="button"
         class="btn btn-info"
         data-toggle="modal"
-        data-target="#addUserModal"
+        (click)="onAddFornecedor()"
       >
         <i class="fa fa-plus" style="color: #fff"></i
         ><font style="color: #fff">&nbsp;Novo Fornecedor</font>
@@ -86,11 +163,9 @@
     <div class="tab-pane fade show active" id="users">
       <div class="mb-3 float-end">
         <div class="btn-group mr-2">
-          <form class="form-inline my-2 my-lg-0 justify-content-center">
-          </form>
+          <form class="form-inline my-2 my-lg-0 justify-content-center"></form>
         </div>
-        <div class="btn-group" style="margin-left: 2px">
-        </div>
+        <div class="btn-group" style="margin-left: 2px"></div>
       </div>
       <table class="table table-hover table-striped">
         <thead class="table-borderless">
@@ -105,15 +180,39 @@
             <th>AÇÕES</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngFor="let fornecedor of fornecedores">
           <tr class="text-center">
-            <td>FORNECEDOR TESTE</td>
-            <td>11111111111</td>
-            <td>(12)919191</td>
-            <td>BUFFET</td>
-            <td></td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.descricao }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.cnpj }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.email }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.observacao }}
+            </td>
+            <td class="">
+              <div class="btn-group">
+                <button
+                  class="btn btn-outline-info"
+                  (click)="onEditFornecedor(fornecedor)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="onDeleteFornecedor(fornecedor)"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
 </div>
