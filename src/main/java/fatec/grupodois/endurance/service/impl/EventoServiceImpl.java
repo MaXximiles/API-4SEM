@@ -67,6 +67,7 @@ public class EventoServiceImpl implements EventoService {
             evento.setStatus("CONFIRMADO");
         } else {
             List<User> adminUsers = userRepository.findAllAdmins();
+
             for(User u: adminUsers) {
                 emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
             }

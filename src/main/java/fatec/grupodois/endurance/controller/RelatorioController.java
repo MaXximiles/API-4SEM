@@ -3,12 +3,14 @@ package fatec.grupodois.endurance.controller;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.text.Document;
 import fatec.grupodois.endurance.DBConexao;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -16,6 +18,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
+
+import static fatec.grupodois.endurance.constant.FileConstant.*;
 
 
 @RestController
@@ -135,8 +139,8 @@ public class RelatorioController
     }
 
     /* Relatório de eventos por usuario */
-    @GetMapping(path = "/eventos_usuario")
-    public String Relat_usuario(@RequestParam(value= "usuario_id", required = false) int usuario_id) throws Exception
+    @GetMapping(path = "/eventos_usuario/{id}")
+    public ResponseEntity Relat_usuario(@PathVariable(value= "id", required = false) Long usuario_id) throws Exception
     {
         Connection conn = null;
         ResultSet resultadoBanco = null;
@@ -261,14 +265,14 @@ public class RelatorioController
         pasta.mkdir();*/
 
         /* Convertendo String para HTML e salvando no arquivo final */
-        HtmlConverter.convertToPdf(htmlText, new FileOutputStream("./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf"));
+        HtmlConverter.convertToPdf(htmlText, new FileOutputStream(USER_FOLDER + "/relatorios/relatorios_eventos_usuario" + dataTitulo + ".pdf"));
         /* ******************************************************************************************
          *  MUDAR PARA SALVAR ONDE O USUÁRIO DESEJAR *************************************************
          ******************************************************************************************* */
         document.close();
+        HttpHeaders headers = new HttpHeaders();
 
-        String caminho = "./src/tempArq/Relatorio_eventos_usuario_"+dataTitulo+".pdf";
-        return caminho;
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(Files.readAllBytes(Paths.get(USER_FOLDER + "/relatorios/relatorios_eventos_usuario" + dataTitulo + ".pdf")));
     }
 
 
