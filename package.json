@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve --port $PORT --host 0.0.0.0 --disable-host-check",
-    "build-serve": "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve",
     "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "postinstall": "ng build --aot --prod",
-    "heroku-postbuild": "ng build --configuration=production  export NODE_OPTIONS='--max-old-space-size=8192'"
+    "heroku-postbuild": "ng build --configuration=production"
   },
   "private": true,
   "dependencies": {
