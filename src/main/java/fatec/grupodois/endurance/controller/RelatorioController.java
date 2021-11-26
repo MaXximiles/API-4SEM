@@ -113,6 +113,7 @@ public class RelatorioController
             
             i++;
         }
+        conn.close();
 
         htmlText += "</table>"
         		+ "</body> \n </html> \n";
@@ -150,6 +151,8 @@ public class RelatorioController
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
         return response;
+
+
     }
 
     /* Relatório de eventos por usuario */
@@ -229,7 +232,7 @@ public class RelatorioController
                     "\n";
             i++;
         }
-
+        conn.close();
         String titulo;
         String colspan;
         if(usuarioid == 0)
@@ -383,6 +386,8 @@ public class RelatorioController
                     "\n";
             i++;
         }
+        conn.close();
+        
         int nVacinados = qtdUsuarios-qtdVacinados;
         htmlText1 = "<html> \n" +
                 "<body> \n" +
