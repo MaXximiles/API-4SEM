@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
@@ -47,6 +48,15 @@ public class EventoController extends ExceptionHandling{
             throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
 
         Evento event = eventoService.addParticipante(user, id);
+
+        return new ResponseEntity<>(event, OK);
+    }
+
+    @PutMapping("/add-fornecedor/{id}")
+    public ResponseEntity<Evento> addParticipante(@RequestParam Fornecedor fornecedor, @PathVariable("id") Long id)
+            throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException {
+
+        Evento event = eventoService.addFornecedor(fornecedor, id);
 
         return new ResponseEntity<>(event, OK);
     }

@@ -1,6 +1,7 @@
 package fatec.grupodois.endurance.service;
 
 import fatec.grupodois.endurance.entity.Evento;
+import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
@@ -33,4 +34,6 @@ public interface EventoService {
     Evento removeParticipante(User user, Long id) throws EventoNotFoundException;
 
     List<User> getParticipantes(Evento event);
+
+    Evento addFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException;
 }
