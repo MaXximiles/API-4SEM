@@ -89,7 +89,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center> Cadastro, alteração e pesquisa de  fornecedores; &nbsp Serviço de envio de email's para novos eventos e alteração dos mesmos; &nbsp Controle de nivel de usuarios;                            
+                            <td> <p align=center> Correção de Bug's; &nbsp Modulo de cadastro de participantes do evento; &nbsp Modulo de envio de email's; &nbsp Status dos eventos; &nbsp Modulo de edição de eventos; &nbsp Restrição na edição de eventos por nível de usuário; &nbsp Legenda com esquema de cores;                            
                       <p align=center>                          
                       </p>
                       </td>
