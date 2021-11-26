@@ -97,7 +97,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                       <tr>
                             <td align=center>Sprint 4<br>08/11/2021 a 28/11/2021</td>
-                            <td> <p align=center> Atualização do status da carteira de vacinação;  &nbsp Módulo de relatórios dos eventos para administradores;  &nbsp Exibição do módulo de relatórios;  &nbsp Validação da carteira de vacinação pelo administrador;  &nbsp Exibição do status da carteira de vacinação;  &nbsp Verificação da carteira de vacinação ao se cadastrar em um evento;
+                            <td> <p align=center> Módulo de relatórios dos eventos;  &nbsp Exibição do módulo de relatórios;  &nbsp Alteração de senha de usuários; &nbsp Correção de e-mails; &nbsp Modulo de fornecedores; 
                              <p align=center>                          
                        </p>
                        </td>
