@@ -387,7 +387,7 @@ public class RelatorioController
             i++;
         }
         conn.close();
-        
+
         int nVacinados = qtdUsuarios-qtdVacinados;
         htmlText1 = "<html> \n" +
                 "<body> \n" +
