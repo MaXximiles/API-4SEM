@@ -138,8 +138,7 @@ public class RelatorioController
         //String caminho = "./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf";
         //return caminho;
 
-        //Path path = Paths.get("./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf");
-        Path path = Paths.get(System.getProperty("user.home") + "\\eventportal\\user\\relatorios\\" + "Relatorio_eventos_Periodo_"+dataTitulo+".pdf");
+        Path path = Paths.get("./src/tempArq/Relatorio_Eventos_Periodo_"+dataTitulo+".pdf");
         byte[] pdfContents = null;
         try {pdfContents = Files.readAllBytes(path);}
         catch (IOException e) { e.printStackTrace();}
