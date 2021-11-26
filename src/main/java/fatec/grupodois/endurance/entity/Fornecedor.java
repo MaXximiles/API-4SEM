@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -16,55 +15,47 @@ import java.io.Serializable;
 @Builder
 @ToString
 @Table(
-        name = Fornecedor.TABLE_NAME,
+        name = "FORNECEDORES",
         uniqueConstraints = {@UniqueConstraint(
                 name = "frn_descricao_unique",
-                columnNames = Fornecedor.COLUNA_DESCRICAO
+                columnNames = "frn_descricao"
         ), @UniqueConstraint(
                 name = "frn_email_unique",
-                columnNames = Fornecedor.COLUNA_EMAIl
+                columnNames = "frn_email"
         ), @UniqueConstraint(
                 name = "frn_cnpj_unique",
-                columnNames = Fornecedor.COLUNA_CNPJ
+                columnNames = "frn_cnpj"
         )}
 
 )
-public class Fornecedor implements Serializable {
-
-    public static final String TABLE_NAME = "FORNECEDORES";
-    public static final String ID_NAME = "FRN_ID";
-    public static final String SEQUENCE_NAME = "FORNECEDORES_SEQUENCE";
-    public static final String COLUNA_DESCRICAO = "FRN_DESCRICAO";
-    public static final String COLUNA_CNPJ = "FRN_CNPJ";
-    public static final String COLUNA_EMAIl = "FRN_EMAIL";
-    public static final String COLUNA_OBSERVACAO = "FRN_OBSERVACAO";
+public class Fornecedor {
 
     @Id
     @SequenceGenerator(
-            name = SEQUENCE_NAME,
-            sequenceName = SEQUENCE_NAME,
+            name = "fornecedores_sequence",
+            sequenceName = "fornecedores_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.IDENTITY,
-            generator = SEQUENCE_NAME
+            generator = "fornecedores_sequence"
     )
-    @Column(name=ID_NAME, nullable = false)
+    @Column(name="frn_id", nullable = false)
     private Long id;
 
-    @Column(name=COLUNA_DESCRICAO, columnDefinition = "VARCHAR2(25)", unique = true, nullable = false)
+    @Column(name="frn_descricao", columnDefinition = "VARCHAR2(25)", unique = true, nullable = false)
     @NotBlank
     private String descricao;
 
-    @Column(name=COLUNA_CNPJ, columnDefinition = "VARCHAR2(14)", unique = true, nullable = false)
+    @Column(name="frn_cnpj", columnDefinition = "VARCHAR2(14)", unique = true, nullable = false)
     @CNPJ
     @NotBlank
     private String cnpj;
 
-    @Column(name=COLUNA_EMAIl, columnDefinition = "VARCHAR2(100)", unique = true, nullable = false)
+    @Column(name="frn_email", columnDefinition = "VARCHAR2(100)", unique = true, nullable = false)
     @NotBlank
     private String email;
 
-    @Column(name=COLUNA_OBSERVACAO, columnDefinition = "VARCHAR2(255)")
+    @Column(name="frn_obs", columnDefinition = "VARCHAR2(255)")
     private String observacao;
 }

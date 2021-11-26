@@ -98,7 +98,7 @@ public class FornecedorServiceImpl implements FornecedorService {
     public Fornecedor updateFornecedor(String emailAtual, String cnpj, String email, String observacao, String descricao)
             throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException {
 
-        Fornecedor fornecedorDb = fornecedorRepository.findFornecedorByEmail(emailAtual).get();
+        Fornecedor fornecedorDb = fornecedorRepository.findFornecedorByEmail(email).get();
 
         if(StringUtils.isNotEmpty(StringUtils.trim(descricao)) &&
                 !StringUtils.equalsIgnoreCase(descricao, fornecedorDb.getDescricao())) {

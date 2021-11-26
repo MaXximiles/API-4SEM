@@ -41,7 +41,6 @@ public class RelatorioController extends ExceptionHandling {
     @GetMapping(path = "/eventos_periodo/{dataInicio},{dataFim}")
     public ResponseEntity<byte[]> fetchRelatorioPeriodo(@PathVariable(value = "dataInicio", required = false) String dataInicio,
                        @PathVariable(value= "dataFim", required = false) String dataFim) throws NenhumResultadoException {
-
         return service.fetchRelatorioPeriodo(dataInicio, dataFim);
     }
 
@@ -57,7 +56,4 @@ public class RelatorioController extends ExceptionHandling {
     public ResponseEntity<byte[]> fetchRelatorioVacina(@PathVariable(value= "vacinados", required = false) String vacinados) {
         return service.fetchRelatorioVacinados(vacinados);
     }
-
-
-
 }

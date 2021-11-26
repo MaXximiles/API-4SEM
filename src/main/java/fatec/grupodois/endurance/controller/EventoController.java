@@ -43,11 +43,29 @@ public class EventoController extends ExceptionHandling{
         return new ResponseEntity<>(event, CREATED);
     }
 
+    @PutMapping("/add-guest/{id}")
+    public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
+
+        Evento event = eventoService.addParticipante(user, id);
+
+        return new ResponseEntity<>(event, OK);
+    }
+
     @PutMapping("/add-fornecedor/{id}")
-    public ResponseEntity<Evento> addFornecedor(@RequestParam Fornecedor fornecedor, @PathVariable("id") Long id)
+    public ResponseEntity<Evento> addParticipante(@RequestParam Fornecedor fornecedor, @PathVariable("id") Long id)
             throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException {
 
         Evento event = eventoService.addFornecedor(fornecedor, id);
+
+        return new ResponseEntity<>(event, OK);
+    }
+
+    @PutMapping("/remove-guest/{id}")
+    public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
+            throws EventoNotFoundException {
+
+        Evento event = eventoService.removeParticipante(user, id);
 
         return new ResponseEntity<>(event, OK);
     }
@@ -65,6 +83,13 @@ public class EventoController extends ExceptionHandling{
         List<Evento> eventos = eventoService.findAllEventos();
 
         return new ResponseEntity<>(eventos, OK);
+    }
+
+    @GetMapping(path = "/get-participantes")
+    public ResponseEntity<List<User>> fetchParticipantes(@RequestBody Evento event) {
+        List<User> participantes = eventoService.getParticipantes(event);
+
+        return new ResponseEntity<>(participantes, OK);
     }
 
     @GetMapping("/fetch/{id}")
@@ -108,47 +133,6 @@ public class EventoController extends ExceptionHandling{
 
         eventoService.updateEvento(eventoId, evento);
         return new ResponseEntity<>(evento, OK);
-    }
-
-    @PutMapping("/remove-fornecedor/{id}")
-    public ResponseEntity<Evento> removeFornecedor(@RequestBody Fornecedor fornecedor, @PathVariable("id") Long id)
-            throws EventoNotFoundException {
-
-        Evento event = eventoService.removerFornecedor(fornecedor, id);
-
-        return new ResponseEntity<>(event, OK);
-    }
-
-    @GetMapping(path = "/get-fornecedores/{id}")
-    public ResponseEntity<List<Fornecedor>> fetchFornecedores(@PathVariable Long id) throws EventoNotFoundException {
-        List<Fornecedor> fornecedores = eventoService.getFornecedores(id);
-
-        return new ResponseEntity<>(fornecedores, OK);
-    }
-
-    @PutMapping("/add-guest/{id}")
-    public ResponseEntity<Evento> addParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException {
-
-        Evento event = eventoService.addParticipante(user, id);
-
-        return new ResponseEntity<>(event, OK);
-    }
-
-    @PutMapping("/remove-guest/{id}")
-    public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
-            throws EventoNotFoundException {
-
-        Evento event = eventoService.removeParticipante(user, id);
-
-        return new ResponseEntity<>(event, OK);
-    }
-
-    @GetMapping(path = "/get-participantes")
-    public ResponseEntity<List<User>> fetchParticipantes(@RequestBody Evento event) {
-        List<User> participantes = eventoService.getParticipantes(event);
-
-        return new ResponseEntity<>(participantes, OK);
     }
 
 }

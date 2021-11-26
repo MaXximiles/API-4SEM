@@ -36,8 +36,4 @@ public interface EventoService {
     List<User> getParticipantes(Evento event);
 
     Evento addFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException;
-
-    Evento removerFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException;
-
-    List<Fornecedor> getFornecedores(Long id) throws EventoNotFoundException;
 }
