@@ -143,6 +143,13 @@ public class ExceptionHandling implements ErrorController{
     }
     /* fim específico para Evento */
 
+    /* especifico para RelatorioService */
+    @ExceptionHandler(NenhumResultadoException.class)
+    public ResponseEntity<HttpResponse> eventOutOfOpeningHoursException(NenhumResultadoException exc) {
+        return createHttpResponse(BAD_REQUEST, exc.getMessage());
+    }
+    /* fim especifico para RelatorioService */
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<HttpResponse> methodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
         HttpMethod supportedMethod = Objects.requireNonNull(exception.getSupportedHttpMethods()).iterator().next();

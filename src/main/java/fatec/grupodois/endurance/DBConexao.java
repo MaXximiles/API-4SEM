@@ -15,13 +15,9 @@ public class DBConexao
     private static final String PASSWORD = "8aYBPHjr7oudm8";
     private static final String DATABASE_URL = "jdbc:oracle:thin:@DB202109231147_high?TNS_ADMIN=./key";
 
-    public static Connection abrirConexao() throws Exception
-    {
-
+    public static Connection abrirConexao() throws Exception {
         Class.forName("oracle.jdbc.OracleDriver");
-        Connection conectar = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
-
-        return conectar;
+        return DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
     }
 
     public static void fecharConexao(Connection conectar) throws SQLException

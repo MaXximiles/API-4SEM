@@ -118,7 +118,6 @@ public class Evento implements Serializable {
     public boolean addParticipante(User user) {
         if(this.maxParticipantes > this.totalParticipantes) {
             participantes.add(user);
-            this.maxParticipantes++;
             this.totalParticipantes++;
             return true;
         }

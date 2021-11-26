@@ -46,4 +46,6 @@ public interface UserService {
     void changePassword(String email, String oldPassword, String newPassword) throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException;
 
     User resetPasswordFront(String cpf) throws EmailNotFoundException, CpfNotFoundException, MessagingException;
+
+
 }

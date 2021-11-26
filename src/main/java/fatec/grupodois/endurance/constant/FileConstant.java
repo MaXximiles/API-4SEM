@@ -3,7 +3,9 @@ package fatec.grupodois.endurance.constant;
 public class FileConstant {
     public static final String USER_IMAGE_PATH = "/user/image/";
     public static final String JPG_EXTENSION = "jpg";
+    public static final String PDF_EXTENSION = ".pdf";
     public static final String USER_FOLDER = System.getProperty("user.home") + "/eventportal/user/";
+    public static final String RELATORIOS_DIR = "relatorios";
     public static final String DIRECTORY_CREATED = "Created directory for: ";
     public static final String DEFAULT_USER_IMAGE_PATH = "/user/image/";
     public static final String FILE_SAVED_IN_FILE_SYSTEM = "Saved file in file system by name: ";
@@ -16,4 +18,7 @@ public class FileConstant {
     public static final String VACCINE_IMAGE = "_vacina";
     public static final String IMAGE_FILE_ERROR = "Ocorreu um erro ao ler seu arquivo de imagem";
     public static final String VACCINE_PLACEHOLDER = "https://i.ibb.co/n0DVTs1/vaccine-placeholder.png";
+    public static final String NOME_RELATORIO_PERIODO = "/Relatorio_Eventos_Periodo";
+    public static final String NOME_RELATORIO_USUARIO = "/Relatorio_Eventos_Usuario";
+    public static final String NOME_RELATORIO_VACINA = "/Relatorio_Eventos_Vacina";
 }
