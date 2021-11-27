@@ -37,8 +37,10 @@ public class RelatorioService {
         Connection conn = null;
         ResultSet resultadoBanco = null;
         Statement stm;
+
+        conn = abrirConexão();
+
         try {
-            conn = DBConexao.abrirConexao();
             stm = conn.createStatement();
 
             String sql = " SELECT evt_id, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
@@ -48,10 +50,9 @@ public class RelatorioService {
             resultadoBanco = stm.executeQuery(sql);
         } catch(SQLException e) {
             LOGGER.error("Erro ao criar query");
-            LOGGER.info(e.getMessage());
-        } catch (Exception e) {
-            LOGGER.error("Erro ao criar query");
-            LOGGER.info(e.getMessage());
+            e.printStackTrace();
+            fecharConexãoBanco(conn);
+            throw new RuntimeException(e.getMessage());
         }
 
         String htmlText = "<html> \n" +
@@ -93,7 +94,7 @@ public class RelatorioService {
                 if (!resultadoBanco.next()) break;
             } catch(Exception e) {
                 LOGGER.warn("Tabela de resultado vazia", e.getMessage());
-                fecharConexão(resultadoBanco, conn);
+                desligar(resultadoBanco, conn);
                 throw new NenhumResultadoException("Nenhum resultado foi encontrado");
             }
             /* Pegando variaveis do banco */
@@ -142,7 +143,7 @@ public class RelatorioService {
             }
         }
 
-        fecharConexão(resultadoBanco, conn);
+        desligar(resultadoBanco, conn);
 
         htmlText += "</table>"
                 + "</body> \n </html> \n";
@@ -172,8 +173,10 @@ public class RelatorioService {
         Connection conn = null;
         ResultSet resultadoBanco = null;
         Statement stm;
+
+        conn = abrirConexão();
+
         try {
-            conn = DBConexao.abrirConexao();
             stm = conn.createStatement();
             String query = "";
             query = usuarioId != 0 ? " WHERE evt_usr_id = " + usuarioId:" WHERE evt_usr_id <> 0";
@@ -214,7 +217,7 @@ public class RelatorioService {
                 if (!resultadoBanco.next()) break;
             } catch (SQLException e) {
                 LOGGER.warn("Tabela de resultado vazia", e.getMessage());
-                fecharConexão(resultadoBanco, conn);
+                desligar(resultadoBanco, conn);
                 throw new NenhumResultadoException("Nenhum resultado foi encontrado");
             }
             /* Pegando variaveis do banco */
@@ -262,7 +265,7 @@ public class RelatorioService {
             }
         }
 
-        fecharConexão(resultadoBanco, conn);
+        desligar(resultadoBanco, conn);
 
         String titulo;
         String colspan;
@@ -314,9 +317,11 @@ public class RelatorioService {
         Connection conn = null;
         ResultSet resultadoBanco = null;
         Statement stm;
+
+        conn = abrirConexão();
+
         String sql = "";
         try {
-            conn = DBConexao.abrirConexao();
             stm = conn.createStatement();
 
             if(vacinados.equals("1")){
@@ -403,7 +408,7 @@ public class RelatorioService {
             LOGGER.info(e.getMessage());
         }
 
-        fecharConexão(resultadoBanco, conn);
+        desligar(resultadoBanco, conn);
 
         int nVacinados = qtdUsuarios-qtdVacinados;
         htmlText1 = "<html> \n" +
@@ -464,9 +469,9 @@ public class RelatorioService {
             FileOutputStream stream = new FileOutputStream(caminhoArquivo);
             HtmlConverter.convertToPdf(htmlText, stream);
             stream.close();
-        } catch(Exception e) {
-            LOGGER.error("Erro ao converter HTML para PDF");
-            LOGGER.info(e.getMessage());
+        } catch(IOException e) {
+            LOGGER.error("Erro ao montar arquivo PDF", e);
+            e.printStackTrace();
         }
 
         Path path = Paths.get(caminhoArquivo);
@@ -506,18 +511,37 @@ public class RelatorioService {
         return nomeArquivo.toString();
     }
 
-    private void fecharConexão(ResultSet resultadoBanco, Connection conn) {
+    private void desligar(ResultSet resultadoBanco, Connection conn) {
         try {
             resultadoBanco.close();
         } catch (SQLException e) {
-            LOGGER.error("Erro ao solicitar coluna do banco");
-            LOGGER.info(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
         try {
             conn.close();
         } catch(SQLException e) {
-            LOGGER.error("Erro ao fechar conexão com o banco");
-            LOGGER.info(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
+    }
+
+    private void fecharConexãoBanco(Connection conn) {
+        try{
+            conn.close();
+        } catch(SQLException e) {
+            LOGGER.info("Erro ao fechar conexão", e);
+        }
+    }
+
+    private Connection abrirConexão() {
+        Connection conn = null;
+        try {
+            conn = DBConexao.abrirConexao();
+        } catch (RuntimeException e) {
+            LOGGER.info("Não foi possível iniciar a conexão", e);
+            e.printStackTrace();
+            fecharConexãoBanco(conn);
+            throw new RuntimeException(e.getMessage());
+        }
+        return conn;
     }
 }

@@ -17,11 +17,11 @@ import java.util.List;
 @Builder
 @ToString
 @Table(
-        name = Evento.TABLE_NAME,
+        name = Evento.TABLE_NAME/*,
         uniqueConstraints = @UniqueConstraint(
                 name = "UC_EVENTOS_EVT_TEMA",
                 columnNames = Evento.COLUNA_TEMA
-        )
+        )*/
 
 )
 public class Evento implements Serializable {

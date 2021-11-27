@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @ToString
 @Table(
-        name = Fornecedor.TABLE_NAME,
+        name = Fornecedor.TABLE_NAME/*,
         uniqueConstraints = {@UniqueConstraint(
                 name = "UC_FORNECEDORES_FRN_DESCRICAO",
                 columnNames = Fornecedor.COLUNA_DESCRICAO
@@ -25,7 +25,7 @@ import javax.validation.constraints.NotBlank;
         ), @UniqueConstraint(
                 name = "UC_FORNECEDORES_FRN_CNPJ",
                 columnNames = Fornecedor.COLUNA_CNPJ
-        )}
+        )}*/
 
 )
 public class Fornecedor {

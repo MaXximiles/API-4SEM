@@ -17,14 +17,14 @@ import java.util.Date;
 @Builder
 @ToString
 @Table(
-        name = User.TABLE_NAME,
+        name = User.TABLE_NAME/*,
         uniqueConstraints = {@UniqueConstraint(
         name = "UC_USUARIOS_USR_CPF UNIQUE",
         columnNames = User.COLUNA_CPF
         ), @UniqueConstraint(
         name = "UC_USUARIOS_USR_EMAIL",
         columnNames = User.COLUNA_EMAIL
-        )}
+        )}*/
 )
 public class User implements Serializable {
 
