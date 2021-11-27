@@ -55,7 +55,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
  - [Backlog](https://trello.com/b/E2Xm3K4N/api-4-sem-endurance-oracle)
  - [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
  - [Modelo Conceitual do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
- - [SQL do Banco de Dados]()
+ - [SQL do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documentação/Database/sql-endurance.sql)
  
 <h2>Sprints</h2>
        <table>
@@ -81,7 +81,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
                      </tr>
                      <tr>
                             <td align=center>Sprint 3<br>18/10/2021 a 07/11/2021</td>
-                            <td> <p align=center> Correção de Bug's; &nbsp Modulo de cadastro de participantes do evento; &nbsp Modulo de envio de email's; &nbsp Status dos eventos; &nbsp Modulo de edição de eventos; &nbsp Restrição na edição de eventos por nível de usuário; &nbsp Legenda com esquema de cores;                            
+                            <td> <p align=center> Correção de Bug's; &nbsp Modulo de cadastro de participantes do evento; &nbsp Modulo de envio de e-mails; &nbsp Status dos eventos; &nbsp Modulo de edição de eventos; &nbsp Restrição na edição de eventos por nível de usuário; &nbsp Legenda com esquema de cores;                            
                       <p align=center>                          
                       </p>
                       </td>
