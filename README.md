@@ -55,13 +55,64 @@ Resumo de modificações:
 </p></br><h1></h1>
 
 ### Screenshoots:
+<p align=center>
+<b></br>Tela de relatório de eventos</br></br>
+<img src=https://user-images.githubusercontent.com/68132461/143662488-2567f62c-1de0-4ad8-98e5-c5a483f2da8c.png></br>
 
+</p></br><h1></h1>
+<p align=center>
+<b></br>Tela de relatório de vacina</br></br>
+<img src=https://user-images.githubusercontent.com/68132461/143662516-c8ccc136-0c13-4d7b-bccf-a6a1add73420.png></br>
+</p></br><h1></h1>
 
+<p align=center>
+<b></br>Tela de relatório de colaboradores</br></br>
+<img src=https://user-images.githubusercontent.com/68132461/143662538-12fa30c8-b85f-4cb6-bb06-2f4eda3eebfd.png></br>
+</p></br><h1></h1>
+
+<p align=center>
+<b></br>Tela de relatório de colaboradores</br></br>
+<img src=https://user-images.githubusercontent.com/68132461/143662538-12fa30c8-b85f-4cb6-bb06-2f4eda3eebfd.png></br>
 </p></br><h1></h1>
 
 
 
-
+<h2>Relatórios</h2>
+       <table>
+              <thead>
+                     <th >Modelo</th>
+                     <th >Descrição</th>
+                     <th >Link</th>
+              </thead>
+              <tbody>
+                     <tr>
+                            <td align=center>Relatório de eventos</td>
+                            <td ><img src=https://user-images.githubusercontent.com/68132461/143663266-accab13a-50e8-4717-a0e4-906e017b08b1.png height=500 width=300 >  </td>     
+                            <td><p><a href=https://user-images.githubusercontent.com/68132461/143663266-accab13a-50e8-4717-a0e4-906e017b08b1.png>Visualizar</a></p></td>
+                     </tr>
+                      <tr>
+                            <td align=center>Relatório vacinados</td>
+                            <td ><img src=https://user-images.githubusercontent.com/68132461/143663882-c9d0b3a7-7c41-4fa6-ae53-13da5c86868d.png height=500 width=300 >  </td>     
+                            <td><p><a href=https://user-images.githubusercontent.com/68132461/143663882-c9d0b3a7-7c41-4fa6-ae53-13da5c86868d.png>Visualizar</a></p></td>
+                     </tr>
+                <tr>
+                            <td align=center>Relatório de vacinas</td>
+                            <td ><img src=https://user-images.githubusercontent.com/68132461/143663906-8ab055e1-886e-4b40-af97-4a8619a8922a.png height=500 width=300 >  </td>     
+                            <td><p><a href=https://user-images.githubusercontent.com/68132461/143663906-8ab055e1-886e-4b40-af97-4a8619a8922a.png>Visualizar</a></p></td>
+                     </tr>
+                <tr>
+                            <td align=center>Relatório de colaboradores</td>
+                            <td ><img src=https://user-images.githubusercontent.com/68132461/143663928-77e8f258-ef06-476f-ba50-57c8d7681831.png height=500 width=300 >  </td>     
+                            <td><p><a href=https://user-images.githubusercontent.com/68132461/143663928-77e8f258-ef06-476f-ba50-57c8d7681831.png>Visualizar</a></p></td>
+                     </tr>
+                <tr>
+                            <td align=center>Relatório de colaborador</td>
+                            <td ><img src=https://user-images.githubusercontent.com/68132461/143663937-b2721b43-2fe5-44ed-9d00-5d28c2e44f03.png height=500 width=300 >  </td>     
+                            <td><p><a href=https://user-images.githubusercontent.com/68132461/143663937-b2721b43-2fe5-44ed-9d00-5d28c2e44f03.png>Visualizar</a></p></td>
+                     </tr>
+              </tbody>
+       </table>
+                          
 
 
 
