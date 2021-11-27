@@ -31,6 +31,7 @@ Resumo de modificações:
   - Versionamento do Banco de dados;
   - Criação do modelo DDL;  
 - Atualização do Back-end:
+  - Refatoração do código; 
   - Atualização de envio de e-mails; 
   - Atualização do status da carteira de vacinação;
   - Módulo de relatórios:
