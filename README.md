@@ -55,15 +55,7 @@ O sistema Endurance tem como objetivo principal o gerenciamento de eventos, poss
  - [Backlog](https://trello.com/b/E2Xm3K4N/api-4-sem-endurance-oracle)
  - [Design Thinking](https://www.figma.com/proto/EmAtO4ISBvw2fBlpwq5pyP/Endurance---API-4SEM?page-id=0%3A1&node-id=73%3A28&viewport=241%2C48%2C0.17&scaling=scale-down&starting-point-node-id=29%3A753)
  - [Modelo Conceitual do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
- 
- <!----
- - [Story Cards] 
- - [BSC]
- - [PETI]
- - [Modelo Relacional do Banco de Dados](https://github.com/MaXximiles/API-4SEM/blob/main/Documenta%C3%A7%C3%A3o/Database/conceitual%201.1.jpg)
- - [Instruções]
- - [Vídeo Apresentação]
- - [Tutorial Instalação](https://github.com/MaXximiles/API-3SEM/tree/main/Documenta%C3%A7%C3%A3o) -->
+ - [SQL do Banco de Dados]()
  
 <h2>Sprints</h2>
        <table>
