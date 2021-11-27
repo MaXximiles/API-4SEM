@@ -17,23 +17,24 @@ import java.util.List;
 @Builder
 @ToString
 @Table(
-        name = "EVENTOS",
+        name = Evento.TABLE_NAME,
         uniqueConstraints = @UniqueConstraint(
-                name = "evt_tema_unique",
-                columnNames = "evt_tema"
+                name = "UC_EVENTOS_EVT_TEMA",
+                columnNames = Evento.COLUNA_TEMA
         )
 
 )
 public class Evento implements Serializable {
 
     public static final String ID_NAME = "EVT_ID";
+    public static final String TABLE_NAME ="EVENTOS";
     public static final String SEQUENCE_NAME = "EVENTOS_SEQUENCE";
     public static final String COLUNA_INICIO = "EVT_INICIO";
     public static final String COLUNA_FIM = "EVT_FIM";
     public static final String COLUNA_LOCAL = "EVT_LOCAL";
     public static final String COLUNA_TEMA = "EVT_TEMA";
-    public static final String COLUNA_DESCRICAO = "EVT_DESCRICAO";
-    public static final String COLUNA_OBSERVACAO = "EVT_OBSERVACAO";
+    public static final String COLUNA_DESCRICAO = "EVT_DES";
+    public static final String COLUNA_OBSERVACAO = "EVT_OBS";
     public static final String COLUNA_USUARIO = "EVT_USR_ID";
     public static final String COLUNA_CRIACAO = "EVT_CRIACAO";
     public static final String COLUNA_STATUS = "EVT_STATUS";
@@ -91,11 +92,11 @@ public class Evento implements Serializable {
             name="evento_usuario_part",
             joinColumns = @JoinColumn(
                     name = "eup_evt_id",
-                    referencedColumnName = "evt_id"
+                    referencedColumnName = ID_NAME
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "eup_usr_id",
-                    referencedColumnName = "usr_id"
+                    referencedColumnName = User.ID_NAME
             )
     )
     private List<User> participantes;
@@ -105,11 +106,11 @@ public class Evento implements Serializable {
             name="evento_fornecedor_map",
             joinColumns = @JoinColumn(
                     name = "efm_evt_id",
-                    referencedColumnName = "evt_id"
+                    referencedColumnName = ID_NAME
             ),
             inverseJoinColumns = @JoinColumn(
                     name="efm_frn_id",
-                    referencedColumnName = "frn_id"
+                    referencedColumnName = Fornecedor.ID_NAME
             )
     )
     private List<Fornecedor> fornecedores;

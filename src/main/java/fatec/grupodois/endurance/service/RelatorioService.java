@@ -21,8 +21,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
 import static fatec.grupodois.endurance.constant.FileConstant.*;
@@ -151,7 +149,6 @@ public class RelatorioService {
 
         /* Criando novo documento pdf para relatório */
 
-        DateFormat formatarData= new SimpleDateFormat("yyyyMMdd_HHmmss");
         String nomeArquivo = getNomeArquivo(false, true);
 
         /* Convertendo String para HTML e salvando no arquivo final */
@@ -303,7 +300,6 @@ public class RelatorioService {
 
         /* Criando novo documento pdf para relatório */
 
-        DateFormat formatarData= new SimpleDateFormat("yyyyMMdd_HHmmss");
         String nomeArquivo = getNomeArquivo(true, false);
 
         /* Convertendo String para HTML e salvando no arquivo final */
@@ -444,7 +440,6 @@ public class RelatorioService {
 
         /* Criando novo documento pdf para relatório */
 
-        DateFormat formatarData= new SimpleDateFormat("yyyyMMdd_HHmmss");
         String nomeArquivo = getNomeArquivo(false, false);
 
         /* Convertendo String para HTML e salvando no arquivo final */
