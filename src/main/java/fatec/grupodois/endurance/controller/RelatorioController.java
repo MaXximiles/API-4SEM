@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,7 +41,7 @@ public class RelatorioController extends ExceptionHandling {
     /* Relatório de eventos por periodo */
     @GetMapping(path = "/eventos_periodo/{dataInicio},{dataFim}")
     public ResponseEntity<byte[]> fetchRelatorioPeriodo(@PathVariable(value = "dataInicio", required = false) String dataInicio,
-                       @PathVariable(value= "dataFim", required = false) String dataFim) throws NenhumResultadoException {
+                       @PathVariable(value= "dataFim", required = false) String dataFim) throws NenhumResultadoException, SQLException {
         return service.fetchRelatorioPeriodo(dataInicio, dataFim);
     }
 

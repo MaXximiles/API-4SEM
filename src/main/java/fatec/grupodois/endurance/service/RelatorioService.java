@@ -34,26 +34,18 @@ public class RelatorioService {
 
     public ResponseEntity<byte[]> fetchRelatorioPeriodo(String dataInicio, String dataFim) throws NenhumResultadoException {
 
-        Connection conn = null;
-        ResultSet resultadoBanco = null;
-        Statement stm;
+        Connection conn;
+        ResultSet resultadoBanco;
 
-        conn = abrirConexão();
+        conn = abrirConexao();
 
-        try {
-            stm = conn.createStatement();
+        String sql =
+                " SELECT evt_id, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
+                " FROM eventos " +
+                " WHERE evt_inicio " +
+                " BETWEEN TO_DATE('"+dataInicio+"','YYYY-MM-DD') AND TO_DATE ('"+dataFim+"','YYYY-MM-DD') ORDER BY evt_inicio ";
 
-            String sql = " SELECT evt_id, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
-                    " FROM eventos " +
-                    " WHERE evt_inicio " +
-                    " BETWEEN TO_DATE('"+dataInicio+"','YYYY-MM-DD') AND TO_DATE ('"+dataFim+"','YYYY-MM-DD') ORDER BY evt_inicio ";
-            resultadoBanco = stm.executeQuery(sql);
-        } catch(SQLException e) {
-            LOGGER.error("Erro ao criar query");
-            e.printStackTrace();
-            fecharConexãoBanco(conn);
-            throw new RuntimeException(e.getMessage());
-        }
+        resultadoBanco = getResultadoBanco(sql, conn);
 
         String htmlText = "<html> \n" +
                 "<body> \n" +
@@ -88,60 +80,62 @@ public class RelatorioService {
         int i = 1;
         int numPag = 1;
         String cor;
-        while(true)
-        {
-            try {
-                if (!resultadoBanco.next()) break;
-            } catch(Exception e) {
-                LOGGER.warn("Tabela de resultado vazia", e.getMessage());
-                desligar(resultadoBanco, conn);
-                throw new NenhumResultadoException("Nenhum resultado foi encontrado");
-            }
-            /* Pegando variaveis do banco */
-            try {
-                num1 = Integer.toString(i);
-                dataHoraIni = (resultadoBanco.getString("evt_inicio"));
-                dataHoraFim = (resultadoBanco.getString("evt_fim"));
-                evento = (resultadoBanco.getString("evt_tema"));
-                descricao = (resultadoBanco.getString("evt_desc"));
-                local = (resultadoBanco.getString("evt_local"));
-                status = (resultadoBanco.getString("evt_status"));
 
-                /* Manipulando visualização data hora inicio */
-                String fatia[] = dataHoraIni.split(" "); // Pegando data inicio
-                String dataC = fatia[0];
-                hora = fatia[1];
-                String[] fatia1 = hora.split(Pattern.quote(".")); // Pegando hora inicio
-                HoraIni = fatia1[0];
-                String fatia2[] = dataC.split("-"); // Trocando padrão data para DD/MM/YYYY
-                data = fatia2[2] + "/" + fatia2[1] + "/" + fatia2[0];
+        checarResultado(conn, resultadoBanco);
 
-                /* Manipulando visualização data hora inicio */
-                String fatia3[] = dataHoraFim.split(" "); // Pegando data fim
-                dataFim = fatia3[0];
-                hora = fatia3[1];
-                String[] fatia4 = hora.split(Pattern.quote(".")); // Pegando hora fim
-                HoraFim = fatia4[0];
+        try {
+            do {
+                try {
+                    num1 = Integer.toString(i);
+                    dataHoraIni = (resultadoBanco.getString("evt_inicio"));
+                    dataHoraFim = (resultadoBanco.getString("evt_fim"));
+                    evento = (resultadoBanco.getString("evt_tema"));
+                    descricao = (resultadoBanco.getString("evt_desc"));
+                    local = (resultadoBanco.getString("evt_local"));
+                    status = (resultadoBanco.getString("evt_status"));
 
-                cor = getCor(i);
+                    /* Manipulando visualização data hora inicio */
+                    String fatia[] = dataHoraIni.split(" "); // Pegando data inicio
+                    String dataC = fatia[0];
+                    hora = fatia[1];
+                    String[] fatia1 = hora.split(Pattern.quote(".")); // Pegando hora inicio
+                    HoraIni = fatia1[0];
+                    String fatia2[] = dataC.split("-"); // Trocando padrão data para DD/MM/YYYY
+                    data = fatia2[2] + "/" + fatia2[1] + "/" + fatia2[0];
 
-                /* Montando tabela para exibição dos dados */
-                htmlText += "<tr bgcolor='" + cor + "'> \n" +
-                        " <td align='center'>" + data + "</td> \n" +
-                        " <td align='center'>" + HoraIni + "</td> \n" +
-                        " <td align='center'>" + HoraFim + "</td> \n" +
-                        " <td align='center'>" + evento + "</td> \n" +
-                        " <td align='center'>" + descricao + "</td> \n" +
-                        " <td align='center'>" + local + "</td> \n" +
-                        " <td align='center'>" + status + "</td> \n" +
-                        " </tr> \n";
+                    /* Manipulando visualização data hora inicio */
+                    String fatia3[] = dataHoraFim.split(" "); // Pegando data fim
+                    dataFim = fatia3[0];
+                    hora = fatia3[1];
+                    String[] fatia4 = hora.split(Pattern.quote(".")); // Pegando hora fim
+                    HoraFim = fatia4[0];
 
-                i++;
-            } catch (SQLException e) {
-                LOGGER.error("Erro ao solicitar coluna do banco");
-                LOGGER.info(e.getMessage());
-            }
+                    cor = getCor(i);
+
+                    /* Montando tabela para exibição dos dados */
+                    htmlText += "<tr bgcolor='" + cor + "'> \n" +
+                            " <td align='center'>" + data + "</td> \n" +
+                            " <td align='center'>" + HoraIni + "</td> \n" +
+                            " <td align='center'>" + HoraFim + "</td> \n" +
+                            " <td align='center'>" + evento + "</td> \n" +
+                            " <td align='center'>" + descricao + "</td> \n" +
+                            " <td align='center'>" + local + "</td> \n" +
+                            " <td align='center'>" + status + "</td> \n" +
+                            " </tr> \n";
+
+                    i++;
+                } catch (SQLException e) {
+                    LOGGER.error("Erro ao solicitar coluna do banco");
+                    LOGGER.info(e.getMessage());
+                    e.printStackTrace();
+                }
+            } while(resultadoBanco.next());
+        } catch (SQLException e) {
+            LOGGER.warn("Erro ao acessar tabela de resultados", e.getMessage());
+            desligar(resultadoBanco, conn);
+            throw new NenhumResultadoException("Nenhum resultado foi encontrado");
         }
+
 
         desligar(resultadoBanco, conn);
 
@@ -158,40 +152,25 @@ public class RelatorioService {
         return response;
     }
 
-    private String getCor(int i) {
-        String cor;
-        if (i % 2 == 0) {
-            cor = "#DCDCDC";
-        } else {
-            cor = "#C0C0C0";
-        }
-        return cor;
-    }
-
     public ResponseEntity<byte[]> fetchRelatorioUsuario(Long usuarioId) throws NenhumResultadoException {
 
-        Connection conn = null;
-        ResultSet resultadoBanco = null;
-        Statement stm;
+        Connection conn;
+        ResultSet resultadoBanco;
+        String query;
 
-        conn = abrirConexão();
+        conn = abrirConexao();
 
-        try {
-            stm = conn.createStatement();
-            String query = "";
-            query = usuarioId != 0 ? " WHERE evt_usr_id = " + usuarioId:" WHERE evt_usr_id <> 0";
+        query = usuarioId != 0 ? " WHERE evt_usr_id = " + usuarioId:" WHERE evt_usr_id <> 0";
 
-            String sql = " SELECT evt_id, usr_nome, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
-                    " FROM eventos " +
-                    " INNER JOIN usuarios ON usuarios.usr_id = eventos.evt_usr_id " +
-                    query +
-                    " ORDER BY evt_inicio, usr_nome ";
+        String sql = " SELECT evt_id, usr_nome, evt_criacao, evt_desc, evt_fim, evt_inicio, evt_local, evt_max_part, evt_obs, evt_status, evt_tema, evt_total_part, evt_usr_id " +
+                " FROM eventos " +
+                " INNER JOIN usuarios ON usuarios.usr_id = eventos.evt_usr_id " +
+                query +
+                " ORDER BY evt_inicio, usr_nome ";
 
-            resultadoBanco = stm.executeQuery(sql);
-        } catch(Exception e) {
-            LOGGER.error("Erro ao criar query");
-            LOGGER.info(e.getMessage());
-        }
+        resultadoBanco = getResultadoBanco(sql, conn);
+
+        checarResultado(conn, resultadoBanco);
 
         String data;
         String hora;
@@ -211,58 +190,56 @@ public class RelatorioService {
         int i = 1;
         String cor;
 
-        while(true)
-        {
-            try {
-                if (!resultadoBanco.next()) break;
-            } catch (SQLException e) {
-                LOGGER.warn("Tabela de resultado vazia", e.getMessage());
-                desligar(resultadoBanco, conn);
-                throw new NenhumResultadoException("Nenhum resultado foi encontrado");
-            }
-            /* Pegando variaveis do banco */
-            try {
-                dataHoraIni = (resultadoBanco.getString("evt_inicio"));
-                dataHoraFim = (resultadoBanco.getString("evt_fim"));
-                evento = (resultadoBanco.getString("evt_tema"));
-                descricao = (resultadoBanco.getString("evt_desc"));
-                local = (resultadoBanco.getString("evt_local"));
-                status = (resultadoBanco.getString("evt_status"));
-                usuario_nome = (resultadoBanco.getString("usr_nome"));
-                /* Manipulando visualização data hora inicio */
-                String fatia[] = dataHoraIni.split(" "); // Pegando data inicio
-                String dataC = fatia[0];
-                hora = fatia[1];
-                String[] fatia1 = hora.split(Pattern.quote(".")); // Pegando hora inicio
-                HoraIni = fatia1[0];
-                String fatia2[] = dataC.split("-"); // Trocando padrão data para DD/MM/YYYY
-                data = fatia2[2]+"/"+fatia2[1]+"/"+fatia2[0];
+        try {
+            do {
+                try {
+                    dataHoraIni = (resultadoBanco.getString("evt_inicio"));
+                    dataHoraFim = (resultadoBanco.getString("evt_fim"));
+                    evento = (resultadoBanco.getString("evt_tema"));
+                    descricao = (resultadoBanco.getString("evt_desc"));
+                    local = (resultadoBanco.getString("evt_local"));
+                    status = (resultadoBanco.getString("evt_status"));
+                    usuario_nome = (resultadoBanco.getString("usr_nome"));
+                    /* Manipulando visualização data hora inicio */
+                    String fatia[] = dataHoraIni.split(" "); // Pegando data inicio
+                    String dataC = fatia[0];
+                    hora = fatia[1];
+                    String[] fatia1 = hora.split(Pattern.quote(".")); // Pegando hora inicio
+                    HoraIni = fatia1[0];
+                    String fatia2[] = dataC.split("-"); // Trocando padrão data para DD/MM/YYYY
+                    data = fatia2[2]+"/"+fatia2[1]+"/"+fatia2[0];
 
-                /* Manipulando visualização data  */
-                String fatia3[] = dataHoraFim.split(" "); // Pegando data fim
-                hora = fatia3[1];
-                String[] fatia4 = hora.split(Pattern.quote(".")); // Pegando hora fim
-                HoraFim = fatia4[0];
+                    /* Manipulando visualização data  */
+                    String fatia3[] = dataHoraFim.split(" "); // Pegando data fim
+                    hora = fatia3[1];
+                    String[] fatia4 = hora.split(Pattern.quote(".")); // Pegando hora fim
+                    HoraFim = fatia4[0];
 
-                cor = getCor(i);
+                    cor = getCor(i);
 
-                /* Montando tabela para exibição dos dados */
-                htmlText2 += "<tr bgcolor='"+cor+"'> \n" +
-                        " <td align='center'>"+ data + "</td> \n" +
-                        " <td align='center'>"+ HoraIni + "</td> \n" +
-                        " <td align='center'>"+ HoraFim + "</td> \n";
-                if(usuarioId == 0){htmlText2 += " <td align='center'>"+ usuario_nome + "</td> \n";}
-                htmlText2 += " <td align='center'>"+ evento + "</td> \n" +
-                        " <td align='center'>"+ descricao + "</td> \n" +
-                        " <td align='center'>"+ local + "</td> \n" +
-                        " <td align='center'>"+ status + "</td> \n" +
-                        " </tr> \n" +
-                        "\n";
-                i++;
-            } catch (SQLException e) {
-                LOGGER.error("Erro ao solicitar coluna do banco");
-                LOGGER.info(e.getMessage());
-            }
+                    /* Montando tabela para exibição dos dados */
+                    htmlText2 += "<tr bgcolor='"+cor+"'> \n" +
+                            " <td align='center'>"+ data + "</td> \n" +
+                            " <td align='center'>"+ HoraIni + "</td> \n" +
+                            " <td align='center'>"+ HoraFim + "</td> \n";
+                    if(usuarioId == 0){htmlText2 += " <td align='center'>"+ usuario_nome + "</td> \n";}
+                    htmlText2 += " <td align='center'>"+ evento + "</td> \n" +
+                            " <td align='center'>"+ descricao + "</td> \n" +
+                            " <td align='center'>"+ local + "</td> \n" +
+                            " <td align='center'>"+ status + "</td> \n" +
+                            " </tr> \n" +
+                            "\n";
+                    i++;
+                } catch (SQLException e) {
+                    LOGGER.error("Erro ao solicitar coluna do banco");
+                    LOGGER.info(e.getMessage());
+                    e.printStackTrace();
+                }
+            } while (resultadoBanco.next());
+        } catch (SQLException e) {
+            LOGGER.warn("Erro ao acessar tabela de resultados", e.getMessage());
+            desligar(resultadoBanco, conn);
+            throw new NenhumResultadoException("Nenhum resultado foi encontrado");
         }
 
         desligar(resultadoBanco, conn);
@@ -314,31 +291,22 @@ public class RelatorioService {
 
     public ResponseEntity<byte[]> fetchRelatorioVacinados(String vacinados) {
 
-        Connection conn = null;
-        ResultSet resultadoBanco = null;
-        Statement stm;
+        Connection conn;
+        ResultSet resultadoBanco;
+        String sql;
 
-        conn = abrirConexão();
+        conn = abrirConexao();
 
-        String sql = "";
-        try {
-            stm = conn.createStatement();
-
-            if(vacinados.equals("1")){
-                sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
-                        " WHERE usr_vacina IS NOT NULL " +
-                        " ORDER BY usr_nome ";
-            } else {
-                sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
-                        " ORDER BY usr_nome ";
-            }
-
-            resultadoBanco = stm.executeQuery(sql);
-        } catch(Exception e) {
-            LOGGER.error("Erro ao criar query");
-            LOGGER.info(e.getMessage());
+        if(vacinados.equals("1")){
+            sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
+                    " WHERE usr_vacina IS NOT NULL " +
+                    " ORDER BY usr_nome ";
+        } else {
+            sql = " SELECT usr_nome, usr_sobrenome, usr_email, usr_vacina, usr_ativo FROM USUARIOS " +
+                    " ORDER BY usr_nome ";
         }
 
+        resultadoBanco = getResultadoBanco(sql, conn);
 
         int qtdVacinados = 0;
         int qtdUsuarios = 0;
@@ -353,6 +321,7 @@ public class RelatorioService {
         } catch(Exception e) {
             LOGGER.error("Erro ao criar query");
             LOGGER.info(e.getMessage());
+            e.printStackTrace();
         }
 
         try {
@@ -366,6 +335,7 @@ public class RelatorioService {
         } catch(SQLException e) {
             LOGGER.error("Erro na execução da query");
             LOGGER.info(e.getMessage());
+            e.printStackTrace();
         }
 
         int i = 1;
@@ -374,9 +344,9 @@ public class RelatorioService {
         String htmlText1 = "";
         String htmlText2 = "";
         String htmlText3 = "";
+
         try {
-            while(resultadoBanco.next())
-            {
+            while(resultadoBanco.next()) {
                 /* Pegando variaveis do banco */
                 String usr_nome = (resultadoBanco.getString("usr_nome"));
                 String usr_nome2 = (resultadoBanco.getString("usr_sobrenome"));
@@ -406,6 +376,7 @@ public class RelatorioService {
         } catch(SQLException e) {
             LOGGER.error("Erro ao solicitar coluna do banco");
             LOGGER.info(e.getMessage());
+            e.printStackTrace();
         }
 
         desligar(resultadoBanco, conn);
@@ -454,6 +425,20 @@ public class RelatorioService {
         return response;
     }
 
+    private void checarResultado(Connection conn, ResultSet resultadoBanco) throws NenhumResultadoException {
+
+        try {
+            if(resultadoBanco.next() == false) {
+                desligar(resultadoBanco, conn);
+                throw new NenhumResultadoException("Nenhum resultado foi encontrado");
+            }
+        } catch (SQLException e) {
+            LOGGER.info("Erro ao acessar tabela de resultados");
+            desligar(resultadoBanco, conn);
+            throw new NenhumResultadoException("Nenhum resultado foi encontrado");
+        }
+    }
+
     private ResponseEntity<byte[]> getResponseEntity(String htmlText, String nomeArquivo) {
 
         Path relatorioDir;
@@ -481,11 +466,27 @@ public class RelatorioService {
         } catch (IOException e) {
             LOGGER.error("Erro ao ler PDF",e.getMessage());
             LOGGER.info(e.getMessage());
+            e.printStackTrace();
         }
 
         HttpHeaders headers = getHttpHeaders(nomeArquivo);
         ResponseEntity<byte[]> response = new ResponseEntity<>(pdfContents, headers, HttpStatus.OK);
         return response;
+    }
+
+    private ResultSet getResultadoBanco(String sql, Connection conn) {
+
+        ResultSet resultadoBanco = null;
+        try {
+            Statement stm = conn.createStatement();
+            resultadoBanco = stm.executeQuery(sql);
+        } catch(SQLException e) {
+            LOGGER.error("Query com formato errado");
+            e.printStackTrace();
+            fecharConexaoBanco(conn);
+        }
+
+        return resultadoBanco;
     }
 
     private HttpHeaders getHttpHeaders(String nomeArquivo) {
@@ -511,6 +512,16 @@ public class RelatorioService {
         return nomeArquivo.toString();
     }
 
+    private String getCor(int i) {
+        String cor;
+        if (i % 2 == 0) {
+            cor = "#DCDCDC";
+        } else {
+            cor = "#C0C0C0";
+        }
+        return cor;
+    }
+
     private void desligar(ResultSet resultadoBanco, Connection conn) {
         try {
             resultadoBanco.close();
@@ -524,7 +535,7 @@ public class RelatorioService {
         }
     }
 
-    private void fecharConexãoBanco(Connection conn) {
+    private void fecharConexaoBanco(Connection conn) {
         try{
             conn.close();
         } catch(SQLException e) {
@@ -532,14 +543,14 @@ public class RelatorioService {
         }
     }
 
-    private Connection abrirConexão() {
+    private Connection abrirConexao() {
         Connection conn = null;
         try {
             conn = DBConexao.abrirConexao();
         } catch (RuntimeException e) {
             LOGGER.info("Não foi possível iniciar a conexão", e);
             e.printStackTrace();
-            fecharConexãoBanco(conn);
+            fecharConexaoBanco(conn);
             throw new RuntimeException(e.getMessage());
         }
         return conn;
