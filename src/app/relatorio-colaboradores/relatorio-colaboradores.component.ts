@@ -1,11 +1,13 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { environment } from 'src/environments/environment';
 import { createIncrementalCompilerHost } from 'typescript';
+import { NotificationType } from '../enum/notification-type.enum';
 import { Relatorio } from '../model/relatorio';
+import { NotificationService } from '../service/notification.service';
 import { RelatoriosService } from '../service/relatorios.service';
 
 
@@ -23,6 +25,7 @@ export class RelatoriColaboradoresComponent implements OnInit {
   invitedUser: User = null;
   caminho: string;
   link: Observable<string>;
+  refreshing: boolean = false;
 
   private host: string = environment.apiUrl;
   private relatorio: Relatorio[];
@@ -31,6 +34,7 @@ export class RelatoriColaboradoresComponent implements OnInit {
   constructor(
     private userService: UserService,
     private relatoriosService: RelatoriosService,
+    private notificationService: NotificationService
   ) { }
 
   filterUsers(filter): void {
@@ -93,13 +97,16 @@ export class RelatoriColaboradoresComponent implements OnInit {
 
   gerarRelatorio()
   {
+    this.refreshing = true;
+    document.getElementById("relatorio-colaborador-btn").setAttribute("disabled","disabled");
+
     let id = this.invitedUser != null ? this.invitedUser.id:0;
 
     this.relatoriosService.relatorioColaborador(id).subscribe((res: any) => {
       const file = new Blob([res], {
         type: res.type
       });
-      
+
       const blob = window.URL.createObjectURL(file);
 
       const link = document.createElement('a');
@@ -109,7 +116,32 @@ export class RelatoriColaboradoresComponent implements OnInit {
 
       window.URL.revokeObjectURL(blob);
       link.remove();
-    });
+      this.refreshing = false;
+      document.getElementById("relatorio-colaborador-btn").removeAttribute("disabled");
+    },
+    (errorResponse: HttpErrorResponse) => {
+      this.sendNotification(
+        NotificationType.ERROR,
+        errorResponse.error.message
+      );
+      this.refreshing = false;
+      document.getElementById("relatorio-colaborador-btn").removeAttribute("disabled");
+    }
+    );
+  }
+
+  private sendNotification(
+    notificationType: NotificationType,
+    message: string
+  ): void {
+    if (message) {
+      this.notificationService.myNofity(notificationType, message);
+    } else {
+      this.notificationService.myNofity(
+        notificationType,
+        'Um erro ocorreu. Por favor tente novamente'
+      );
+    }
   }
 
 }

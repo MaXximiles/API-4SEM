@@ -34,6 +34,7 @@ import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.co
 import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relatorio-colaboradores.component';
 
 import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
+import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -95,6 +96,7 @@ FullCalendarModule.registerPlugins([
     HeaderComponent,
     ProfileComponent,
     EventosComponent,
+    FornecedoresComponent,
     FullCalendarComponent,
     ModalComponent,
     RelatorioEventosComponent,

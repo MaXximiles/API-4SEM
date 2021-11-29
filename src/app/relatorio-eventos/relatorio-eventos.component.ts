@@ -1,6 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { stringify } from 'querystring';
+import { NotificationType } from '../enum/notification-type.enum';
 import { Relatorio } from '../model/relatorio';
+import { NotificationService } from '../service/notification.service';
 import { RelatoriosService } from '../service/relatorios.service';
 
 
@@ -10,26 +13,29 @@ import { RelatoriosService } from '../service/relatorios.service';
   styleUrls: ['./relatorio-eventos.component.css']
 })
 export class RelatorioEventosComponent implements OnInit {
-  
+
   private relatorio: Relatorio[];
 
   dataIni: String = "";
   dataFim: String = "";
+  refreshing: boolean = false;
 
-  constructor(private relatoriosService: RelatoriosService) { }
+  constructor(private relatoriosService: RelatoriosService,
+     private notificationService: NotificationService) { }
 
   ngOnInit(): void { }
 
   gerarRelatorio()
   {
+    this.refreshing = true;
+    document.getElementById("relatorio-evento-btn").setAttribute("disabled","disabled");
 
-    this.relatoriosService.relatorioEvento(this.dataIni,this.dataFim).subscribe((res: any) => 
+    this.relatoriosService.relatorioEvento(this.dataIni,this.dataFim).subscribe((res: any) =>
     {
-      const file = new Blob([res], 
+      const file = new Blob([res],
       {
         type: res.type
       });
-      
       const blob = window.URL.createObjectURL(file);
 
       const link = document.createElement('a');
@@ -39,6 +45,31 @@ export class RelatorioEventosComponent implements OnInit {
 
       window.URL.revokeObjectURL(blob);
       link.remove();
-    });
+      this.refreshing = false;
+      document.getElementById("relatorio-evento-btn").removeAttribute("disabled");
+    },
+    (errorResponse: HttpErrorResponse) => {
+      this.sendNotification(
+        NotificationType.ERROR,
+        errorResponse.error.message
+      );
+      this.refreshing = false;
+      document.getElementById("relatorio-evento-btn").removeAttribute("disabled");
+    }
+    );
+  }
+
+  private sendNotification(
+    notificationType: NotificationType,
+    message: string
+  ): void {
+    if (message) {
+      this.notificationService.myNofity(notificationType, message);
+    } else {
+      this.notificationService.myNofity(
+        notificationType,
+        'Um erro ocorreu. Por favor tente novamente'
+      );
+    }
   }
 }
