@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ModalComponent } from '../components/modal/modal.component';
 import { ModalConfig } from '../components/modal/modal.config';
 import { Fornecedor } from '../model/fornecedor';
+import { User } from '../model/user';
 import { FornecedorService } from '../service/fornecedor.service';
 
 @Component({
@@ -16,6 +17,8 @@ export class FornecedoresComponent implements OnInit {
 
   public fornecedores: Fornecedor[] = [];
   public editFornecedor: Fornecedor = new Fornecedor();
+
+  //private currentEmail: string = "a.a@.com";
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
@@ -47,6 +50,7 @@ export class FornecedoresComponent implements OnInit {
       this.fornecedores = fornecedores;
     });
   }
+
 
   onSelectFornecedor(fornecedor: Fornecedor): void {
     console.log(fornecedor);
