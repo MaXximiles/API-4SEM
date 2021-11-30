@@ -78,7 +78,6 @@ public class Evento implements Serializable {
     )
     private User user;
     @Column(name=COLUNA_CRIACAO, nullable = false)
-    @NotBlank
     private LocalDateTime criacao = LocalDateTime.now();
     @Column(name=COLUNA_STATUS, columnDefinition = "VARCHAR2(10)", nullable = false)
     private String status;

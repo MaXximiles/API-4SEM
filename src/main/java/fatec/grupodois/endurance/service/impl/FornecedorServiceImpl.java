@@ -47,7 +47,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setDescricao(descricao);
         fornecedor.setCnpj(cnpj);
         fornecedor.setEmail(email);
-        fornecedor.setObservacao(observacao);
+        fornecedor.setObservacao(observacao.isEmpty() || observacao.isBlank()? "":observacao);
 
         return fornecedorRepository.save(fornecedor);
     }
@@ -95,10 +95,10 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public Fornecedor updateFornecedor(String emailAtual, String cnpj, String email, String observacao, String descricao)
+    public Fornecedor updateFornecedor(Long id, String cnpj, String email, String observacao, String descricao)
             throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException {
 
-        Fornecedor fornecedorDb = fornecedorRepository.findFornecedorByEmail(email).get();
+        Fornecedor fornecedorDb = fornecedorRepository.findById(id).get();
 
         if(StringUtils.isNotEmpty(StringUtils.trim(descricao)) &&
                 !StringUtils.equalsIgnoreCase(descricao, fornecedorDb.getDescricao())) {
