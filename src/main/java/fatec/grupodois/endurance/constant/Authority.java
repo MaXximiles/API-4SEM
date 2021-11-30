@@ -18,6 +18,10 @@ public class Authority {
                                                         "evento: read",
                                                         "evento:create",
                                                         "evento:delete",
+                                                        "evento:update",
+                                                        "evento: read",
+                                                        "evento:create",
+                                                        "evento:delete",
                                                         "evento:update"
                                                      };
 

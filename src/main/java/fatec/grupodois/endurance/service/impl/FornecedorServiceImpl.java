@@ -141,10 +141,18 @@ public class FornecedorServiceImpl implements FornecedorService {
 
         boolean ans = fornecedorRepository.existsByCnpj(cnpj);
 
-        if(ans && inserir){throw new CnpjExistsException(CNPJ_EXISTS); }
-        else if(ans) {return fornecedorRepository.findFornecedorByCnpj(cnpj).get();}
-        else if (inserir){return null;}
-        else { throw new FornecedorNotFoundException(FORNECEDOR_NOT_FOUND_GENERIC + CNPJ + cnpj);        }
+        if(ans && inserir){
+            throw new CnpjExistsException(CNPJ_EXISTS);
+        }
+        else if(ans) {
+            return fornecedorRepository.findFornecedorByCnpj(cnpj).get();
+        }
+        else if (inserir){
+            return null;
+        }
+        else {
+            throw new FornecedorNotFoundException(FORNECEDOR_NOT_FOUND_GENERIC + CNPJ + cnpj);
+        }
     }
 
     private Fornecedor checkEmail(String email, boolean inserir) throws FornecedorNotFoundException, EmailExistsException {
