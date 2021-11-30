@@ -142,16 +142,13 @@
                             <div class="col mb-3">
                               <div class="form-group">
                                 <label>Role</label>
-                                <select
+                                <input
+                                  type="text"
                                   name="role"
-                                  required
+                                  disabled
                                   [(ngModel)]="user.role"
                                   class="form-control"
-                                >
-                                  <option value="ROLE_GUEST">GUEST</option>
-                                  <option value="ROLE_ORACLE">ORACLE</option>
-                                  <option value="ROLE_ADMIN">ADMIN</option>
-                                </select>
+                                />
                               </div>
                             </div>
                           </div>
@@ -219,7 +216,7 @@
                                     class="custom-control-input"
                                   />
                                   <label class="custom-control-label"
-                                    >Ativar</label
+                                    >Ativada</label
                                   >
                                 </div>
                                 <div class="custom-control custom-checkbox">
@@ -230,7 +227,7 @@
                                     class="custom-control-input"
                                   />
                                   <label class="custom-control-label"
-                                    >Desbloquear</label
+                                    >Desbloqueada</label
                                   >
                                 </div>
                               </div>

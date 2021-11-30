@@ -339,6 +339,8 @@
                   >
                     <option value="ROLE_GUEST">GUEST</option>
                     <option value="ROLE_ORACLE">ORACLE</option>
+                    <option value="ROLE_ORACLE_MB">ORACLE_MB</option>
+                    <option value="ROLE_ORACLE_ENTERPRISE">ORACLE_ENTERPRISE</option>
                     <option value="ROLE_ADMIN">ADMIN</option>
                   </select>
                 </div>
@@ -467,9 +469,11 @@
                     [(ngModel)]="editUser.role"
                     class="form-control"
                   >
-                    <option value="ROLE_GUEST">GUEST</option>
-                    <option value="ROLE_ORACLE">ORACLE</option>
-                    <option value="ROLE_ADMIN">ADMIN</option>
+                  <option value="ROLE_GUEST">GUEST</option>
+                  <option value="ROLE_ORACLE">ORACLE</option>
+                  <option value="ROLE_ORACLE_MB">ORACLE_MB</option>
+                  <option value="ROLE_ORACLE_ENTERPRISE">ORACLE_ENTERPRISE</option>
+                  <option value="ROLE_ADMIN">ADMIN</option>
                   </select>
                 </div>
                 <div class="input-group mb-2">
