@@ -33,7 +33,7 @@ public class Fornecedor {
     public static final String ID_NAME = "FRN_ID";
     public static final String TABLE_NAME ="FORNECEDORES";
     public static final String SEQUENCE_NAME = "FORNECEDORES_SEQUENCE";
-    public static final String COLUNA_DESCRICAO = "FRN_DES";
+    public static final String COLUNA_DESCRICAO = "FRN_DESCRICAO";
     public static final String COLUNA_CNPJ = "FRN_CNPJ";
     public static final String COLUNA_EMAIL = "FRN_EMAIL";
     public static final String COLUNA_OBSERVACAO = "FRN_OBS";
@@ -51,7 +51,7 @@ public class Fornecedor {
     @Column(name=ID_NAME, nullable = false)
     private Long id;
 
-    @Column(name=COLUNA_DESCRICAO, columnDefinition = "VARCHAR2(25)", unique = true, nullable = false)
+    @Column(name=COLUNA_DESCRICAO, columnDefinition = "VARCHAR2(255)", unique = true, nullable = false)
     @NotBlank
     private String descricao;
 

@@ -67,7 +67,7 @@ public class FornecedorController extends ExceptionHandling {
         return new ResponseEntity<>(fornecedores, OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('fornecedor:update')")
     public ResponseEntity<Fornecedor> updateFornecedor(@RequestParam("emailAtual") String emailAtual,
                                                        @RequestParam("cnpj") String cnpj,
