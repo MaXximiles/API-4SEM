@@ -37,7 +37,7 @@ export class FornecedorService {
     );
   }*/
 
-  
+
   public updateFornecedor(formData: FormData): Observable<Fornecedor> {
     const object = this.formDataToObject(formData);
     return this.http.put<Fornecedor>(

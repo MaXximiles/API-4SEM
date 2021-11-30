@@ -1,10 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalComponent } from '../components/modal/modal.component';
 import { ModalConfig } from '../components/modal/modal.config';
+import { NotificationType } from '../enum/notification-type.enum';
 import { Fornecedor } from '../model/fornecedor';
 import { User } from '../model/user';
 import { FornecedorService } from '../service/fornecedor.service';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-fornecedores',
@@ -22,12 +25,12 @@ export class FornecedoresComponent implements OnInit {
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
-  modalInsertConfig: ModalConfig = 
+  modalInsertConfig: ModalConfig =
   {
     modalTitle: 'Fornecedores',
     dismissButtonLabel: 'Cadastrar Fornecedor',
     closeButtonLabel: 'Fechar',
-    onDismiss: () => 
+    onDismiss: () =>
     {
       this.fornecedorForm.ngSubmit.emit();
       return true;
@@ -43,7 +46,7 @@ export class FornecedoresComponent implements OnInit {
     },
   };
 
-  constructor(private fornecedorService: FornecedorService) {}
+  constructor(private fornecedorService: FornecedorService, private notificationService: NotificationService,) {}
 
   ngOnInit(): void {
     this.fornecedorService.fetchAllFornecedores().subscribe((fornecedores) => {
@@ -60,11 +63,16 @@ export class FornecedoresComponent implements OnInit {
     this.fornecedorService.deleteFornecedor(fornecedor.id).subscribe(() => {
       this.fornecedores = this.fornecedores.filter(
         (fornecedorAtual) => fornecedorAtual.id !== fornecedor.id
+
       );
+      this.sendNotification(
+        NotificationType.WARNING,
+        `${fornecedor.descricao} removido com sucesso`
+      )
     });
   }
 
-  onAddFornecedor(): void 
+  onAddFornecedor(): void
   {
     this.openModalInsert();
   }
@@ -73,34 +81,58 @@ export class FornecedoresComponent implements OnInit {
     this.openModalEdit(fornecedor);
   }
 
-  onAddNewFornecedor(eventForm: NgForm): void 
+  onAddNewFornecedor(eventForm: NgForm): void
   {
     const formData = this.fornecedorService.createEventFormData( eventForm.value);
-    this.fornecedorService.addFornecedor(formData).subscribe((fornecedor) => 
+    this.fornecedorService.addFornecedor(formData).subscribe((fornecedor) =>
     {
+      this.sendNotification(
+        NotificationType.SUCCESS,
+        `${fornecedor.descricao} foi adicionado com sucesso`
+      ),
+      (errorResponse: HttpErrorResponse) => {
+        this.sendNotification(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+      };
       this.fornecedores.push(fornecedor);
     });
   }
 
-  onEditedFornecedor(eventForm: NgForm): void 
+  onEditedFornecedor(eventForm: NgForm): void
   {
     const formData = this.fornecedorService.createEventFormData(eventForm.value);
-    
+
     this.fornecedorService
       .updateFornecedor(formData)
-      .subscribe((fornecedor) => 
+      .subscribe((fornecedor) =>
       {
         // atualizar fornecedor pelo id
-        this.fornecedores.forEach((fornecedorAtual, index) => 
+        this.fornecedores.forEach((fornecedorAtual, index) =>
         {
-          if (fornecedorAtual.id === fornecedor.id) {this.fornecedores[index] = fornecedor;}
-        });
-      });
+          if (fornecedorAtual.id === fornecedor.id) {
+            this.fornecedores[index] = fornecedor;
+            this.sendNotification(
+              NotificationType.SUCCESS,
+              `${fornecedor.descricao} foi atualizado com sucesso`
+            )
+          }
+        }
+        )
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.sendNotification(
+          NotificationType.ERROR,
+          errorResponse.error.message
+        );
+        }
+      );
   }
 
   openModalInsert(): void {
     this.modalConfig = this.modalInsertConfig;
-    this.modalComponent.open().then(() => 
+    this.modalComponent.open().then(() =>
     {
       this.editFornecedor = new Fornecedor();
       this.fornecedorForm.resetForm();
@@ -114,5 +146,19 @@ export class FornecedoresComponent implements OnInit {
       this.editFornecedor = new Fornecedor();
       this.fornecedorForm.resetForm();
     });
+  }
+
+  private sendNotification(
+    notificationType: NotificationType,
+    message: string
+  ): void {
+    if (message) {
+      this.notificationService.myNofity(notificationType, message);
+    } else {
+      this.notificationService.myNofity(
+        notificationType,
+        'Um erro ocorreu. Por favor tente novamente'
+      );
+    }
   }
 }

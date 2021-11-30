@@ -1,7 +1,7 @@
 <div class="container">
   <app-modal #modalFornecedor [modalConfig]="modalConfig">
     <form class="row" #fornecedorForm="ngForm" (ngSubmit)="editFornecedor.id ? onEditedFornecedor(fornecedorForm) : onAddNewFornecedor(fornecedorForm)">
-      
+
       <input [ngModel]="editFornecedor.id" type="text" class="form-control" name="id" value="" hidden />
 
       <div class="col-sm-12">
@@ -48,7 +48,7 @@
         <input name="searchTerm" class="form-control mr-sm-2" ngModel type="search" placeholder="Procurar fornecedores..."
         />
       </form>
-      
+
       <button type="button" class="btn btn-info" data-toggle="modal" (click)="onAddFornecedor()" >
         <i class="fa fa-plus" style="color: #fff"></i>
         <font style="color: #fff">&nbsp;Novo Fornecedor</font>
