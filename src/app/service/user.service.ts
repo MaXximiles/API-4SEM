@@ -31,6 +31,13 @@ export class UserService {
     );
   }
 
+  public updatePassword(email: string, password: string, newPassword: string) {
+    return this.http.put<CustomHttpResponse>(
+      `${this.host}/user/change-password/${email}?senhaAntiga=${password}&novaSenha=${newPassword}`,
+      {}
+    );
+  }
+
   public updateCurrentUser(formData: FormData): Observable<User> {
     return this.http.post<User>(`${this.host}/user/update-me`, formData);
   }

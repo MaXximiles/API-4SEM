@@ -16,6 +16,7 @@ export class FornecedoresComponent implements OnInit {
 
   public fornecedores: Fornecedor[] = [];
   public editFornecedor: Fornecedor = new Fornecedor();
+  private emailAntigo: String = '';
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
@@ -80,7 +81,7 @@ export class FornecedoresComponent implements OnInit {
       eventForm.value
     );
     this.fornecedorService
-      .updateFornecedor(formData)
+      .updateFornecedor(formData, this.emailAntigo)
       .subscribe((fornecedor) => {
         // atualizar fornecedor pelo id
         this.fornecedores.forEach((fornecedorAtual, index) => {
@@ -101,6 +102,7 @@ export class FornecedoresComponent implements OnInit {
 
   openModalEdit(fornecedor: Fornecedor): void {
     this.editFornecedor = fornecedor;
+    this.emailAntigo = fornecedor.email;
     this.modalConfig = this.modalEditConfig;
     this.modalComponent.open().then(() => {
       this.editFornecedor = new Fornecedor();
