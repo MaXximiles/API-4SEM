@@ -1,0 +1,115 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css';
+@import 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
+@import '~angular-notifier/styles';
+
+
+td {
+  cursor: pointer;
+}
+.move-right {
+    position: absolute;
+    right: 0;
+  }
+
+  .move-left {
+    position: absolute;
+    left: 0;
+  }
+
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
+
+
+  /* ********************   CSS do FullCalendar  ************************************************ */
+
+  /* Estilo do botão de visualização ativa */
+  .fc-button-active
+  {
+    background-color: #25b3eb !important;
+    border-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Today */
+  .fc-today-button
+  {
+    background-color: #2563EB !important;
+  }
+
+  /* Estilo Botão Superior Voltar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+    margin-right: 2.5px;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
+  /* Estilo Botão Superior Avançar Mês */
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child)
+  {
+    background-color: #2563EB;
+    border-color: #eee;
+  }
+  .fc-direction-ltr .fc-button-group>.fc-button:not(:First-child):hover
+  {
+    background-color: #5285f1;
+    border-color: #eee;
+  }
+
+  /* Fundo da 1ª Linha */
+  .fc-col-header-cell
+  {
+    text-transform: capitalize;
+    background-color: #2563EB;
+  }
+
+  /* Dias da semana */
+  .fc-col-header-cell-cushion
+  {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  /* Hover passando mouse nos dias */
+  .fc-daygrid-day-frame:hover
+  {
+    background-color:rgba(138, 214, 224, 0.295);
+  }
+
+  .fc-daygrid-day.fc-day-today
+  {
+    background-color: #2564eb33 !important; 
+  }
+
+  /* Cor dos dias no calendário */
+  .fc-daygrid-day-number
+  {
+    text-decoration: none;
+    color:black
+  }
+
+
+
+/* **********************************  Fim do CSS Full Calendar */

@@ -1,0 +1,24 @@
+<div class="container">
+
+    <div class="jumbotron">
+
+        <h1 style="text-align: center;"> Relatório de Vacina </h1>
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="vacinados" [(ngModel)]="radioOption" value="1" mdbInput>
+            <label class="custom-control-label" for="vacinados">Vacinados</label>
+        </div>
+
+        <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="todos" [(ngModel)]="radioOption" value="0" checked mdbInput>
+            <label class="custom-control-label" for="todos">Todos</label>
+        </div>
+
+        <button  id="relatorio-vacina-btn" class="btn btn-primary btn-lg btn-block" type="submit" (click)="gerarRelatorio()" >Gerar Relatório
+          <i *ngIf="refreshing" class="fas fa-sync fa-spin"></i
+            ><i *ngIf="!refreshing" class="fas fa-sync" style="color: #fff"></i>
+        </button>
+    </div>
+
+
+    </div>

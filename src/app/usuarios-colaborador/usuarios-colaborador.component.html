@@ -1,0 +1,80 @@
+<div id="formulario">
+
+  <form (ngSubmit)="salvarColaborador()" [formGroup]="formColaborador">
+    
+    <div class="form-group">
+      <label for="inputAddress">Nome</label>
+      <input type="text" class="form-control" [(ngModel)]="colaborador.usuarioFirstName" id="colaborador_nome" formControlName="colaborador_nome" placeholder="Insira o nome">
+    </div>
+
+    <div class="form-row">
+      
+      <div class="form-group col-md-5">
+        <label for="inputAddress">CPF</label>
+        <input type="text" class="form-control" [(ngModel)]="colaborador.usuarioCpf" formControlName="colaborador_cpf" id="colaborador_cpf" placeholder="Insira o CPF">
+      </div>
+
+      <div class="form-group col-md-5">
+        <label for="inputAddress">RG</label>
+        <input type="text" class="form-control" [(ngModel)]="colaborador.usuarioRg" formControlName="colaborador_rg" id="colaborador_rg" placeholder="Insira o RG">
+      </div>
+
+    </div>
+
+    <div class="form-row">
+
+      <div class="form-group form-group col-md-4">
+        <label for="inputAddress">Função</label>
+        <input type="text" class="form-control" [(ngModel)]="colaborador.colaboradorFuncao" formControlName="colaborador_funcao" id="colaborador_funcao" placeholder="Insira a Função">
+      </div>
+
+      <div class="form-group form-group col-md-4">
+        <label for="inputAddress2">Setor</label>
+        <input type="text" class="form-control" [(ngModel)]="colaborador.colaboradorSetor" formControlName="colaborador_setor" id="colaborador_setor" placeholder="Insira o Setor">
+      </div>
+
+      <div class="form-group form-group col-md-4">
+          <label for="inputAddress2">Tipo de Colaborador</label>
+          <select class="custom-select my-1 mr-sm-2" id="colaborador_tipo">
+            <option selected>Escolher...</option>
+            <option value="Enterprise">Enterprise</option>
+            <option value="SNB">SNB</option>
+          </select>
+        
+
+
+      </div>
+
+    </div>
+
+    <div class="form-row">
+
+      <div class="form-group col-md-7">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" [(ngModel)]="colaborador.usuarioEmail" formControlName="colaborador_email" id="colaborador_email" placeholder="Email">
+      </div>
+
+    </div>
+      
+      <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Senha</label>
+          <input type="password" class="form-control" [(ngModel)]="colaborador.usuarioPassword" formControlName="colaborador_senha1" id="colaborador_senha1" placeholder="Insira sua Senha">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="inputPassword4"> Confirmar Senha</label>
+          <input type="password" class="form-control" id="colaborador_senha2" placeholder="Confirme sua Senha">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group col-md-4"><button type="reset" class="btn btn-primary">Limpar</button></div>
+        <div class="form-group col-md-4"><button type="submit" class="btn btn-primary">Salvar</button></div>
+        
+      </div>
+      
+    </form>
+
+</div>
