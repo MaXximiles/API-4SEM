@@ -13,7 +13,6 @@ import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -32,16 +31,13 @@ public class EventoServiceImpl implements EventoService {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private final FornecedorRepository fornecedorRepository;
 
 
-    @Autowired
     public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository,
                              FornecedorRepository fornecedorRepository) {
         this.eventoRepository = eventoRepository;
         this.emailService = emailService;
         this.userRepository = userRepository;
-        this.fornecedorRepository = fornecedorRepository;
     }
 
 
@@ -62,6 +58,10 @@ public class EventoServiceImpl implements EventoService {
         evento.setCriacao(LocalDateTime.now());
         evento.setTotalParticipantes(0);
         evento.setParticipantes(new ArrayList<>());
+
+        if(StringUtils.isBlank(evento.getDescricao())) {
+            evento.setDescricao("");
+        }
 
         if(evento.getUser().getRole().equals("ROLE_ADMIN")) {
             evento.setStatus("CONFIRMADO");

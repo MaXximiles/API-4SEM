@@ -16,14 +16,7 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
-@Table(
-        name = Evento.TABLE_NAME/*,
-        uniqueConstraints = @UniqueConstraint(
-                name = "UC_EVENTOS_EVT_TEMA",
-                columnNames = Evento.COLUNA_TEMA
-        )*/
-
-)
+@Table(name = Evento.TABLE_NAME)
 public class Evento implements Serializable {
 
     public static final String ID_NAME = "EVT_ID";
@@ -33,7 +26,7 @@ public class Evento implements Serializable {
     public static final String COLUNA_FIM = "EVT_FIM";
     public static final String COLUNA_LOCAL = "EVT_LOCAL";
     public static final String COLUNA_TEMA = "EVT_TEMA";
-    public static final String COLUNA_DESCRICAO = "EVT_DES";
+    public static final String COLUNA_DESCRICAO = "EVT_DESC";
     public static final String COLUNA_OBSERVACAO = "EVT_OBS";
     public static final String COLUNA_USUARIO = "EVT_USR_ID";
     public static final String COLUNA_CRIACAO = "EVT_CRIACAO";

@@ -22,12 +22,9 @@ import static fatec.grupodois.endurance.constant.FornecedorImplConstant.*;
 public class FornecedorServiceImpl implements FornecedorService {
 
     private final FornecedorRepository fornecedorRepository;
-    private final EmailService emailService;
 
-    @Autowired
     public FornecedorServiceImpl(FornecedorRepository fornecedorRepository, EmailService emailService) {
         this.fornecedorRepository = fornecedorRepository;
-        this.emailService = emailService;
     }
 
     @Override

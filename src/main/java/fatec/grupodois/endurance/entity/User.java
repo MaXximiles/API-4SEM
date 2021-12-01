@@ -16,16 +16,7 @@ import java.util.Date;
 @Setter
 @Builder
 @ToString
-@Table(
-        name = User.TABLE_NAME/*,
-        uniqueConstraints = {@UniqueConstraint(
-        name = "UC_USUARIOS_USR_CPF UNIQUE",
-        columnNames = User.COLUNA_CPF
-        ), @UniqueConstraint(
-        name = "UC_USUARIOS_USR_EMAIL",
-        columnNames = User.COLUNA_EMAIL
-        )}*/
-)
+@Table(name = User.TABLE_NAME)
 public class User implements Serializable {
 
     public static final String ID_NAME = "USR_ID";

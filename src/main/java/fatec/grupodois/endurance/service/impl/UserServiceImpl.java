@@ -12,7 +12,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder passwordEncoder,
                            EmailService emailService) {
@@ -115,12 +113,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(getRoleEnumName(role).name())
                 .authorities(getRoleEnumName(role).getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
-                .vaccineImage(VACCINE_PLACEHOLDER)
                 .build();
 
-        LOGGER.info("User>>>>" + user.toString());
-        LOGGER.info("New user password>>>>" + password);
-        LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         if(profileImage != null) {
