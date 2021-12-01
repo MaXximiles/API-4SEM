@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ModalComponent } from '../components/modal/modal.component';
 import { ModalConfig } from '../components/modal/modal.config';
 import { Fornecedor } from '../model/fornecedor';
-import { User } from '../model/user';
 import { FornecedorService } from '../service/fornecedor.service';
 
 @Component({
@@ -17,18 +16,15 @@ export class FornecedoresComponent implements OnInit {
 
   public fornecedores: Fornecedor[] = [];
   public editFornecedor: Fornecedor = new Fornecedor();
-
-  //private currentEmail: string = "a.a@.com";
+  private emailAntigo: String = '';
 
   modalConfig: ModalConfig = null;
   // Configurações do modal
-  modalInsertConfig: ModalConfig = 
-  {
-    modalTitle: 'Fornecedores',
-    dismissButtonLabel: 'Cadastrar Fornecedor',
+  modalInsertConfig: ModalConfig = {
+    modalTitle: 'Inserir um Evento',
+    dismissButtonLabel: 'Confirmar Evento',
     closeButtonLabel: 'Fechar',
-    onDismiss: () => 
-    {
+    onDismiss: () => {
       this.fornecedorForm.ngSubmit.emit();
       return true;
     },
@@ -51,7 +47,6 @@ export class FornecedoresComponent implements OnInit {
     });
   }
 
-
   onSelectFornecedor(fornecedor: Fornecedor): void {
     console.log(fornecedor);
   }
@@ -64,8 +59,7 @@ export class FornecedoresComponent implements OnInit {
     });
   }
 
-  onAddFornecedor(): void 
-  {
+  onAddFornecedor(): void {
     this.openModalInsert();
   }
 
@@ -73,35 +67,34 @@ export class FornecedoresComponent implements OnInit {
     this.openModalEdit(fornecedor);
   }
 
-  onAddNewFornecedor(eventForm: NgForm): void 
-  {
-    const formData = this.fornecedorService.createEventFormData( eventForm.value);
-    this.fornecedorService.addFornecedor(formData).subscribe((fornecedor) => 
-    {
+  onAddNewFornecedor(eventForm: NgForm): void {
+    const formData = this.fornecedorService.createEventFormData(
+      eventForm.value
+    );
+    this.fornecedorService.addFornecedor(formData).subscribe((fornecedor) => {
       this.fornecedores.push(fornecedor);
     });
   }
 
-  onEditedFornecedor(eventForm: NgForm): void 
-  {
-    const formData = this.fornecedorService.createEventFormData(eventForm.value);
-    
+  onEditedFornecedor(eventForm: NgForm): void {
+    const formData = this.fornecedorService.createEventFormData(
+      eventForm.value
+    );
     this.fornecedorService
-      .updateFornecedor(formData)
-      .subscribe((fornecedor) => 
-      {
+      .updateFornecedor(formData, this.emailAntigo)
+      .subscribe((fornecedor) => {
         // atualizar fornecedor pelo id
-        this.fornecedores.forEach((fornecedorAtual, index) => 
-        {
-          if (fornecedorAtual.id === fornecedor.id) {this.fornecedores[index] = fornecedor;}
+        this.fornecedores.forEach((fornecedorAtual, index) => {
+          if (fornecedorAtual.id === fornecedor.id) {
+            this.fornecedores[index] = fornecedor;
+          }
         });
       });
   }
 
   openModalInsert(): void {
     this.modalConfig = this.modalInsertConfig;
-    this.modalComponent.open().then(() => 
-    {
+    this.modalComponent.open().then(() => {
       this.editFornecedor = new Fornecedor();
       this.fornecedorForm.resetForm();
     });
@@ -109,6 +102,7 @@ export class FornecedoresComponent implements OnInit {
 
   openModalEdit(fornecedor: Fornecedor): void {
     this.editFornecedor = fornecedor;
+    this.emailAntigo = fornecedor.email;
     this.modalConfig = this.modalEditConfig;
     this.modalComponent.open().then(() => {
       this.editFornecedor = new Fornecedor();
