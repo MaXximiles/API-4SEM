@@ -249,6 +249,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 throw new SenhaFormatoInvalidoException("Senha deve ter 8 ou mais caracteres");
             } if(!StringUtils.isAlphanumeric(senhaNova)) {
                 throw new SenhaFormatoInvalidoException("Senha deve conter letras ou números");
+            } if(senhaNova.length()>16) {
+                throw new SenhaFormatoInvalidoException("Senha deve ter no máximo 16 caracteres");
             }
         }
 
