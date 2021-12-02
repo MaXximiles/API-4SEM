@@ -43,7 +43,7 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    void resetPassword(String email) throws EmailNotFoundException, MessagingException;
+    void resetPassword(String senhaAntiga, String novaSenha, String email) throws MessagingException, SenhaFormatoInvalidoException, EmailNotFoundException;
 
     User resetPasswordFront(String cpf) throws EmailNotFoundException, CpfNotFoundException, MessagingException;
 

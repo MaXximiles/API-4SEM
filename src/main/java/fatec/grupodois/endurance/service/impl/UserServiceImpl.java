@@ -235,18 +235,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(Long usuarioID) { userRepository.deleteById(usuarioID); }
 
     @Override
-    public void resetPassword(String email) throws EmailNotFoundException, MessagingException {
+    public void resetPassword(String senhaAntiga, String senhaNova, String email) throws MessagingException, SenhaFormatoInvalidoException, EmailNotFoundException {
 
         User user = userRepository.findUserByEmail(email);
         if (user == null) {
             throw new EmailNotFoundException(USER_NOT_FOUND_BY_EMAIL + email);
         }
 
-        String password = generatePassword();
-        user.setPassword(encodePassword(password));
+        if(!passwordEncoder.matches(senhaAntiga, user.getPassword())) {
+            throw new RuntimeException("Senha inválida");
+        } else {
+            if(senhaNova.length()<8) {
+                throw new SenhaFormatoInvalidoException("Senha deve ter 8 ou mais caracteres");
+            } if(!StringUtils.isAlphanumeric(senhaNova)) {
+                throw new SenhaFormatoInvalidoException("Senha deve conter letras ou números");
+            }
+        }
+
+        String senhaAtual = passwordEncoder.encode(senhaNova);
+        user.setPassword(senhaAtual);
+
+        emailService.sendNewPasswordEmail(user.getFirstName(), senhaNova, user.getEmail());
+
         userRepository.save(user);
-        emailService.sendNewPasswordEmail(user.getFirstName(), password, email);
     }
+
 
     @Override
     public User resetPasswordFront(String cpf) throws CpfNotFoundException, MessagingException {
