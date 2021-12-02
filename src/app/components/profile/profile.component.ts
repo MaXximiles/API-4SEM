@@ -21,9 +21,6 @@ export class ProfileComponent implements OnInit {
   public vaccineImage!: File;
   private subscriptions: Subscription[] = [];
   public fileName: string = '';
-  public senhaAtual: string;
-  public senhaNova: string;
-  public senhaNova2: string;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -51,29 +48,12 @@ export class ProfileComponent implements OnInit {
           this.authenticationService.addUserToLocalCache(response);
           this.fileName = null;
           this.profileImage = null;
-          if (
-            this.senhaAtual.length > 0 &&
-            this.senhaNova.length > 0 &&
-            this.senhaNova2.length > 0
-          ) {
-            this.userService
-              .updatePassword(response.email, this.senhaAtual, this.senhaNova)
-              .subscribe((response2: any) => {
-                this.sendNotification(
-                  NotificationType.SUCCESS,
-                  `${response.firstName} ${response.lastName} foi atualizado com sucesso`
-                );
-                this.refreshing = false;
-                this.user = this.authenticationService.getUserFromLocalCache();
-              });
-          } else {
-            this.sendNotification(
-              NotificationType.SUCCESS,
-              `${response.firstName} ${response.lastName} foi atualizado com sucesso`
-            );
-            this.refreshing = false;
-            this.user = this.authenticationService.getUserFromLocalCache();
-          }
+          this.sendNotification(
+            NotificationType.SUCCESS,
+            `${response.firstName} ${response.lastName} foi atualizado com sucesso`
+          );
+          this.refreshing = false;
+          this.user = this.authenticationService.getUserFromLocalCache();
         },
         (errorResponse: HttpErrorResponse) => {
           this.sendNotification(
