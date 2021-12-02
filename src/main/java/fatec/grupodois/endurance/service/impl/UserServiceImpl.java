@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder passwordEncoder,
                            EmailService emailService) {
@@ -113,8 +115,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .role(getRoleEnumName(role).name())
                 .authorities(getRoleEnumName(role).getAuthorities())
                 .profileImageUrl(getTemporaryProfileImageUrl(email))
+                .vaccineImage(VACCINE_PLACEHOLDER)
                 .build();
 
+        LOGGER.info("User>>>>" + user.toString());
+        LOGGER.info("New user password>>>>" + password);
+        LOGGER.info("IMAGE " + user.getProfileImageUrl());
         userRepository.save(user);
         emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
         if(profileImage != null) {
@@ -153,7 +159,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                            String cpf, String role,
                            boolean isNonLocked, boolean isActive, MultipartFile profileImage,
                            String adminEmail)
-            throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
+            throws UserNotFoundException, EmailExistException, CpfExistException, IOException {
 
         User currentUser = validateNewCpfAndEmail(currentEmail, newEmail, cpf);
         boolean flag = false;
@@ -235,17 +241,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void deleteUser(Long usuarioID) { userRepository.deleteById(usuarioID); }
 
     @Override
-    public void resetPassword(String email) throws EmailNotFoundException, MessagingException {
+    public void changePassword(String email, String oldPassword, String newPassword) throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException {
 
         User user = userRepository.findUserByEmail(email);
         if (user == null) {
             throw new EmailNotFoundException(USER_NOT_FOUND_BY_EMAIL + email);
         }
 
-        String password = generatePassword();
-        user.setPassword(encodePassword(password));
-        userRepository.save(user);
-        emailService.sendNewPasswordEmail(user.getFirstName(), password, email);
+        String password = user.getPassword();
+        if(this.passwordEncoder.matches(oldPassword, password)) {
+
+            if (newPassword.length() < 8) {
+                throw new SenhaFormatoInvalidoException(SENHA_CURTA);
+            }
+            if (newPassword.length() > 16) {
+                throw new SenhaFormatoInvalidoException(SENHA_LONGA);
+            }
+            if (!StringUtils.isAlphanumeric(newPassword)) {
+                throw new SenhaFormatoInvalidoException(SENHA_NAO_ALFANUMERICA);
+            }
+            if (StringUtils.containsAny(newPassword, ' ')) {
+                throw new SenhaFormatoInvalidoException(SENHA_COM_ESPACAMENTO);
+            }
+
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            emailService.enviarEmailSenhaAlterada(user.getFirstName(), newPassword, email);
+        }
     }
 
     @Override

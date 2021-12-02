@@ -14,7 +14,20 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Builder
 @ToString
-@Table(name = Fornecedor.TABLE_NAME)
+@Table(
+        name = Fornecedor.TABLE_NAME/*,
+        uniqueConstraints = {@UniqueConstraint(
+                name = "UC_FORNECEDORES_FRN_DESCRICAO",
+                columnNames = Fornecedor.COLUNA_DESCRICAO
+        ), @UniqueConstraint(
+                name = "UC_FORNECEDORES_FRN_EMAIL",
+                columnNames = Fornecedor.COLUNA_EMAIL
+        ), @UniqueConstraint(
+                name = "UC_FORNECEDORES_FRN_CNPJ",
+                columnNames = Fornecedor.COLUNA_CNPJ
+        )}*/
+
+)
 public class Fornecedor {
 
     public static final String ID_NAME = "FRN_ID";

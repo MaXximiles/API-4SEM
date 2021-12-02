@@ -27,7 +27,7 @@ spring:
     properties:
       hibernate:
         #hbm2ddl:
-            #auto: create
+            #auto:
         dialect: org.hibernate.dialect.Oracle12cDialect
         format_sql: true
 

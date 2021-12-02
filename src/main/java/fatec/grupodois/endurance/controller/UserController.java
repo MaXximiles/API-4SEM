@@ -7,6 +7,8 @@ import fatec.grupodois.endurance.entity.UserPrincipal;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.service.UserService;
 import fatec.grupodois.endurance.utils.JWTTokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,7 @@ public class UserController extends ExceptionHandling {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenProvider jwtTokenProvider;
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public UserController(UserService userService, AuthenticationManager authenticationManager,
@@ -70,23 +73,23 @@ public class UserController extends ExceptionHandling {
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException, MessagingException {
 
-       User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
-                                                Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
-                                                profileImage);
+        User newUser = userService.addNewUser(firstName, lastName, email, cpf, role,
+                Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked),
+                profileImage);
 
         return new ResponseEntity<>(newUser, CREATED);
     }
 
     @PostMapping("/update-me")
     public ResponseEntity<User> updateCurrentUser(@RequestParam("currentEmail") String currentEmail,
-                                           @RequestParam("firstName") String firstName,
-                                           @RequestParam("lastName") String lastName,
-                                           @RequestParam("email") String email,
-                                           @RequestParam("cpf") String cpf,
-                                           @RequestParam("role") String role,
-                                           @RequestParam("isActive") String isActive,
-                                           @RequestParam("isNonLocked") String isNonLocked,
-                                           @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
+                                                  @RequestParam("firstName") String firstName,
+                                                  @RequestParam("lastName") String lastName,
+                                                  @RequestParam("email") String email,
+                                                  @RequestParam("cpf") String cpf,
+                                                  @RequestParam("role") String role,
+                                                  @RequestParam("isActive") String isActive,
+                                                  @RequestParam("isNonLocked") String isNonLocked,
+                                                  @RequestParam(value = "profileImage", required = false) MultipartFile profileImage)
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
@@ -100,14 +103,14 @@ public class UserController extends ExceptionHandling {
     @PostMapping("/update/{adminEmail}")
     @PreAuthorize("hasAnyAuthority('user:update')")
     public ResponseEntity<User> updateUser(@RequestParam("currentEmail") String currentEmail,
-                                        @RequestParam("firstName") String firstName,
-                                        @RequestParam("lastName") String lastName,
-                                        @RequestParam("email") String email,
-                                        @RequestParam("cpf") String cpf,
-                                        @RequestParam("role") String role,
-                                        @RequestParam("isActive") String isActive,
-                                        @RequestParam("isNonLocked") String isNonLocked,
-                                        @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
+                                           @RequestParam("firstName") String firstName,
+                                           @RequestParam("lastName") String lastName,
+                                           @RequestParam("email") String email,
+                                           @RequestParam("cpf") String cpf,
+                                           @RequestParam("role") String role,
+                                           @RequestParam("isActive") String isActive,
+                                           @RequestParam("isNonLocked") String isNonLocked,
+                                           @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
                                            @PathVariable("adminEmail") String adminEmail)
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
@@ -121,7 +124,7 @@ public class UserController extends ExceptionHandling {
 
     @PostMapping("/update-profile-image")
     public ResponseEntity<User> updateProfileImage(@RequestParam("email") String email,
-                                                    @RequestParam("profileImage") MultipartFile profileImage)
+                                                   @RequestParam("profileImage") MultipartFile profileImage)
 
             throws UserNotFoundException, EmailExistException, CpfExistException, CpfNotFoundException, IOException {
 
@@ -229,11 +232,13 @@ public class UserController extends ExceptionHandling {
         return response(OK, PASSWORD_SUCCESS + newPassword.getEmail());
     }
 
-    @GetMapping("/reset-password/{email}")
-    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email)
-            throws EmailNotFoundException, MessagingException {
+    @PutMapping("/change-password/{email}")
+    public ResponseEntity<HttpResponse> resetPassword(@PathVariable("email") String email,
+                                                      @RequestParam("senhaAntiga") String senhaAntiga,
+                                                      @RequestParam("novaSenha") String novaSenha)
+            throws EmailNotFoundException, MessagingException, SenhaFormatoInvalidoException {
 
-        userService.resetPassword(email);
+        userService.changePassword(email, senhaAntiga, novaSenha);
 
         return response(OK, PASSWORD_SUCCESS + email.substring(5));
     }

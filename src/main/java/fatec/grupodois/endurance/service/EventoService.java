@@ -1,7 +1,6 @@
 package fatec.grupodois.endurance.service;
 
 import fatec.grupodois.endurance.entity.Evento;
-import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
@@ -13,7 +12,10 @@ import java.util.List;
 
 public interface EventoService {
 
-    Evento addEvento(Evento evento) throws EventoInicioAfterException, EventoInicioExistException, EventIsOccurringException, EventOutOfOpeningHoursException, MessagingException, EventDifferentDayException, EventWithInvalidLocalException;
+    Evento addEvento(Evento evento) throws EventoInicioAfterException,
+            EventoInicioExistException, EventIsOccurringException,
+            EventOutOfOpeningHoursException, MessagingException,
+            EventDifferentDayException, EventWithInvalidLocalException;
 
     void deleteEventoById(Long eventoId) throws EventoNotFoundException;
 
@@ -27,13 +29,15 @@ public interface EventoService {
 
     List<Evento> findEventoByDate(LocalDate date) throws EventoNotFoundException;
 
-    Evento updateEvento(Long eventoId, Evento evento) throws EventoNotFoundException, EventoInicioAfterException, EventIsOccurringException, EventOutOfOpeningHoursException, EventoInicioExistException, EventDifferentDayException, MessagingException;
+    Evento updateEvento(Long eventoId, Evento evento)
+            throws EventoNotFoundException, EventoInicioAfterException,
+            EventIsOccurringException, EventOutOfOpeningHoursException,
+            EventoInicioExistException, EventDifferentDayException, MessagingException;
 
-    Evento addParticipante(User user, Long id) throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException;
+    Evento addParticipante(User user, Long id)
+            throws EventoNotFoundException, EventoFullException, UserIsNotActiveException, UserJaCadastradoNoEventoException;
 
     Evento removeParticipante(User user, Long id) throws EventoNotFoundException;
 
     List<User> getParticipantes(Evento event);
-
-    Evento addFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException;
 }

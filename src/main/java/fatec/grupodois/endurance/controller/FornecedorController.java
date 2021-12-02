@@ -41,7 +41,6 @@ public class FornecedorController extends ExceptionHandling {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('fornecedor:delete')")
     public ResponseEntity<?> deleteFornecedor(@PathVariable("id")Long fornecedorId) {
 
         fornecedorService.deleteFornecedorById(fornecedorId);
@@ -70,14 +69,14 @@ public class FornecedorController extends ExceptionHandling {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAnyAuthority('fornecedor:update')")
-    public ResponseEntity<Fornecedor> updateFornecedor(@PathVariable("id") Long id,
+    public ResponseEntity<Fornecedor> updateFornecedor(@RequestParam("emailAtual") String emailAtual,
                                                        @RequestParam("cnpj") String cnpj,
                                                        @RequestParam("email") String email,
                                                        @RequestParam("observacao") String observacao,
                                                        @RequestParam("descricao") String descricao)
             throws FornecedorNotFoundException, EmailExistsException, DescricaoExistsException {
 
-        Fornecedor fornecedor = fornecedorService.updateFornecedor(id, cnpj, email, observacao, descricao);
+        Fornecedor fornecedor = fornecedorService.updateFornecedor(emailAtual, cnpj, email, observacao, descricao);
 
         return new ResponseEntity<>(fornecedor, OK);
     }

@@ -22,9 +22,12 @@ import static fatec.grupodois.endurance.constant.FornecedorImplConstant.*;
 public class FornecedorServiceImpl implements FornecedorService {
 
     private final FornecedorRepository fornecedorRepository;
+    private final EmailService emailService;
 
+    @Autowired
     public FornecedorServiceImpl(FornecedorRepository fornecedorRepository, EmailService emailService) {
         this.fornecedorRepository = fornecedorRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setDescricao(descricao);
         fornecedor.setCnpj(cnpj);
         fornecedor.setEmail(email);
-        fornecedor.setObservacao(observacao.isEmpty() || observacao.isBlank()? "":observacao);
+        fornecedor.setObservacao(observacao);
 
         return fornecedorRepository.save(fornecedor);
     }
@@ -92,10 +95,10 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public Fornecedor updateFornecedor(Long id, String cnpj, String email, String observacao, String descricao)
+    public Fornecedor updateFornecedor(String emailAtual, String cnpj, String email, String observacao, String descricao)
             throws FornecedorNotFoundException, DescricaoExistsException, EmailExistsException {
 
-        Fornecedor fornecedorDb = fornecedorRepository.findById(id).get();
+        Fornecedor fornecedorDb = fornecedorRepository.findFornecedorByEmail(email).get();
 
         if(StringUtils.isNotEmpty(StringUtils.trim(descricao)) &&
                 !StringUtils.equalsIgnoreCase(descricao, fornecedorDb.getDescricao())) {
@@ -138,18 +141,10 @@ public class FornecedorServiceImpl implements FornecedorService {
 
         boolean ans = fornecedorRepository.existsByCnpj(cnpj);
 
-        if(ans && inserir){
-            throw new CnpjExistsException(CNPJ_EXISTS);
-        }
-        else if(ans) {
-            return fornecedorRepository.findFornecedorByCnpj(cnpj).get();
-        }
-        else if (inserir){
-            return null;
-        }
-        else {
-            throw new FornecedorNotFoundException(FORNECEDOR_NOT_FOUND_GENERIC + CNPJ + cnpj);
-        }
+        if(ans && inserir){throw new CnpjExistsException(CNPJ_EXISTS); }
+        else if(ans) {return fornecedorRepository.findFornecedorByCnpj(cnpj).get();}
+        else if (inserir){return null;}
+        else { throw new FornecedorNotFoundException(FORNECEDOR_NOT_FOUND_GENERIC + CNPJ + cnpj);        }
     }
 
     private Fornecedor checkEmail(String email, boolean inserir) throws FornecedorNotFoundException, EmailExistsException {

@@ -1,18 +1,17 @@
 package fatec.grupodois.endurance.service.impl;
 
 import fatec.grupodois.endurance.entity.Evento;
-import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
 import fatec.grupodois.endurance.repository.EventoRepository;
-import fatec.grupodois.endurance.repository.FornecedorRepository;
 import fatec.grupodois.endurance.repository.UserRepository;
 import fatec.grupodois.endurance.service.EmailService;
 import fatec.grupodois.endurance.service.EventoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -33,8 +32,8 @@ public class EventoServiceImpl implements EventoService {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 
-    public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository,
-                             FornecedorRepository fornecedorRepository) {
+    @Autowired
+    public EventoServiceImpl(EventoRepository eventoRepository, EmailService emailService, UserRepository userRepository) {
         this.eventoRepository = eventoRepository;
         this.emailService = emailService;
         this.userRepository = userRepository;
@@ -59,10 +58,6 @@ public class EventoServiceImpl implements EventoService {
         evento.setTotalParticipantes(0);
         evento.setParticipantes(new ArrayList<>());
 
-        if(StringUtils.isBlank(evento.getDescricao())) {
-            evento.setDescricao("");
-        }
-
         if(evento.getUser().getRole().equals("ROLE_ADMIN")) {
             evento.setStatus("CONFIRMADO");
         } else {
@@ -70,6 +65,7 @@ public class EventoServiceImpl implements EventoService {
             for(User u: adminUsers) {
                 emailService.sendNewEventEmail(u.getFirstName(), evento.getTema(), u.getEmail());
             }
+            evento.setStatus("PENDENTE");
         }
 
         return eventoRepository.save(evento);
@@ -104,9 +100,9 @@ public class EventoServiceImpl implements EventoService {
 
         if(eventoOptional.isEmpty()) {
             throw new EventoNotFoundException("Evento "
-            + "com ID "
-            + eventoId
-            + " não encontrado.");
+                    + "com ID "
+                    + eventoId
+                    + " não encontrado.");
         }
 
         return eventoRepository.findById(eventoId).get();
@@ -167,7 +163,7 @@ public class EventoServiceImpl implements EventoService {
         }
 
         if(Objects.nonNull(evento.getInicio()) &&
-            !eventoDb.getInicio().equals(evento.getInicio())) {
+                !eventoDb.getInicio().equals(evento.getInicio())) {
             checkEventIntegrity(evento.getInicio(), evento.getFim(), evento.getLocal(), evento.getTema());
             eventoDb.setInicio(evento.getInicio());
         }
@@ -205,7 +201,8 @@ public class EventoServiceImpl implements EventoService {
                                 eventoDb.getTema(),
                                 s.getEmail(),
                                 eventoDb.getInicio(),
-                                eventoDb.getFim());
+                                eventoDb.getFim(),
+                                eventoDb.getLocal());
                     }
                 }
             }
@@ -258,17 +255,7 @@ public class EventoServiceImpl implements EventoService {
         return event.getParticipantes();
     }
 
-    public Evento addFornecedor(Fornecedor fornecedor, Long id) throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException {
-
-        Evento event = fetchEventoById(id);
-
-        if(event.getFornecedores().contains(fornecedor)) {
-            throw new FornecedorJaCadastradoNoEventoException("Fornecedor já foi cadastrado no evento");
-        }
-
-        return eventoRepository.save(event);
-    }
-
+    /* PRIVATE METHOD CRIADO PARA CHECAR REGRAS DE NEGOCIO */
     private void checkEventIntegrity(LocalDateTime inicio, LocalDateTime fim, String local, String tema) throws EventoInicioAfterException, EventOutOfOpeningHoursException,
             EventoInicioExistException, EventIsOccurringException, EventDifferentDayException {
         if(inicio.isAfter(fim)) {
@@ -283,7 +270,8 @@ public class EventoServiceImpl implements EventoService {
                 || fim.toLocalTime().isAfter(close)
                 || inicio.toLocalTime().isAfter(close)
                 || fim.toLocalTime().isBefore(open)) {
-            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS);
+            throw new EventOutOfOpeningHoursException(EVENT_IS_OUT_OF_OPENING_HOURS); /* checa se o horário escolhido está
+                                                                                        entre o horário de funcionamento da casa Oracle*/
         }
 
         if(inicio.getDayOfMonth() != fim.getDayOfMonth()) {
@@ -301,14 +289,14 @@ public class EventoServiceImpl implements EventoService {
 
                         throw new EventoInicioExistException(EVENT_BEGIN_EXISTS
                                 + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                SUGGESTION + horasDisp.get(0));
+                                SUGGESTION + horasDisp.get(0)); /* MOSTRA UMA SUGESTAO SIMPLES DE HORARIO */
                     } else if (inicio.toLocalTime().isAfter(s.getInicio().toLocalTime()) &&
-                    inicio.toLocalTime().isBefore(s.getFim().toLocalTime())) {
+                            inicio.toLocalTime().isBefore(s.getFim().toLocalTime())) {
                         throw new EventIsOccurringException(EVENT_IS_OCCURRING
                                 + inicio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) +
                                 SUGGESTION + horasDisp.get(0));
                     } else if (fim.toLocalTime().isBefore(s.getFim().toLocalTime()) &&
-                                fim.toLocalTime().isAfter(s.getInicio().toLocalTime())) {
+                            fim.toLocalTime().isAfter(s.getInicio().toLocalTime())) {
                         throw new EventIsOccurringException(EVENT_IS_OCCURRING
                                 + fim.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
                                 + SUGGESTION + horasDisp.get(0));

@@ -1,7 +1,6 @@
 package fatec.grupodois.endurance.controller;
 
 import fatec.grupodois.endurance.entity.Evento;
-import fatec.grupodois.endurance.entity.Fornecedor;
 import fatec.grupodois.endurance.entity.User;
 import fatec.grupodois.endurance.enumeration.StatusEvento;
 import fatec.grupodois.endurance.exception.*;
@@ -52,15 +51,6 @@ public class EventoController extends ExceptionHandling{
         return new ResponseEntity<>(event, OK);
     }
 
-    @PutMapping("/add-fornecedor/{id}")
-    public ResponseEntity<Evento> addParticipante(@RequestParam Fornecedor fornecedor, @PathVariable("id") Long id)
-            throws EventoNotFoundException, FornecedorJaCadastradoNoEventoException {
-
-        Evento event = eventoService.addFornecedor(fornecedor, id);
-
-        return new ResponseEntity<>(event, OK);
-    }
-
     @PutMapping("/remove-guest/{id}")
     public ResponseEntity<Evento> removeParticipante(@RequestBody User user, @PathVariable("id") Long id)
             throws EventoNotFoundException {
@@ -72,7 +62,7 @@ public class EventoController extends ExceptionHandling{
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteEventoById(@PathVariable("id") Long eventoId)
-                                                throws EventoNotFoundException {
+            throws EventoNotFoundException {
         eventoService.deleteEventoById(eventoId);
 
         return new ResponseEntity<>(OK);
@@ -94,7 +84,7 @@ public class EventoController extends ExceptionHandling{
 
     @GetMapping("/fetch/{id}")
     public ResponseEntity<Evento> fetchEventoById(@PathVariable("id") Long eventoId)
-                                                    throws EventoNotFoundException {
+            throws EventoNotFoundException {
         Evento evento = eventoService.fetchEventoById(eventoId);
         return new ResponseEntity<>(evento, CREATED);
     }
