@@ -1,0 +1,126 @@
+<div class="container">
+  <app-modal #modalFornecedor [modalConfig]="modalConfig">
+    <form class="row" #fornecedorForm="ngForm" (ngSubmit)="editFornecedor.id ? onEditedFornecedor(fornecedorForm) : onAddNewFornecedor(fornecedorForm)">
+
+      <input [ngModel]="editFornecedor.id" type="text" class="form-control" name="id" value="" hidden />
+
+      <div class="col-sm-12">
+
+        <div class="form-group row">
+
+          <div class="row">
+
+            <div class="col-sm-6">
+              <label for="evento-inicio" class="col-form-label">Nome:</label>
+              <input [ngModel]="editFornecedor.descricao" type="text" class="form-control" name="descricao"/>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="evento-fim" class="col-form-label">CNPJ:</label>
+              <input [ngModel]="editFornecedor.cnpj" type="text" class="form-control" name="cnpj" id="cnpj-fornecedor" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="tema-evento" class="col-form-label">Email:</label>
+              <input [ngModel]="editFornecedor.email" type="text" class="form-control" name="email" id="email-fornecedor" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="descricao-evento" class="col-form-label" >Observação:</label >
+              <textarea [ngModel]="editFornecedor.observacao" class="form-control" name="observacao" id="observacao-fornecedor" ></textarea>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </form>
+  </app-modal>
+
+  <div class="mb-3 float-end">
+    <div class="btn-group mr-2">
+      <form class="form-inline my-2 my-lg-0 justify-content-center">
+        <input name="searchTerm" class="form-control mr-sm-2" ngModel type="search" placeholder="Procurar fornecedores..."
+        />
+      </form>
+
+      <button type="button" class="btn btn-info" data-toggle="modal" (click)="onAddFornecedor()" >
+        <i class="fa fa-plus" style="color: #fff"></i>
+        <font style="color: #fff">&nbsp;Novo Fornecedor</font>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="row mb-2 mt-2 text-center">
+    <div class="col-md-4"></div>
+    <!-- <div class="col-md-6">
+      <h4>Endurance - Gerenciamento de Eventos</h4>
+    </div> -->
+    <div class="col-md-6"></div>
+  </div>
+
+  <!-- main content -->
+  <div class="tab-content mt-3" id="myTabContent">
+    <!-- user table -->
+    <div class="tab-pane fade show active" id="users">
+      <div class="mb-3 float-end">
+        <div class="btn-group mr-2">
+          <form class="form-inline my-2 my-lg-0 justify-content-center"></form>
+        </div>
+        <div class="btn-group" style="margin-left: 2px"></div>
+      </div>
+      <table class="table table-hover table-striped">
+        <thead class="table-borderless">
+          <tr
+            class="text-center"
+            style="background-color: #2563eb; color: #eee"
+          >
+            <th>NOME</th>
+            <th>CNPJ</th>
+            <th>E-MAIL</th>
+            <th>DESCRIÇÃO</th>
+            <th>AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let fornecedor of fornecedores">
+          <tr class="text-center">
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.descricao }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.cnpj }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.email }}
+            </td>
+            <td (click)="onSelectFornecedor(fornecedor)">
+              {{ fornecedor?.observacao }}
+            </td>
+            <td class="">
+              <div class="btn-group">
+                <button
+                  class="btn btn-outline-info"
+                  (click)="onEditFornecedor(fornecedor)"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  (click)="onDeleteFornecedor(fornecedor)"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

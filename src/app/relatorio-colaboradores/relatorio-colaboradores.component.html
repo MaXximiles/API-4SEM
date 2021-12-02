@@ -1,0 +1,44 @@
+<div class="container">
+
+    <div class="jumbotron">
+
+        <h1 style="text-align: center;"> Relatório de Colaboradores </h1>
+
+                <!--  INICIO AUTO COMPLETE USER -->
+
+
+            <form class="px-4 py-2" #registerForm="ngForm" (ngSubmit)="gerarRelatorio()">
+              <input
+                type="search"
+                name="usersFilter"
+                [(ngModel)]="filter"
+                class="form-control"
+                id="searchUser"
+                placeholder="Nome ou Email"
+                autofocus="autofocus"
+                (ngModelChange)="filterUsers($event)"
+              />
+
+              <div id="menuItems" *ngFor="let user of users">
+                <div class="dropdown-item" style="cursor: pointer" (click)="onAddUser(user)">
+                  {{ user.firstName }} {{ user.lastName }}
+                  <small id="userHelp" class="form-text text-muted my-0">{{ user.email }}</small>
+                </div>
+              </div>
+
+              <div id="empty" class="dropdown-header" *ngIf="!users.length && filter.length"></div>
+
+              <div id="empty2" class="dropdown-header" *ngIf="!users.length && !filter.length">
+                Digite um termo de pesquisa
+              </div>
+
+              <button id="relatorio-colaborador-btn" class="btn btn-primary btn-lg btn-block" type="submit">Gerar Relatório
+                <i *ngIf="refreshing" class="fas fa-sync fa-spin"></i
+                  ><i *ngIf="!refreshing" class="fas fa-sync" style="color: #fff"></i>
+              </button>
+            </form>
+
+
+    </div>
+
+    </div>

@@ -1,0 +1,96 @@
+<div *ngIf="user$ | async as user">
+  <div *ngIf="user.firstName">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/eventos' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['eventos']"
+            >
+              <i class="fa fa-coffee"></i>
+              Eventos
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'ROLE_ADMIN'">
+            <a
+              [ngClass]="this.router.url === '/user/management' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['user', 'management']"
+            >
+              <i class="fa fa-users"></i>
+              Usuários
+            </a>
+          </li>
+
+          <li class="nav-item" *ngIf="user.role === 'ROLE_ADMIN'">
+            <a
+              [ngClass]="this.router.url === '/fornecedores' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['fornecedores']"
+            >
+              <i class="fa fa-users"></i>
+              Fornecedores
+            </a>
+          </li>
+
+          <li class="nav-item dropdown" *ngIf="user.role !== 'ROLE_GUEST'">
+            <a
+              class="nav-link ml-1 dropdown-toggle"
+              data-toggle="dropdown"
+              [routerLink]=""
+              style="user-select: none"
+            >
+              <i class="fa fa-cogs"></i>
+              Relatórios
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" [routerLink]="['relatorio-eventos']">Eventos</a>
+              <a class="dropdown-item" [routerLink]="['relatorio-vacina']">Vacina</a>
+              <a class="dropdown-item" [routerLink]="['relatorio-colaboradores']">Colaboradores</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/change-password' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['change-password']"
+            >
+              <i class="fa fa-shield-alt"></i>
+              Segurança
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/user/profile' ? 'active' : ''"
+              class="nav-link move-right ml-1 mr-3"
+              data-toggle="tab"
+              [routerLink]="['user', 'profile']"
+            >
+              Bem-vindo, {{ user?.firstName }}
+              <i class="fa fa-user"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>

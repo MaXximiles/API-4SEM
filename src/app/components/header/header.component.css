@@ -1,0 +1,18 @@
+.nav-link {
+  color: rgba(255, 255, 255, 0.5) !important;
+  border-right: solid 1px #eee;
+  border-radius: 0;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255) !important;
+}
+
+.nav-link.active {
+  color: rgba(255, 255, 255) !important;
+}
+
+.collapse {
+  background-color: #2563eb;
+  border-radius: 5px;
+}

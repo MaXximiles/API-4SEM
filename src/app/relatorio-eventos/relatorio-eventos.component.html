@@ -1,0 +1,27 @@
+<div class="container">
+
+<div class="jumbotron">
+
+    <h1 style="text-align: center;"> Relatório de Eventos </h1>
+
+    <form class="px-4 py-2" >
+    <div class="col-sm-12 form-row">
+
+
+        <div class="col">
+        <label for="evento-inicio" class="col-form-label" >Inicio:</label>
+        <input type="date" [(ngModel)]="dataIni" class="form-control " name="inicio" id="evento-inicio" value=""/>
+        </div>
+
+        <div class="col">
+        <label for="evento-fim" class="col-form-label">Fim:</label>
+        <input type="date" [(ngModel)]="dataFim" class="form-control" name="fim" id="evento-fim" value="" />
+        </div>
+
+        <button id="relatorio-evento-btn" class="btn btn-primary btn-lg btn-block" type="submit" (click)="gerarRelatorio()">Gerar Relatório
+          <i *ngIf="refreshing" class="fas fa-sync fa-spin"></i
+            ><i *ngIf="!refreshing" class="fas fa-sync" style="color: #fff"></i>
+        </button>
+
+    </div>
+    </form>

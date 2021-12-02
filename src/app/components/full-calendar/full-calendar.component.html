@@ -1,0 +1,381 @@
+<div class="calendar-main">
+  <div class="calendar-wrapper">
+    <full-calendar
+      #calendar
+      *ngIf="calendarVisible"
+      [options]="calendarOptions"
+    ></full-calendar>
+  </div>
+
+  <app-modal #modalEvento [modalConfig]="modalConfig">
+    <form
+      class="row"
+      #eventForm="ngForm"
+      (ngSubmit)="
+        editEvent.id ? onEditEvent(eventForm) : onAddNewEvent(eventForm)
+      "
+    >
+      <input
+        [ngModel]="editEvent.id"
+        type="text"
+        class="form-control"
+        name="id"
+        value=""
+        hidden
+      />
+
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="evento-inicio" class="col-form-label">Inicio:</label>
+              <input
+                [ngModel]="editEvent.inicio"
+                type="datetime-local"
+                class="form-control"
+                name="inicio"
+                id="evento-inicio"
+                value=""
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="evento-fim" class="col-form-label">Fim:</label>
+              <input
+                [ngModel]="editEvent.fim"
+                type="datetime-local"
+                class="form-control"
+                name="fim"
+                id="evento-fim"
+                value=""
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="local-evento" class="col-form-label">Local:</label>
+              <select
+                [ngModel]="editEvent.local"
+                class="form-control"
+                name="local"
+                id="local-evento"
+              >
+                <option value="" selected>--- Selecione o local ---</option>
+                <option value="LOUNGE">Lounge(10 Lugares)</option>
+                <option value="OPENSPACE">Openspace(50 Lugares)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="local-evento" class="col-form-label">Status:</label>
+              <select
+                [ngModel]="editEvent.status"
+                class="form-control"
+                name="status"
+                id="status-evento"
+              >
+                <option value="" selected>--- Selecione o status ---</option>
+                <option value="PENDENTE">Confirmado</option>
+                <option value="CONFIRMADO">Pendente</option>
+                <option value="CANCELADO">Cancelado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="tema-evento" class="col-form-label">Tema:</label>
+              <input
+                [ngModel]="editEvent.tema"
+                type="text"
+                class="form-control"
+                name="tema"
+                id="tema-evento"
+              />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="descricao-evento" class="col-form-label"
+                >Descrição:</label
+              >
+              <textarea
+                [ngModel]="editEvent.descricao"
+                class="form-control"
+                name="descricao"
+                id="descricao-evento"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="dropdown mb-2">
+          <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            id="dropdown_coins"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Adicionar Usuário
+          </button>
+          <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
+            <form class="px-4 py-2">
+              <input
+                type="search"
+                name="usersFilter"
+                [(ngModel)]="filter"
+                class="form-control"
+                id="searchUser"
+                placeholder="Nome ou Email"
+                autofocus="autofocus"
+                (ngModelChange)="filterUsers($event)"
+              />
+            </form>
+            <div id="menuItems" *ngFor="let user of users">
+              <div
+                class="dropdown-item"
+                style="cursor: pointer"
+                (click)="onAddUser(user)"
+              >
+                {{ user.firstName }} {{ user.lastName }}
+                <small id="userHelp" class="form-text text-muted my-0">{{
+                  user.email
+                }}</small>
+              </div>
+            </div>
+            <div
+              id="empty"
+              class="dropdown-header"
+              *ngIf="!users.length && filter.length"
+            >
+              Nenhum usuário encontrado
+            </div>
+            <div
+              id="empty2"
+              class="dropdown-header"
+              *ngIf="!users.length && !filter.length"
+            >
+              Digite um termo de pesquisa
+            </div>
+          </div>
+        </div>
+        <table class="table table-hover table-striped">
+          <thead class="table-borderless">
+            <tr
+              class="text-center"
+              style="background-color: #2563eb; color: #eee"
+            >
+              <th>FOTO</th>
+              <th>NOME</th>
+              <th>SOBRENOME</th>
+              <th>EMAIL</th>
+              <th>AÇÕES</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let invitedUser of invitedUsers">
+            <tr class="text-center">
+              <td (click)="onSelectUser(invitedUser)">
+                <img
+                  height="40"
+                  width="40"
+                  src="{{ invitedUser?.profileImageUrl }}"
+                  class="rounded-circle img-fluid img-thumbnail"
+                  alt=""
+                />
+              </td>
+              <td (click)="onSelectUser(invitedUser)">
+                {{ invitedUser?.firstName }}
+              </td>
+              <td (click)="onSelectUser(invitedUser)">
+                {{ invitedUser?.lastName }}
+              </td>
+              <td (click)="onSelectUser(invitedUser)">
+                {{ invitedUser?.email }}
+              </td>
+              <td class="">
+                <div class="btn-group">
+                  <button
+                    class="btn btn-outline-danger"
+                    (click)="onDeleteUser(invitedUser)"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </app-modal>
+
+  <div
+    class="modal fade bd-example-modal-lg"
+    id="viewUserModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby=""
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle">
+            {{ selectedUser?.firstName }}
+            {{ selectedUser?.lastName }}
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-auto">
+                    <div class="mx-auto" style="width: 120px">
+                      <div
+                        class="
+                          d-flex
+                          justify-content-center
+                          align-items-center
+                          rounded
+                        "
+                      >
+                        <img
+                          class="rounded"
+                          height="120"
+                          width="120"
+                          src="{{ selectedUser?.profileImageUrl }}"
+                          alt="{{ selectedUser?.firstName }}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      col
+                      d-flex
+                      flex-column flex-sm-row
+                      justify-content-between
+                    "
+                  >
+                    <div class="text-center text-sm-left mb-sm-0">
+                      <h6 class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                        {{ selectedUser?.firstName }}
+                        {{ selectedUser?.lastName }}
+                      </h6>
+                      <p class="mb-1">{{ selectedUser?.email }}</p>
+                      <div class="">
+                        Conta:
+                        <span
+                          *ngIf="!selectedUser?.active"
+                          class="badge bg-danger"
+                          >Desativada</span
+                        >
+                        <span
+                          *ngIf="selectedUser?.active"
+                          class="badge bg-success"
+                          >Ativada</span
+                        >
+                      </div>
+                      <div
+                        *ngIf="selectedUser?.lastLoginDateDisplay"
+                        class="text-muted"
+                      >
+                        <small
+                          >Último Login:
+                          {{
+                            selectedUser?.lastLoginDateDisplay | date: "medium"
+                          }}</small
+                        >
+                      </div>
+                    </div>
+                    <div class="text-center text-sm-right">
+                      <div class="text-muted">
+                        <small
+                          >Cadastro em
+                          {{
+                            selectedUser?.joinDate | date: "mediumDate"
+                          }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-12 col-sm-auto">
+                      <div class="mx-auto">
+                        <div
+                          class="
+                            d-flex
+                            justify-content-left
+                            align-items-left
+                            rounded
+                          "
+                        >
+                          <img
+                            class="rounded"
+                            height="200"
+                            width="100%"
+                            src="{{ selectedUser?.vaccineImage }}"
+                            alt="Carteira de Vacinação"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <i class="fa fa-id-badge float-end"></i>&nbsp;{{
+                    selectedUser?.id
+                  }}
+                </li>
+                <li class="list-group-item">
+                  <i class="fa fa-envelope float-end"></i>&nbsp;{{
+                    selectedUser?.email
+                  }}
+                </li>
+                <li class="list-group-item">
+                  <i class="fas fa-shield-alt float-end"></i>&nbsp;{{
+                    selectedUser?.role
+                  }}
+                </li>
+                <li
+                  *ngIf="selectedUser?.lastLoginDateDisplay"
+                  class="list-group-item"
+                >
+                  <i class="fas fa-sign-in-alt float-end"></i
+                  >{{ selectedUser?.lastLoginDateDisplay | date: "medium" }}
+                </li>
+                <li class="list-group-item">
+                  <span *ngIf="!selectedUser?.notLocked">
+                    <i class="fa fa-lock float-end" style="color: red"> </i>
+                    Conta bloqueada
+                  </span>
+                  <span *ngIf="selectedUser?.notLocked">
+                    <i class="fa fa-unlock float-end" style="color: green"> </i>
+                    Conta desbloqueada
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
