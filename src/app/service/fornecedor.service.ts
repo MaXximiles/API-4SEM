@@ -28,13 +28,14 @@ export class FornecedorService {
     );
   }
 
-  public updateFornecedor(
-    formData: FormData,
-    emailAntigo: String
-  ): Observable<Fornecedor> {
+  public updateFornecedor(formData: FormData): Observable<Fornecedor> {
     const object = this.formDataToObject(formData);
     return this.http.put<Fornecedor>(
-      `${this.host}/fornecedores/update/?emailAtual=${emailAntigo}&descricao=${object['descricao']}&cnpj=${object['cnpj']}&email=${object['email']}&observacao=${object['observacao']}`,
+      `${this.host}/fornecedores/update/${formData.get('id')}?descricao=${
+        object['descricao']
+      }&cnpj=${object['cnpj']}&email=${object['email']}&observacao=${
+        object['observacao']
+      }`,
       object
     );
   }

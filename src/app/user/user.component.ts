@@ -161,6 +161,22 @@ export class UserComponent implements OnInit {
     );
   }
 
+  /*onChangePassword(formData: NgForm): void {
+    this.refreshing = true;
+    this.subscriptions.push(
+      this.userService.changePassword(formData).subscribe(
+        (response: CustomHttpResponse) => {
+          this.sendNotification(NotificationType.SUCCESS, response.message);
+          this.refreshing = false;
+        },
+        (error: HttpErrorResponse) => {
+          this.sendNotification(NotificationType.ERROR, error.error.message);
+        },
+        ()=>formData.reset()
+      )
+    )
+  }*/
+
   public onUpdateProfileImage(): void {
     const formData = new FormData();
     var flag = true;

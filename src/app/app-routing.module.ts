@@ -12,6 +12,7 @@ import { FornecedoresComponent } from './fornecedores/fornecedores.component';
 import { RelatorioEventosComponent } from './relatorio-eventos/relatorio-eventos.component';
 import { RelatorioVacinaComponent } from './relatorio-vacina/relatorio-vacina.component';
 import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relatorio-colaboradores.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -55,6 +56,11 @@ const routes: Routes = [
   {
     path: 'relatorio-colaboradores',
     component: RelatoriColaboradoresComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
     canActivate: [AuthenticationGuard],
   },
 ];

@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { environment } from 'src/environments/environment';
@@ -26,6 +26,7 @@ export class RelatoriColaboradoresComponent implements OnInit {
   caminho: string;
   link: Observable<string>;
   refreshing: boolean = false;
+  subscriptions: Subscription[] = [];
 
   private host: string = environment.apiUrl;
   private relatorio: Relatorio[];
@@ -101,8 +102,9 @@ export class RelatoriColaboradoresComponent implements OnInit {
     document.getElementById("relatorio-colaborador-btn").setAttribute("disabled","disabled");
 
     let id = this.invitedUser != null ? this.invitedUser.id:0;
-
+    this.subscriptions.push(
     this.relatoriosService.relatorioColaborador(id).subscribe((res: any) => {
+
       const file = new Blob([res], {
         type: res.type
       });
@@ -127,6 +129,7 @@ export class RelatoriColaboradoresComponent implements OnInit {
       this.refreshing = false;
       document.getElementById("relatorio-colaborador-btn").removeAttribute("disabled");
     }
+    )
     );
   }
 

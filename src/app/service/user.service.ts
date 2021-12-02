@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -31,13 +32,6 @@ export class UserService {
     );
   }
 
-  public updatePassword(email: string, password: string, newPassword: string) {
-    return this.http.put<CustomHttpResponse>(
-      `${this.host}/user/change-password/${email}?senhaAntiga=${password}&novaSenha=${newPassword}`,
-      {}
-    );
-  }
-
   public updateCurrentUser(formData: FormData): Observable<User> {
     return this.http.post<User>(`${this.host}/user/update-me`, formData);
   }
@@ -48,6 +42,15 @@ export class UserService {
     );
   }
 
+  public changePassword(formData: FormData): Observable<any> {
+    const object = this.formDataToObject(formData);
+
+    return this.http.post<any>(
+      `${this.host}/user/reset-password/?${object['email']}&${object['senhaAntiga']}&${object['senhaNova']}`, formData);
+  }
+
+
+
   public updateProfileImage(formData: FormData): Observable<HttpEvent<User>> {
     return this.http.post<User>(
       `${this.host}/user/update-profile-image`,
@@ -57,6 +60,26 @@ export class UserService {
         observe: 'events',
       }
     );
+  }
+
+
+  /*const object = this.formDataToObject(formData);
+    return this.http.put<Fornecedor>(
+      `${this.host}/fornecedores/update/${formData.get('id')}?descricao=${
+        object['descricao']
+      }&cnpj=${object['cnpj']}&email=${object['email']}&observacao=${
+        object['observacao']
+      }`,
+      object
+    );*/
+  private formDataToObject(formData: FormData): any {
+    var object = {};
+
+    formData.forEach(function (value, key) {
+      object[key] = value;
+    });
+
+    return object;
   }
 
   public updateVaccineImage(formData: FormData): Observable<HttpEvent<User>> {

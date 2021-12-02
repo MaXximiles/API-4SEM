@@ -48,7 +48,7 @@
               Fornecedores
             </a>
           </li>
-          
+
           <li class="nav-item dropdown" *ngIf="user.role !== 'ROLE_GUEST'">
             <a
               class="nav-link ml-1 dropdown-toggle"
@@ -66,6 +66,17 @@
             </div>
           </li>
 
+          <li class="nav-item">
+            <a
+              [ngClass]="this.router.url === '/change-password' ? 'active' : ''"
+              class="nav-link ml-1"
+              data-toggle="tab"
+              [routerLink]="['change-password']"
+            >
+              <i class="fa fa-shield-alt"></i>
+              Segurança
+            </a>
+          </li>
 
           <li class="nav-item">
             <a

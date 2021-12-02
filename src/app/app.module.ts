@@ -35,6 +35,7 @@ import { RelatoriColaboradoresComponent } from './relatorio-colaboradores/relato
 
 import { PdfViewerComponent, PdfViewerModule } from 'ng2-pdf-viewer';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -102,6 +103,7 @@ FullCalendarModule.registerPlugins([
     RelatorioEventosComponent,
     RelatorioVacinaComponent,
     RelatoriColaboradoresComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
