@@ -76,6 +76,21 @@ Resumo de modificações:
 </p></br><h1></h1>
 
 
+<p align=center>
+<b></br>Tela para alterar senha de usuario</br></br>
+<img src=https://github.com/MaXximiles/API-4SEM/blob/sprint-4/Documenta%C3%A7%C3%A3o/Imagens/alterarsenha.JPG?raw=true></br>
+</p></br><h1></h1>
+
+<p align=center>
+<b></br>Tela de cadastro de fornecedores</br></br>
+<img src=https://github.com/MaXximiles/API-4SEM/blob/sprint-4/Documenta%C3%A7%C3%A3o/Imagens/fornecedores1.JPG?raw=true></br>
+</p></br><h1></h1>
+
+<p align=center>
+<b></br>Tela de fornecedores</br></br>
+<img src=https://github.com/MaXximiles/API-4SEM/blob/sprint-4/Documenta%C3%A7%C3%A3o/Imagens/fornecedores.JPG?raw=true></br>
+</p></br><h1></h1>
+
 
 <h2>Relatórios</h2>
        <table>
