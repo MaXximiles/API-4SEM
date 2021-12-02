@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: fatec.grupodois.endurance.service.impl.EventoServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.645 s - in fatec.grupodois.endurance.service.impl.EventoServiceImplTest
